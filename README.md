@@ -5,7 +5,6 @@ An Audio player with downsampler, upsampler and bit-converter written in C#.
 **Please note that this is the official repository of the program, that means official updates on source and releases will be commited/published here.**
 
 ### [DOWNLOAD LATEST RELEASE (VERSION)](https://github.com/alaahadid/Agile-Player/releases)
-### [GETTING STARTED ? CLICK HERE](https://github.com/alaahadid/Agile-Player/wiki)u features), it run in Windows and Linux. It may run faster on older machines, also it can be compiled into another platforms since it is written in C and uses SDL2 only.
 
 ## Donation
 
