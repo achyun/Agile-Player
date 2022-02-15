@@ -1,0 +1,46 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "962c9fb0-6981-4455-b189-4f74af505c9b": {
+      "ProjectGuid": "962c9fb0-6981-4455-b189-4f74af505c9b",
+      "DisplayName": "AgilePlayer",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "bc289508-19b2-4bcc-92b5-798a0d8be45d": {
+      "ProjectGuid": "bc289508-19b2-4bcc-92b5-798a0d8be45d",
+      "DisplayName": "Core",
+      "ColorIndex": 1
+    },
+    "ce82155b-ede2-485f-97b4-f14715f60e3f": {
+      "ProjectGuid": "ce82155b-ede2-485f-97b4-f14715f60e3f",
+      "DisplayName": "Formats",
+      "ColorIndex": 2
+    },
+    "e5a23ffb-8424-46b0-9b69-bf95427c005c": {
+      "ProjectGuid": "e5a23ffb-8424-46b0-9b69-bf95427c005c",
+      "DisplayName": "Renderers",
+      "ColorIndex": 3
+    },
+    "5bde073d-8281-43c1-8eb8-9bf6667ab6b5": {
+      "ProjectGuid": "5bde073d-8281-43c1-8eb8-9bf6667ab6b5",
+      "DisplayName": "Solution Items",
+      "ColorIndex": 4
+    },
+    "cb876583-d5f9-4398-b399-fbe6d4aa8a51": {
+      "ProjectGuid": "cb876583-d5f9-4398-b399-fbe6d4aa8a51",
+      "DisplayName": "MLV",
+      "ColorIndex": 5
+    },
+    "f496c3fc-acd2-4b39-8747-fdb8b67739bc": {
+      "ProjectGuid": "f496c3fc-acd2-4b39-8747-fdb8b67739bc",
+      "DisplayName": "MTC",
+      "ColorIndex": 6
+    }
+  },
+  "NextColorIndex": 7
+}
