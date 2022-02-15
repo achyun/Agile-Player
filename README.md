@@ -39,6 +39,8 @@ not just simply copy-paste buffers into a renderer.
 
 This will deliver accuracy with timing, a specific sample plays at the time when it supposed to.
 
+**Agile Player does not use any kind of media codec, it uses built in audio processing.**
+
 ## Features An Specification
 - Very simple GUI, just open audio files/folders and ready to go.
 - Can save/load lists files
@@ -46,6 +48,7 @@ This will deliver accuracy with timing, a specific sample plays at the time when
 
 ### Agile Player Core Features
 
+- Multithread player, the play-engine clocks on thread other than the gui (main thread).
 - Accurate play timing, a specific sample is played at the time where it supposed to.
 - Automatic upsampling and downsampling. Can play in any desigred frequency regaldess of the source frequency, the engine take care of downsampling/upsampling if it is needed.
 - Automatic bit per sample converting, can switch desired bit-per-sample regadless of the source bit-per-sample, the engine take care of converting bit-per-sampling if needed. All using correct equations.
