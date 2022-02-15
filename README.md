@@ -80,6 +80,6 @@ TROUBLES SHOOTING:
 
 Please make sure that these packages are installed in pc:
 - .Net framework 4.8
-- C++ Runtime (Try latest, if My Nes doensn't work, installing older version of this package may work.)
+- C++ Runtime (Try latest, if it doensn't work, installing older version of this package may work.)
 
 If the problem isn't solved, please try to install SlimDX latest runtime, one can be found here: <https://code.google.com/archive/p/slimdx/downloads> (SlimDX Runtime .NET 4.0 x86 (January 2012).msi).
