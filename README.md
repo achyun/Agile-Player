@@ -67,7 +67,7 @@ In order to run Agile Player correctly in your machine, please make sure that yo
 - CPU: 2400 MHz or faster, multicore cpu is recommended for better performance. Agile Player is built for x86 cpus, 
   but it should run without problems with x64 cpus (tested and runs perfectly)
 - RAM: Agile Player usually uses about 30 to 60 MB ram. When huge list is loaded, it may use up to 200 MB. In other words, 
-  since Windows is running perfectly in your machine, you should not worry about ram at all when using My Nes.
+  since Windows is running perfectly in your machine, you should not worry about ram at all when using Agile Player.
 
 NOTES:
 ------------------
