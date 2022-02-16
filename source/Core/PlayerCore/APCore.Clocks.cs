@@ -82,42 +82,7 @@ namespace APlayer.Core
                         request_end_of_source_event_raise = false;
                         EndOfSourceReached?.Invoke(null, new EventArgs());
                     }
-                    /* shortucts.Update();
-                     // Do we have requests ?
-                     switch (emu_request_mode)
-                     {
-                         case RequestMode.HardReset:
-                             {
-                                 hardReset();
-                                 PAUSED = false;
-                                 emu_request_mode = RequestMode.None;
-                                 break;
-                             }
-                         case RequestMode.SoftReset:
-                             {
-                                 softReset(); PAUSED = false;
-                                 emu_request_mode = RequestMode.None;
-                                 break;
-                             }
-                         case RequestMode.SaveState:
-                             {
-                                 StateHandler.SaveState(); PAUSED = false;
-                                 emu_request_mode = RequestMode.None;
-                                 break;
-                             }
-                         case RequestMode.LoadState:
-                             {
-                                 StateHandler.LoadState(); PAUSED = false;
-                                 emu_request_mode = RequestMode.None;
-                                 break;
-                             }
-                         case RequestMode.TakeSnapshot:
-                             {
-                                 MyNesMain.VideoProvider.TakeSnapshot(); PAUSED = false;
-                                 emu_request_mode = RequestMode.None;
-                                 break;
-                             }
-                     }*/
+
                     isPaused = true;// Cleared in frame finish method
                 }
             }
@@ -154,10 +119,16 @@ namespace APlayer.Core
                 cps_clks_av = cps_imm_av = cps_clks = 0;
                 audio_bytes_processed_from_source = audio_bytes_processed_for_target = 0;
             }
-           
+
             cps_imm_av += cps_time_token;
             cps_clks_av += cps_time_frame_time;
             cps_clks++;
+
+            if (audio_target_bit_per_sample > 16)
+                for (int i = 0; i < audio_channels_number; i++)
+                {
+                    audio_last_target_sample[i] = 0;
+                }
 
             // Clock speed control
             cps_time_token = GetTime() - cps_time_start;

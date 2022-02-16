@@ -502,7 +502,7 @@ namespace APlayer.Core
                     // Update the last source sample
                     for (int i = 0; i < audio_channels_number; i++)
                     {
-                        audio_last_source_sample[i] += audio_t[i];
+                        audio_last_source_sample[i] = audio_t[i];
                     }
 
                     /*BITS converting*/
@@ -558,9 +558,16 @@ namespace APlayer.Core
                                 {
                                     for (int i = 0; i < audio_channels_number; i++)
                                     {
-                                        audio_samples[audio_w_pos][i] = audio_x[i];
+                                        audio_samples[audio_w_pos][i] = (int)(audio_x[i] * volume);
+                                        // Update the latest target sample
 
-                                        audio_last_target_sample[i]= audio_x[i];
+                                        // audio_last_target_sample_av[i] += (int)(audio_x[i] * volume);
+
+                                        if (audio_samples[audio_w_pos][i] > audio_last_target_sample[i])
+                                            audio_last_target_sample[i] = audio_samples[audio_w_pos][i];
+                                        else if (audio_last_target_sample[i] > 0)
+                                            audio_last_target_sample[i]--;
+
                                     }
 
                                     audio_w_pos++;
@@ -572,7 +579,7 @@ namespace APlayer.Core
                             {
                                 for (int i = 0; i < audio_channels_number; i++)
                                 {
-                                    audio_last_target_sample[i] = audio_x[i];
+                                    audio_last_target_sample[i] = (int)(audio_x[i] * volume);
                                 }
                                 audio_recorder.AddSample(audio_last_target_sample[0], audio_last_target_sample[1 % audio_channels_number]);
                             }
@@ -607,9 +614,13 @@ namespace APlayer.Core
                                     {
                                         for (int i = 0; i < audio_channels_number; i++)
                                         {
-                                            audio_samples[audio_w_pos][i] = audio_x[i];
+                                            audio_samples[audio_w_pos][i] = (int)(audio_x[i] * volume);
+                                            // audio_last_target_sample_av[i] += (int)(audio_x[i] * volume);
 
-                                            audio_last_target_sample[i] = audio_x[i];
+                                            if (audio_samples[audio_w_pos][i] > audio_last_target_sample[i])
+                                                audio_last_target_sample[i] = audio_samples[audio_w_pos][i];
+                                            else if (audio_last_target_sample[i] > 0)
+                                                audio_last_target_sample[i]--;
                                         }
 
                                         audio_w_pos++;
@@ -621,7 +632,7 @@ namespace APlayer.Core
                                 {
                                     for (int i = 0; i < audio_channels_number; i++)
                                     {
-                                        audio_last_target_sample[i] = audio_x[i];
+                                        audio_last_target_sample[i] = (int)(audio_x[i] * volume);
                                     }
                                     audio_recorder.AddSample(audio_last_target_sample[0], audio_last_target_sample[1 % audio_channels_number]);
                                 }
@@ -644,9 +655,14 @@ namespace APlayer.Core
                                     {
                                         for (int i = 0; i < audio_channels_number; i++)
                                         {
-                                            audio_samples[audio_w_pos][i] = audio_x[i];
+                                            audio_samples[audio_w_pos][i] = (int)(audio_x[i] * volume);
+                                            // audio_last_target_sample_av[i] += (int)(audio_x[i] * volume);
 
-                                            audio_last_target_sample[i] = audio_x[i];
+                                            if (audio_samples[audio_w_pos][i] > audio_last_target_sample[i])
+                                                audio_last_target_sample[i] = audio_samples[audio_w_pos][i];
+                                            else if (audio_last_target_sample[i] > 0)
+                                                audio_last_target_sample[i]--;
+
                                         }
 
                                         audio_w_pos++;
@@ -659,7 +675,7 @@ namespace APlayer.Core
                                 {
                                     for (int i = 0; i < audio_channels_number; i++)
                                     {
-                                        audio_last_target_sample[i] = audio_x[i];
+                                        audio_last_target_sample[i] = (int)(audio_x[i] * volume);
                                     }
                                     audio_recorder.AddSample(audio_last_target_sample[0], audio_last_target_sample[1 % audio_channels_number]);
                                 }

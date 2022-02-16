@@ -356,7 +356,7 @@ namespace APlayer
             FillSourceInfo();
             double tg = 0;
             APCore.GetTargetCPS(out tg);
-            timer_meter.Interval = (int)(1000 / tg);
+            timer_meter.Interval = (int)( tg);
         }
         /*TIMERS*/
         // playback timer
