@@ -167,7 +167,6 @@ namespace APlayer
             sav.Save(list_file, files.ToArray());
         }
 
-
         public void PlayNext()
         {
             if (list_view.Items.Count < 1)

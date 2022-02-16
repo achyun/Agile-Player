@@ -31,6 +31,22 @@ namespace APlayer.Core
 
         public static bool LoadMediaFile(string filePath)
         {
+            if (APCore.ON)
+            {
+                if (APCore.CurrentMediaFormat != null)
+                {
+                    if (APCore.CurrentMediaFormat.FileLoaded)
+                    {
+                        if (APCore.CurrentMediaFormat.CurrentFilePath == filePath)
+                        {
+                            APCore.CurrentMediaFormat.SetPosition(0);
+                            APCore.Play();
+                            return true;
+                        }
+                    }
+                }
+
+            }
             // 1 check the file !!
             string[] formatsCanBeUsed = CheckFile(filePath, false);
 
