@@ -565,9 +565,13 @@ namespace APlayer.Core
 
                                         if (audio_samples[audio_w_pos][i] > audio_last_target_sample[i])
                                             audio_last_target_sample[i] = audio_samples[audio_w_pos][i];
-                                        else if (audio_last_target_sample[i] > 0)
-                                            audio_last_target_sample[i]--;
-
+                                        else if (audio_target_bit_per_sample > 8)
+                                        {
+                                            if (audio_last_target_sample[i] > 0)
+                                                audio_last_target_sample[i]--;
+                                            else if (audio_last_target_sample[i] < 0)
+                                                audio_last_target_sample[i]++;
+                                        }
                                     }
 
                                     audio_w_pos++;
@@ -619,8 +623,13 @@ namespace APlayer.Core
 
                                             if (audio_samples[audio_w_pos][i] > audio_last_target_sample[i])
                                                 audio_last_target_sample[i] = audio_samples[audio_w_pos][i];
-                                            else if (audio_last_target_sample[i] > 0)
-                                                audio_last_target_sample[i]--;
+                                            else if (audio_target_bit_per_sample > 8)
+                                            {
+                                                if (audio_last_target_sample[i] > 0)
+                                                    audio_last_target_sample[i]--;
+                                                else if (audio_last_target_sample[i] < 0)
+                                                    audio_last_target_sample[i]++;
+                                            }
                                         }
 
                                         audio_w_pos++;
@@ -660,9 +669,13 @@ namespace APlayer.Core
 
                                             if (audio_samples[audio_w_pos][i] > audio_last_target_sample[i])
                                                 audio_last_target_sample[i] = audio_samples[audio_w_pos][i];
-                                            else if (audio_last_target_sample[i] > 0)
-                                                audio_last_target_sample[i]--;
-
+                                            else if (audio_target_bit_per_sample > 8)
+                                            {
+                                                if (audio_last_target_sample[i] > 0)
+                                                    audio_last_target_sample[i]--;
+                                                else if (audio_last_target_sample[i] < 0)
+                                                    audio_last_target_sample[i]++;
+                                            }
                                         }
 
                                         audio_w_pos++;

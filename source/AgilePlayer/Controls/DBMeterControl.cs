@@ -34,7 +34,7 @@ namespace APlayer
             ControlStyles flag = ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint;
             this.SetStyle(flag, true);
 
-            MaxDB = 196;// Max of 32 bit ?
+            MaxDB = -20 * Math.Log10(1.0 / int.MaxValue);// Max of 32 bit ?
             db_spacing = 15;
             bar_coloring_sp = 60;
             SetValues(0, 0, 16);
@@ -42,6 +42,7 @@ namespace APlayer
 
         public bool IsStereo { get; set; }
         public double MaxDB { get; set; }
+        private double current_max_db;
         private int db_spacing = 40;
         private int bar_coloring_sp;
         double channelLeft;
@@ -56,46 +57,48 @@ namespace APlayer
                         int left_val = (int)channelLeft_sample - sbyte.MaxValue;
                         int right_val = (int)channelRight_sample - sbyte.MaxValue;
 
-                        MaxDB = 20 * Math.Log10(sbyte.MaxValue);
-                        //MaxDB += 20;
+                        MaxDB = -20 * Math.Log10(1.0 / sbyte.MaxValue);
+                        MaxDB += 8;
 
-                        channelLeft = 20 * Math.Log10(Math.Abs(left_val));
-                        channelRight = 20 * Math.Log10(Math.Abs(right_val));
+                        current_max_db = -20 * Math.Log10(1.0 / sbyte.MaxValue);
+
+                        channelLeft = -20 * Math.Log10(Math.Abs(left_val) / sbyte.MaxValue);
+                        channelRight = -20 * Math.Log10(Math.Abs(right_val) / sbyte.MaxValue);
                         break;
                     }
                 case 16:
                     {
-                        MaxDB = 20 * Math.Log10(Math.Abs(short.MaxValue));
-                        //MaxDB += 20;
+                        MaxDB = -20 * Math.Log10(1.0 / short.MaxValue);
+                        MaxDB += 8;
 
-                        //channelLeft = 20 * Math.Log10(Math.Abs(channelLeft_sample));
-                        // channelRight = 20 * Math.Log10(Math.Abs(channelRight_sample));
+                        current_max_db = -20 * Math.Log10(1.0 / short.MaxValue);
 
-                        channelLeft = (int)((MaxDB * Math.Abs(channelLeft_sample)) / short.MaxValue);
-                        channelRight = (int)((MaxDB * Math.Abs(channelRight_sample)) / short.MaxValue);
+                        channelLeft = -20 * Math.Log10(Math.Abs(channelLeft_sample) / short.MaxValue);
+                        channelRight = -20 * Math.Log10(Math.Abs(channelRight_sample) / short.MaxValue);
+
                         break;
                     }
                 case 24:
                     {
-                        MaxDB = 20 * Math.Log10(8388607);
-                        //MaxDB += 20;
+                        MaxDB = -20 * Math.Log10(1.0 / 8388607);
+                        MaxDB += 8;
 
-                        //channelLeft = 20 * Math.Log10(Math.Abs(channelLeft_sample));
-                        //channelRight = 20 * Math.Log10(Math.Abs(channelRight_sample));
+                        current_max_db = -20 * Math.Log10(1.0 / 8388607);
 
-                        channelLeft = (int)((MaxDB * Math.Abs(channelLeft_sample)) / 8388607);
-                        channelRight = (int)((MaxDB * Math.Abs(channelRight_sample)) / 8388607);
+                        channelLeft = -20 * Math.Log10(Math.Abs(channelLeft_sample) / 8388607);
+                        channelRight = -20 * Math.Log10(Math.Abs(channelRight_sample) / 8388607);
                         break;
                     }
                 case 32:
                     {
-                        MaxDB = 20 * Math.Log10(int.MaxValue);
-                        //MaxDB += 20;
 
-                        //channelLeft = 20 * Math.Log10(Math.Abs(channelLeft_sample));
-                        //channelRight = 20 * Math.Log10(Math.Abs(channelRight_sample));
-                        channelLeft = (int)((MaxDB * Math.Abs(channelLeft_sample)) / int.MaxValue);
-                        channelRight = (int)((MaxDB * Math.Abs(channelRight_sample)) / int.MaxValue);
+                        MaxDB = -20 * Math.Log10(1.0 / int.MaxValue);
+                        MaxDB += 8;
+
+                        current_max_db = -20 * Math.Log10(1.0 / int.MaxValue);
+
+                        channelLeft = -20 * Math.Log10(Math.Abs(channelLeft_sample) / int.MaxValue);
+                        channelRight = -20 * Math.Log10(Math.Abs(channelRight_sample) / int.MaxValue);
                         break;
                     }
             }
@@ -114,12 +117,11 @@ namespace APlayer
                 // Draw both channels
                 int left = dbToPixel(channelLeft);
                 int right = dbToPixel(channelRight);
+                int max = dbToPixel(current_max_db);
 
-                //pe.Graphics.FillRectangle(Brushes.MediumSeaGreen, new Rectangle(0, Height - left, Width / 2,  left));
-
-                for (int i = 0; i < left; i++)
+                for (int i = 0; i < max - left; i++)
                 {
-                    int y = Height - i;
+                    int y = Height  - i;
 
                     if (y < bar_coloring_sp)
                     {
@@ -134,9 +136,9 @@ namespace APlayer
                         pe.Graphics.DrawLine(Pens.MediumSeaGreen, 0, y, Width / 2, y);
                     }
                 }
-                for (int i = 0; i < right; i++)
+                for (int i = 0; i < max - right; i++)
                 {
-                    int y = Height - i;
+                    int y = Height  - i;
 
                     if (y < bar_coloring_sp)
                     {
@@ -151,7 +153,6 @@ namespace APlayer
                         pe.Graphics.DrawLine(Pens.MediumSeaGreen, Width / 2, y, Width, y);
                     }
                 }
-               // pe.Graphics.FillRectangle(Brushes.MediumSeaGreen, new Rectangle(Width / 2, Height - right, Width / 2, right));
             }
             else
             {
@@ -163,12 +164,12 @@ namespace APlayer
 
             for (double i = 0; i <= MaxDB; i++)
             {
-                int dd = dbToPixel(i);
+                int dd = (int)((i * Height) / MaxDB);
 
                 if (dd - space >= 0)
                 {
                     pe.Graphics.DrawLine(Pens.Black, 0, Height - dd, Width, Height - dd);
-                    pe.Graphics.DrawString(i + " dB", Font, Brushes.Black, 1, Height - dd - 13);
+                    pe.Graphics.DrawString("- " + i + " dB", Font, Brushes.Black, 1, Height - dd - 13);
 
                     space = dd + db_spacing;
                 }

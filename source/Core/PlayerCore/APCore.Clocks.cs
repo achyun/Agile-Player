@@ -124,7 +124,7 @@ namespace APlayer.Core
             cps_clks_av += cps_time_frame_time;
             cps_clks++;
 
-            if (audio_target_bit_per_sample > 16)
+            if (audio_target_bit_per_sample != 16)
                 for (int i = 0; i < audio_channels_number; i++)
                 {
                     audio_last_target_sample[i] = 0;
