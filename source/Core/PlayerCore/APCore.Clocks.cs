@@ -138,26 +138,6 @@ namespace APlayer.Core
             audio_w_pos = 0;
             audio_samples_added = 0;
 
-            // Calculate averages for db meter and others
-            if (audio_last_source_sample_clck > 0)
-            {
-                for (int i = 0; i < audio_channels_number; i++)
-                {
-                    audio_last_source_sample[i] = audio_last_source_sample_av[i] / 2;
-                    audio_last_source_sample_av[i] = 0;
-                }
-                audio_last_source_sample_clck = 0;
-            }
-            if (audio_last_target_sample_clck > 0)
-            {
-                for (int i = 0; i < audio_channels_number; i++)
-                {
-                    audio_last_target_sample[i] = audio_last_target_sample_av[i] / 2;
-                    audio_last_target_sample_av[i] = 0;
-                }
-                audio_last_target_sample_clck = 0;
-            }
-
             // Set CPS at one second time
             if ((GetTime() - cps_second_start) >= 1)
             {

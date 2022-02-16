@@ -188,7 +188,7 @@ namespace APlayer
             }
             else
             {
-
+                list_view.ScrollToItem(list_view.Items[current_song_index]);
             }
 
             list_view.Invalidate();
@@ -215,7 +215,7 @@ namespace APlayer
             }
             else
             {
-
+                list_view.ScrollToItem(list_view.Items[current_song_index]);
             }
 
             list_view.Invalidate();

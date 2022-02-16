@@ -77,7 +77,7 @@ namespace APlayer
             // DB meter
             dbmeter = new DBMeterControl();
             dbmeter.BackColor = Color.LightSlateGray;
-            groupBox_meter_container.Controls.Add(dbmeter);
+            groupBox_meter.Controls.Add(dbmeter);
             dbmeter.Dock = DockStyle.Fill;
             dbmeter.BringToFront();
             // Info mtc
@@ -165,29 +165,13 @@ namespace APlayer
             {
                 if (dbmeter.IsStereo)
                 {
-                    if (radioButton_level_mode_src.Checked)
-                    {
-                        // From the source
-                        dbmeter.SetValues(APCore.audio_last_source_sample[0], APCore.audio_last_source_sample[1], APCore.CurrentMediaFormat.BitsPerSample);
-                    }
-                    else
-                    {
-                        // From target
-                        dbmeter.SetValues(APCore.audio_last_target_sample[0], APCore.audio_last_target_sample[1], APMain.CoreSettings.Audio_TargetBitsPerSample);
-                    }
+                    // From target
+                    dbmeter.SetValues(APCore.audio_last_target_sample[0], APCore.audio_last_target_sample[1], APMain.CoreSettings.Audio_TargetBitsPerSample);
                 }
                 else
                 {
-                    if (radioButton_level_mode_src.Checked)
-                    {
-                        // From the source
-                        dbmeter.SetValues(APCore.audio_last_source_sample[0], APCore.audio_last_source_sample[0], APCore.CurrentMediaFormat.BitsPerSample);
-                    }
-                    else
-                    {
-                        // From target
-                        dbmeter.SetValues(APCore.audio_last_target_sample[0], APCore.audio_last_target_sample[0], APMain.CoreSettings.Audio_TargetBitsPerSample);
-                    }
+                    // From target
+                    dbmeter.SetValues(APCore.audio_last_target_sample[0], APCore.audio_last_target_sample[0], APMain.CoreSettings.Audio_TargetBitsPerSample);
                 }
             }
             else
@@ -263,14 +247,8 @@ namespace APlayer
             radioButton_freq_48000.Checked = APMain.CoreSettings.Audio_TargetFrequency == 48000;
             radioButton_freq_88200.Checked = APMain.CoreSettings.Audio_TargetFrequency == 88200;
             radioButton_freq_96000.Checked = APMain.CoreSettings.Audio_TargetFrequency == 96000;
-            if (radioButton_level_mode_src.Checked)
-            {
-                dbmeter.IsStereo = APCore.CurrentMediaFormat.ChannelsNumber == 2;
-            }
-            else
-            {
-                dbmeter.IsStereo = APMain.CoreSettings.Audio_TargetAudioChannels == 2;
-            }
+
+            dbmeter.IsStereo = APMain.CoreSettings.Audio_TargetAudioChannels == 2;
         }
         private void FillSourceInfo()
         {

@@ -103,6 +103,10 @@ namespace APlayer
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.websiteOnlineRepositoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.donateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button_record = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -118,8 +122,6 @@ namespace APlayer
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radioButton_levels_mode_rnd = new System.Windows.Forms.RadioButton();
-            this.radioButton_level_mode_src = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -137,7 +139,6 @@ namespace APlayer
             this.radioButton_freq_16000 = new System.Windows.Forms.RadioButton();
             this.radioButton_freq_11025 = new System.Windows.Forms.RadioButton();
             this.radioButton_freq_8000 = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.radioButton_stereo = new System.Windows.Forms.RadioButton();
             this.radioButton_mono = new System.Windows.Forms.RadioButton();
@@ -156,7 +157,6 @@ namespace APlayer
             this.label_freq = new System.Windows.Forms.Label();
             this.label_bits = new System.Windows.Forms.Label();
             this.groupBox_meter = new System.Windows.Forms.GroupBox();
-            this.groupBox_meter_container = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.textBox_rendered_rate = new System.Windows.Forms.TextBox();
@@ -165,21 +165,15 @@ namespace APlayer
             this.textBox_cps = new System.Windows.Forms.TextBox();
             this.timer_per_ind = new System.Windows.Forms.Timer(this.components);
             this.timer_meter = new System.Windows.Forms.Timer(this.components);
-            this.websiteOnlineRepositoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.donateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_volume)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox_main.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.groupBox_meter.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.SuspendLayout();
@@ -634,6 +628,30 @@ namespace APlayer
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(330, 6);
             // 
+            // websiteOnlineRepositoryToolStripMenuItem
+            // 
+            this.websiteOnlineRepositoryToolStripMenuItem.Name = "websiteOnlineRepositoryToolStripMenuItem";
+            this.websiteOnlineRepositoryToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
+            this.websiteOnlineRepositoryToolStripMenuItem.Text = "&Website (Online Repository)";
+            this.websiteOnlineRepositoryToolStripMenuItem.Click += new System.EventHandler(this.websiteOnlineRepositoryToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(330, 6);
+            // 
+            // donateToolStripMenuItem
+            // 
+            this.donateToolStripMenuItem.Name = "donateToolStripMenuItem";
+            this.donateToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
+            this.donateToolStripMenuItem.Text = "&Donate";
+            this.donateToolStripMenuItem.Click += new System.EventHandler(this.donateToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(330, 6);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
@@ -746,11 +764,12 @@ namespace APlayer
             // 
             this.label_time.BackColor = System.Drawing.SystemColors.Control;
             this.label_time.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label_time.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label_time.Font = new System.Drawing.Font("Franklin Gothic Medium", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_time.ForeColor = System.Drawing.Color.Black;
-            this.label_time.Location = new System.Drawing.Point(3, 115);
+            this.label_time.Location = new System.Drawing.Point(3, 96);
             this.label_time.Name = "label_time";
-            this.label_time.Size = new System.Drawing.Size(611, 37);
+            this.label_time.Size = new System.Drawing.Size(656, 56);
             this.label_time.TabIndex = 4;
             this.label_time.Text = "00:00:00 - 00:00:00";
             this.label_time.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -778,30 +797,6 @@ namespace APlayer
             this.label1.TabIndex = 0;
             this.label1.Text = "CLK:";
             this.toolTip1.SetToolTip(this.label1, "Clocks per seconds");
-            // 
-            // radioButton_levels_mode_rnd
-            // 
-            this.radioButton_levels_mode_rnd.AutoSize = true;
-            this.radioButton_levels_mode_rnd.Checked = true;
-            this.radioButton_levels_mode_rnd.Location = new System.Drawing.Point(6, 52);
-            this.radioButton_levels_mode_rnd.Name = "radioButton_levels_mode_rnd";
-            this.radioButton_levels_mode_rnd.Size = new System.Drawing.Size(78, 22);
-            this.radioButton_levels_mode_rnd.TabIndex = 8;
-            this.radioButton_levels_mode_rnd.TabStop = true;
-            this.radioButton_levels_mode_rnd.Text = "Output";
-            this.toolTip1.SetToolTip(this.radioButton_levels_mode_rnd, "Display db meter from the target audio after processig");
-            this.radioButton_levels_mode_rnd.UseVisualStyleBackColor = true;
-            // 
-            // radioButton_level_mode_src
-            // 
-            this.radioButton_level_mode_src.AutoSize = true;
-            this.radioButton_level_mode_src.Location = new System.Drawing.Point(6, 22);
-            this.radioButton_level_mode_src.Name = "radioButton_level_mode_src";
-            this.radioButton_level_mode_src.Size = new System.Drawing.Size(65, 22);
-            this.radioButton_level_mode_src.TabIndex = 7;
-            this.radioButton_level_mode_src.Text = "Input";
-            this.toolTip1.SetToolTip(this.radioButton_level_mode_src, "Display db meter from the source song/track");
-            this.radioButton_level_mode_src.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -1003,18 +998,6 @@ namespace APlayer
             this.radioButton_freq_8000.Text = "8000 Hz";
             this.radioButton_freq_8000.UseVisualStyleBackColor = true;
             this.radioButton_freq_8000.Click += new System.EventHandler(this.radioButton_freq_8000_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.radioButton_levels_mode_rnd);
-            this.groupBox3.Controls.Add(this.radioButton_level_mode_src);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(3, 22);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(154, 89);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
             // 
             // groupBox4
             // 
@@ -1233,8 +1216,6 @@ namespace APlayer
             // 
             // groupBox_meter
             // 
-            this.groupBox_meter.Controls.Add(this.groupBox_meter_container);
-            this.groupBox_meter.Controls.Add(this.groupBox3);
             this.groupBox_meter.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_meter.Location = new System.Drawing.Point(846, 61);
             this.groupBox_meter.Name = "groupBox_meter";
@@ -1242,15 +1223,6 @@ namespace APlayer
             this.groupBox_meter.TabIndex = 9;
             this.groupBox_meter.TabStop = false;
             this.groupBox_meter.Text = "DB Meter";
-            // 
-            // groupBox_meter_container
-            // 
-            this.groupBox_meter_container.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox_meter_container.Location = new System.Drawing.Point(3, 111);
-            this.groupBox_meter_container.Name = "groupBox_meter_container";
-            this.groupBox_meter_container.Size = new System.Drawing.Size(154, 292);
-            this.groupBox_meter_container.TabIndex = 6;
-            this.groupBox_meter_container.TabStop = false;
             // 
             // groupBox7
             // 
@@ -1335,30 +1307,6 @@ namespace APlayer
             this.timer_meter.Interval = 44;
             this.timer_meter.Tick += new System.EventHandler(this.timer_meter_Tick);
             // 
-            // websiteOnlineRepositoryToolStripMenuItem
-            // 
-            this.websiteOnlineRepositoryToolStripMenuItem.Name = "websiteOnlineRepositoryToolStripMenuItem";
-            this.websiteOnlineRepositoryToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
-            this.websiteOnlineRepositoryToolStripMenuItem.Text = "&Website (Online Repository)";
-            this.websiteOnlineRepositoryToolStripMenuItem.Click += new System.EventHandler(this.websiteOnlineRepositoryToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(330, 6);
-            // 
-            // donateToolStripMenuItem
-            // 
-            this.donateToolStripMenuItem.Name = "donateToolStripMenuItem";
-            this.donateToolStripMenuItem.Size = new System.Drawing.Size(333, 34);
-            this.donateToolStripMenuItem.Text = "&Donate";
-            this.donateToolStripMenuItem.Click += new System.EventHandler(this.donateToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(330, 6);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1388,15 +1336,12 @@ namespace APlayer
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox_main.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.groupBox_meter.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
@@ -1482,7 +1427,6 @@ namespace APlayer
         private System.Windows.Forms.RadioButton radioButton_freq_88200;
         private System.Windows.Forms.RadioButton radioButton_freq_48000;
         private System.Windows.Forms.RadioButton radioButton_freq_44100;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.RadioButton radioButton_stereo;
         private System.Windows.Forms.RadioButton radioButton_mono;
@@ -1495,8 +1439,6 @@ namespace APlayer
         private System.Windows.Forms.Label label_Upsampling;
         private System.Windows.Forms.Label label_Normal;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.RadioButton radioButton_levels_mode_rnd;
-        private System.Windows.Forms.RadioButton radioButton_level_mode_src;
         private System.Windows.Forms.GroupBox groupBox_meter;
         private System.Windows.Forms.Panel panel_media_bar;
         private System.Windows.Forms.Button button_record;
@@ -1519,7 +1461,6 @@ namespace APlayer
         private System.Windows.Forms.Timer timer_meter;
         private System.Windows.Forms.ToolStripMenuItem recordieConvertToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.GroupBox groupBox_meter_container;
         private System.Windows.Forms.RadioButton radioButton_32000hz;
         private System.Windows.Forms.ToolStripMenuItem websiteOnlineRepositoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
