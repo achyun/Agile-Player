@@ -53,7 +53,10 @@ This will deliver accuracy with timing, a specific sample plays at the time when
 - Automatic upsampling and downsampling. Can play in any desigred frequency regaldess of the source frequency, the engine take care of downsampling/upsampling if it is needed.
 - Automatic bit per sample converting, can switch desired bit-per-sample regadless of the source bit-per-sample, the engine take care of converting bit-per-sampling if needed. All using correct equations.
 - Ability to record wav, save wav file of current played media with target settings. (i.e. can be used to convert frequency and bit-per-sample into wav file).
-- Currently supported media format (both playback and record): Loseless WAV PCM, (8 bit, 16 bit, 24 bit and 32 bit). 
+- Currently supported media formats (playback): 
+
+1. Loseless WAV PCM, (8 bit, 16 bit, 24 bit and 32 bit). 
+2. MP3 (16 bits only, still issues with it but works).
 
 ## System Requirements
 Usually Agile Player comes in portable package, which can be installed simply by extracting the content of that package 
@@ -86,3 +89,40 @@ Please make sure that these packages are installed in pc:
 - C++ Runtime (Try latest, if it doensn't work, installing older version of this package may work.)
 
 If the problem isn't solved, please try to install SlimDX latest runtime, one can be found here: <https://code.google.com/archive/p/slimdx/downloads> (SlimDX Runtime .NET 4.0 x86 (January 2012).msi).
+
+Credits
+-----------------------
+Agile Player uses MP3Sharp to decode mp3, here is a copy-pase text from readme file at <https://github.com/ZaneDubya/MP3Sharp>
+
+# MP3Sharp
+Decode MP3 files to PCM bitstreams entirely in .NET managed code:
+<img align="center" src ="https://raw.githubusercontent.com/ZaneDubya/MP3Sharp/master/Images/MP3SharpHeader.png" />
+
+# SETUP
+To use MP3Sharp, you will need: an audio device that accepts PCM data, an array of bytes to act as the PCM data buffer (default size is 4096 bytes), and a MP3 file. That's it!
+
+The default interface to MP3Sharp is the MP3Stream class. An instance of MP3Stream takes a filepath to a MP3 file as a parameter and outputs PCM data:
+```CSharp
+// open the mp3 file.
+MP3Stream stream = new MP3Stream(@"sample.mp3");
+// Create the buffer.
+byte[] buffer = new byte[4096];
+// read the entire mp3 file.
+int bytesReturned = 1;
+int totalBytesRead = 0;
+while (bytesReturned > 0)
+{
+    bytesReturned = stream.Read(buffer, 0, buffer.Length);
+    totalBytesRead += bytesReturned;
+}
+// close the stream after we're done with it.
+stream.Close();
+```
+So simple!
+
+## LICENSE
+MP3Sharp is licensed under the [LGPL Version 3](https://github.com/ZaneDubya/MP3Sharp/blob/master/license.txt).
+
+## CREDITS
+MP3Sharp is a port of JavaLayer, a MP3 decoder written by [JavaZoom](http://www.javazoom.net) and released under the LGPL. JavaLayer was initially ported to C# by [Robert Burke](http://www.robburke.net/), in what he modestly describes as a 'half day project'. [tekHedd](http://www.byteheaven.com/) added some significant speed optimizations. This repository includes bug fixes (fixes for correctly outputting VBR, mono, and ability to loop without crashing; nice!). The sample MP3 file used in this project is by [BenSound](http://www.bensound.com), and is included under the terms of the Creative Commons - Attribution - No Derivative Works license.
+
