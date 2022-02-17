@@ -52,7 +52,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formats\FormatMP3.cs" />
     <Compile Include="Formats\FormatWav.cs" />
+    <Compile Include="MP3Sharp\Buffer16BitStereo.cs" />
+    <Compile Include="MP3Sharp\Decoding\ABuffer.cs" />
+    <Compile Include="MP3Sharp\Decoding\BitReserve.cs" />
+    <Compile Include="MP3Sharp\Decoding\Bitstream.cs" />
+    <Compile Include="MP3Sharp\Decoding\BitstreamErrors.cs" />
+    <Compile Include="MP3Sharp\Decoding\BitstreamException.cs" />
+    <Compile Include="MP3Sharp\Decoding\CircularByteBuffer.cs" />
+    <Compile Include="MP3Sharp\Decoding\Crc16.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoder.cs" />
+    <Compile Include="MP3Sharp\Decoding\DecoderErrors.cs" />
+    <Compile Include="MP3Sharp\Decoding\DecoderException.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\ASubband.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\IFrameDecoder.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerIDecoder.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerIIDecoder.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerIIIDecoder.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerIII\ChannelData.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerIII\GranuleInfo.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerIII\Layer3SideInfo.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerIII\SBI.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerIII\ScaleFactorData.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerIII\ScaleFactorTable.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerII\SubbandLayer2.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerII\SubbandLayer2IntensityStereo.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerII\SubbandLayer2Stereo.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerI\SubbandLayer1.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerI\SubbandLayer1IntensityStereo.cs" />
+    <Compile Include="MP3Sharp\Decoding\Decoders\LayerI\SubbandLayer1Stereo.cs" />
+    <Compile Include="MP3Sharp\Decoding\Equalizer.cs" />
+    <Compile Include="MP3Sharp\Decoding\Header.cs" />
+    <Compile Include="MP3Sharp\Decoding\Huffman.cs" />
+    <Compile Include="MP3Sharp\Decoding\OutputChannels.cs" />
+    <Compile Include="MP3Sharp\Decoding\OutputChannelsEnum.cs" />
+    <Compile Include="MP3Sharp\Decoding\PushbackStream.cs" />
+    <Compile Include="MP3Sharp\Decoding\SampleBuffer.cs" />
+    <Compile Include="MP3Sharp\Decoding\SynthesisFilter.cs" />
+    <Compile Include="MP3Sharp\IO\RandomAccessFileStream.cs" />
+    <Compile Include="MP3Sharp\IO\RiffFile.cs" />
+    <Compile Include="MP3Sharp\IO\WaveFile.cs" />
+    <Compile Include="MP3Sharp\IO\WaveFileBuffer.cs" />
+    <Compile Include="MP3Sharp\MP3SharpException.cs" />
+    <Compile Include="MP3Sharp\MP3Stream.cs" />
+    <Compile Include="MP3Sharp\SoundFormat.cs" />
+    <Compile Include="MP3Sharp\Support\SupportClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +105,10 @@
       <Project>{bc289508-19b2-4bcc-92b5-798a0d8be45d}</Project>
       <Name>Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MP3Sharp\LICENSE %28LGPL Version 3%29.txt" />
+    <Content Include="MP3Sharp\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

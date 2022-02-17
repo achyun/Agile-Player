@@ -128,7 +128,7 @@ namespace APlayer.Formats
             }
             if (read_stream.Length < 50)
             {
-                Trace.WriteLine("ERROR: cannot read wave file, file is too small to be an wave file. + filePath", "WAV");
+                Trace.WriteLine("ERROR: cannot read wave file, file is too small to be an wave file. "+ filePath, "WAV");
                 Dispose();
                 return;
             }
