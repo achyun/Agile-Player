@@ -53,8 +53,9 @@ namespace APlayer.Formats
     [MediaFormatInfo("MP3", "mp3", new string[] { ".mp3", ".MP3" }, MediaFormatType.Audio)]
     internal class FormatMP3 : IMediaFormat
     {
-        MP3Stream read_stream;
-        protected long sample_pointer;
+        MemoryStream read_stream;
+        private long sample_pointer;
+
         public int BlockAlign { get; private set; }
 
         public override bool CheckFile(string filePath)
@@ -96,7 +97,26 @@ namespace APlayer.Formats
                 read_stream.Close();
             }
         }
-
+        private void CopyStream(System.IO.Stream input, System.IO.Stream output)
+        {
+            byte[] buffer = new byte[2000];
+            int len;
+            while (true)
+            {
+                try
+                {
+                    len = input.Read(buffer, 0, 2000);
+                    if (len == 0)
+                        break;
+                    output.Write(buffer, 0, len);
+                }
+                catch
+                {
+                    break;
+                }
+            }
+            output.Flush();
+        }
         public override void LoadFile(string filePath)
         {
             Trace.WriteLine("Loading file at " + filePath, "MP3");
@@ -107,30 +127,37 @@ namespace APlayer.Formats
                 return;
             }
 
-            read_stream = new MP3Stream(filePath);
+            MP3Stream stream = new MP3Stream(filePath);
 
-            if (!read_stream.CanRead)
+            if (!stream.CanRead)
             {
                 Trace.WriteLine("ERROR: file cannot be read at " + filePath, "MP3");
                 Dispose();
                 return;
             }
-            if (read_stream.Length == 0)
+            if (stream.Length == 0)
             {
                 Trace.WriteLine("ERROR: cannot read mp3 file, the length is 0 !! " + filePath, "WAV");
                 Dispose();
                 return;
             }
 
-            ChannelsNumber = read_stream.ChannelCount;
-            BitsPerSample = 16;
-            Frequency = read_stream.Frequency;
+            read_stream = new MemoryStream();
 
+            ChannelsNumber = stream.ChannelCount;
+            BitsPerSample = 16;
+            Frequency = stream.Frequency;
             BlockAlign = ChannelsNumber * (BitsPerSample / 8);
-            Length = read_stream.Length / (BlockAlign * read_stream.Frequency);
+
+            // Copy the stream
+            CopyStream(stream, read_stream);
+
+            Length = read_stream.Length / (BlockAlign * Frequency);
+
             CurrentFilePath = filePath;
             FileLoaded = true;
             sample_pointer = 0;
+            stream.Close();
         }
 
         public override double GetPosition()
