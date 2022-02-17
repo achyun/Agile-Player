@@ -108,6 +108,12 @@ namespace APlayer.Formats
                     len = input.Read(buffer, 0, 2000);
                     if (len == 0)
                         break;
+                    if (((MP3Stream)input).Frequency > Frequency)
+                        Frequency = ((MP3Stream)input).Frequency;
+                    
+                    if (((MP3Stream)input).ChannelCount > ChannelsNumber)
+                        ChannelsNumber = ((MP3Stream)input).ChannelCount;
+
                     output.Write(buffer, 0, len);
                 }
                 catch
@@ -147,11 +153,11 @@ namespace APlayer.Formats
             ChannelsNumber = stream.ChannelCount;
             BitsPerSample = 16;
             Frequency = stream.Frequency;
-            BlockAlign = ChannelsNumber * (BitsPerSample / 8);
-
+         
             // Copy the stream
             CopyStream(stream, read_stream);
 
+            BlockAlign = ChannelsNumber * (BitsPerSample / 8);
             Length = read_stream.Length / (BlockAlign * Frequency);
 
             CurrentFilePath = filePath;

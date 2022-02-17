@@ -180,7 +180,6 @@ namespace APlayer
             // 
             // menuStrip1
             // 
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
@@ -661,7 +660,6 @@ namespace APlayer
             // 
             // button_record
             // 
-            this.button_record.Enabled = false;
             this.button_record.Image = global::APlayer.Properties.Resources.bullet_red;
             this.button_record.Location = new System.Drawing.Point(710, 25);
             this.button_record.Name = "button_record";

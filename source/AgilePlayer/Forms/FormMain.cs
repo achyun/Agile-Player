@@ -226,7 +226,7 @@ namespace APlayer
             label_playing.BackColor = APCore.PAUSED ? SystemColors.Control : indicater_active;
             label_Upsampling.BackColor = (APCore.audio_sampling_mode == SamplingMode.Upsampling) ? indicater_active : SystemColors.Control;
 
-            recordieConvertToolStripMenuItem.Enabled = button_record.Enabled = APCore.audio_bp_bits_per_sample_converting_needed || (APCore.audio_sampling_mode != SamplingMode.None);
+            //recordieConvertToolStripMenuItem.Enabled = button_record.Enabled = APCore.audio_bp_bits_per_sample_converting_needed || (APCore.audio_sampling_mode != SamplingMode.None);
         }
         private void UpdateSwitches()
         {
