@@ -20,6 +20,12 @@ An Audio player with downsampler, upsampler and bit-converter written in C#.
 
 *Thanks in advance :)*
 
+## Testing
+
+For testing the quality of the player, free songs/tracks can be download from here: <https://www.soundclick.com/artist/default.cfm?bandID=1497007>
+
+This my Artist page on SoundClick.com, all songs/tracks wave-pcm 44100 Hz 16 bit studio quality, licensed under Creative Commons license (free to download)
+
 ## Introduction
 Agile Player is An Audio player with downsampler, upsampler and bit-converter written in C#.
 An open source freeware, licensed under the GNU GENERAL PUBLIC LICENSE; Version 3, 29 June 2007.
