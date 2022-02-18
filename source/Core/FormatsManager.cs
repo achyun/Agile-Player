@@ -29,7 +29,7 @@ namespace APlayer.Core
     {
         public static event EventHandler<EventArgs> MediaLoaded;
 
-        public static bool LoadMediaFile(string filePath)
+        public static bool LoadMediaFile(string filePath, bool use_thread)
         {
             if (APCore.ON)
             {
@@ -55,7 +55,7 @@ namespace APlayer.Core
             {
                 // Try the format ... 
                 bool success = false;
-                APCore.LoadFile(filePath, f, true, out success);
+                APCore.LoadFile(filePath, f, use_thread, out success);
 
                 if (success)
                 {

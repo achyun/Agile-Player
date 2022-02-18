@@ -180,6 +180,7 @@ namespace APlayer
             // 
             // menuStrip1
             // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
@@ -412,7 +413,7 @@ namespace APlayer
             this.hzToolStripMenuItem9,
             this.hzToolStripMenuItem4});
             this.frequencyToolStripMenuItem.Name = "frequencyToolStripMenuItem";
-            this.frequencyToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
+            this.frequencyToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.frequencyToolStripMenuItem.Text = "&Frequency";
             this.frequencyToolStripMenuItem.DropDownOpening += new System.EventHandler(this.frequencyToolStripMenuItem_DropDownOpening);
             this.frequencyToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.frequencyToolStripMenuItem_DropDownItemClicked);
@@ -488,7 +489,7 @@ namespace APlayer
             this.bitsToolStripMenuItem2,
             this.bitsToolStripMenuItem3});
             this.bitsPerSampleToolStripMenuItem.Name = "bitsPerSampleToolStripMenuItem";
-            this.bitsPerSampleToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
+            this.bitsPerSampleToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.bitsPerSampleToolStripMenuItem.Text = "&Bits Per Sample";
             this.bitsPerSampleToolStripMenuItem.DropDownOpening += new System.EventHandler(this.bitsPerSampleToolStripMenuItem_DropDownOpening);
             this.bitsPerSampleToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.bitsPerSampleToolStripMenuItem_DropDownItemClicked);
@@ -527,7 +528,7 @@ namespace APlayer
             this.monoToolStripMenuItem,
             this.stereoToolStripMenuItem});
             this.channelsToolStripMenuItem.Name = "channelsToolStripMenuItem";
-            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
+            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.channelsToolStripMenuItem.Text = "&Channels";
             this.channelsToolStripMenuItem.DropDownOpening += new System.EventHandler(this.channelsToolStripMenuItem_DropDownOpening);
             this.channelsToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.channelsToolStripMenuItem_DropDownItemClicked);
@@ -549,7 +550,7 @@ namespace APlayer
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(234, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(267, 6);
             this.toolStripSeparator4.Visible = false;
             // 
             // playbackQualityToolStripMenuItem
@@ -559,7 +560,7 @@ namespace APlayer
             this.normalToolStripMenuItem,
             this.highToolStripMenuItem});
             this.playbackQualityToolStripMenuItem.Name = "playbackQualityToolStripMenuItem";
-            this.playbackQualityToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
+            this.playbackQualityToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.playbackQualityToolStripMenuItem.Text = "Playback &Load";
             this.playbackQualityToolStripMenuItem.Visible = false;
             this.playbackQualityToolStripMenuItem.DropDownOpening += new System.EventHandler(this.playbackQualityToolStripMenuItem_DropDownOpening);
@@ -588,15 +589,13 @@ namespace APlayer
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(234, 6);
-            this.toolStripSeparator3.Visible = false;
+            this.toolStripSeparator3.Size = new System.Drawing.Size(267, 6);
             // 
             // audioRendererToolStripMenuItem
             // 
             this.audioRendererToolStripMenuItem.Name = "audioRendererToolStripMenuItem";
-            this.audioRendererToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
+            this.audioRendererToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.audioRendererToolStripMenuItem.Text = "Audio &Renderer";
-            this.audioRendererToolStripMenuItem.Visible = false;
             this.audioRendererToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.audioRendererToolStripMenuItem_DropDownItemClicked);
             // 
             // helpToolStripMenuItem

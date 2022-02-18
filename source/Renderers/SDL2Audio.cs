@@ -74,7 +74,7 @@ namespace APlayer.Renderers
             ready = false;
             enabled = true;
             // TODO: setup buffer size
-            buffer_size = 5474;
+            buffer_size = 350;
             //buffer_size = 4096;
             /*if (APMain.CoreSettings.Audio_TargetFrequency < 88200)
             {
@@ -168,7 +168,7 @@ namespace APlayer.Renderers
             cps_pl_faster = 1.0 / (target_fps - (target_fps / 3));
             cps_normal = 1.0 / target_fps;*/
 
-            cps_core_missle = 1.0 / (target_fps + 18);
+            cps_core_missle = 1.0 / (target_fps + 29);
             cps_pl_faster = 1.0 / (target_fps - 3);
             cps_normal = 1.0 / target_fps;
 
@@ -185,6 +185,8 @@ namespace APlayer.Renderers
         public void ShutDown()
         {
             SDL.SDL_CloseAudio();
+            for (int i = 0; i < audio_samples.Length; i++)
+                audio_samples[i] = 0;
         }
 
         public void SignalToggle(bool started)
@@ -194,13 +196,8 @@ namespace APlayer.Renderers
 
             if (started)
             {
-                // Noise on shutdown; MISC
-                Random r = new Random();
                 for (int i = 0; i < audio_samples.Length; i++)
-                    audio_samples[i] = (byte)r.Next(0, 20);
-
-                for (int i = 0; i < audio_samples.Length; i++)
-                    audio_samples[i] = (byte)r.Next(0, 20);
+                    audio_samples[i] = 0;
             }
             else
             {

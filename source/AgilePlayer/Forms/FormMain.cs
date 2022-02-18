@@ -42,7 +42,7 @@ namespace APlayer
             FillSourceInfo();
             // Force direct sound
             // TODO: directsound is forced because of the sdl2 audio is not working.
-            APMain.CoreSettings.Audio_RendererID = "slimdx.directsound";
+            //APMain.CoreSettings.Audio_RendererID = "slimdx.directsound";
             APMain.SetupAudioRenderer(this.Handle);
 
             if (Program.AppSettings.SaveListOnExit)
@@ -294,7 +294,7 @@ namespace APlayer
             textBox_cps.Text = av_in_sec.ToString("F0") + " C/S";
             textBox_clocks_max.Text = av_can_in_sec.ToString("F0") + " C/S";
 
-            if (APCore.ON && !APCore.PAUSED)
+            /*if (APCore.ON && !APCore.PAUSED)
             {
                 textBox_cps.BackColor = (av_in_sec > (target_cps - 1)) ? SystemColors.Control : Color.Red;
                 textBox_clocks_max.BackColor = (av_in_sec > (target_cps - 1)) ? SystemColors.Control : Color.Red;
@@ -303,7 +303,7 @@ namespace APlayer
             {
                 textBox_cps.BackColor = SystemColors.Control;
                 textBox_clocks_max.BackColor = SystemColors.Control;
-            }
+            }*/
 
             double src_bytes_rate = 0;
             double trg_bytes_rate = 0;

@@ -180,7 +180,7 @@ namespace APlayer
 
             string file = list_view.Items[current_song_index].Tag.ToString();
 
-            if (!FormatsManager.LoadMediaFile(file))
+            if (!FormatsManager.LoadMediaFile(file, true))
             {
                 // failure playing the song, play next
                 PlayNext();
@@ -207,7 +207,7 @@ namespace APlayer
             current_song_index--;
             string file = list_view.Items[current_song_index].Tag.ToString();
 
-            if (!FormatsManager.LoadMediaFile(file))
+            if (!FormatsManager.LoadMediaFile(file, true))
             {
                 // failure playing the song, play next
                 PlayNext();
@@ -264,7 +264,7 @@ namespace APlayer
             {
                 string file = list_view.Items[current_song_index = e.ClickedItemIndex].Tag.ToString();
 
-                if (!FormatsManager.LoadMediaFile(file))
+                if (!FormatsManager.LoadMediaFile(file, true))
                 {
                     // failure playing the song, play next
                     PlayNext();

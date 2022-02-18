@@ -126,6 +126,7 @@ namespace APlayer.Core
             Trace.WriteLine("Total of " + MediaFormats.Count + " media format found.", "APMain");
 
             APCore.SetTargetCPS(CoreSettings.CPS_TargetCPS);
+            APCore.SetVolume(100);
         }
         /// <summary>
         /// This should be called at the application close
