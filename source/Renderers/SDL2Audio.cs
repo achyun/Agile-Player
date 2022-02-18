@@ -32,7 +32,7 @@ namespace APlayer.Renderers
         private byte[] audio_samples;
         private int samples_count;
         internal int samples_added;
-        private ushort buffer_size;
+        private int buffer_size;
         private bool pitch;
         private int buffer_size_6;
         private bool stereo_mode;
@@ -47,9 +47,10 @@ namespace APlayer.Renderers
 
         private bool ready;
         private bool enabled;
-        private double fps_nes_normal;
-        private double fps_nes_missle;
-        private double fps_pl_faster;
+        private double cps_normal;
+        private double cps_core_missle;
+        private double cps_core_extreme;
+        private double cps_pl_faster;
         private int fps_mode;
         private double volume = 0;
         internal SDL.SDL_AudioSpec specs;
@@ -73,17 +74,32 @@ namespace APlayer.Renderers
             ready = false;
             enabled = true;
             // TODO: setup buffer size
-            buffer_size = (ushort)(6 * 1024);
-            //buffer_min = buffer_size - (1024 * 2);
-            //buffer_limit = buffer_size + (1024 * 8);
-            buffer_min = (1024 * 2);
-            buffer_limit = buffer_min * 12;
+            buffer_size = 5474;
+            //buffer_size = 4096;
+            /*if (APMain.CoreSettings.Audio_TargetFrequency < 88200)
+            {
+                buffer_size = APMain.CoreSettings.Audio_RenderBufferInKB * (APMain.CoreSettings.Audio_TargetBitsPerSample / 8) * 1024;
+            }
+            else
+            {
+                // We need more buffering in this case !!
+                buffer_size = APMain.CoreSettings.Audio_RenderBufferInKB * APMain.CoreSettings.Audio_TargetBitsPerSample * 1024;
+            }*/
+            buffer_min = 2 * 1024;
+            buffer_limit = buffer_min + (2 * 1024);
+
+            //buffer_min = (1024 * 2);
+            //buffer_limit = buffer_min * 12;
             Console.WriteLine("SDL: Initializing audio ...");
 
             //SDL2Settings sdl_settings = new SDL2Settings(System.IO.Path.Combine(Program.WorkingFolder, "sdlsettings.ini"));
             //sdl_settings.LoadSettings();
+#if DEBUG
+            SDL.SDL_SetHint(SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
+#endif
 
             SDL.SDL_Init(SDL.SDL_INIT_AUDIO);
+
             int c = SDL.SDL_GetNumAudioDrivers();
             for (int i = 0; i < c; i++)
             {
@@ -104,14 +120,25 @@ namespace APlayer.Renderers
 
             stereo_mode = APMain.CoreSettings.Audio_TargetAudioChannels == 2;
 
-            specs.samples = buffer_size;
+            specs.samples = (ushort)buffer_size;
             specs.callback = AudioCallback;
 
-            samples_count = buffer_size * 20;
+            //samples_count = buffer_size * 20;
+            if (APMain.CoreSettings.Audio_TargetFrequency < 88200)
+            {
+                samples_count = APMain.CoreSettings.Audio_RenderBufferInKB * (APMain.CoreSettings.Audio_TargetBitsPerSample / 8) * 1024;
+            }
+            else
+            {
+                // We need more buffering in this case !!
+                samples_count = APMain.CoreSettings.Audio_RenderBufferInKB * APMain.CoreSettings.Audio_TargetBitsPerSample * 1024;
+            }
+            samples_count *= (APMain.CoreSettings.Audio_TargetBitsPerSample / 8) * APMain.CoreSettings.Audio_TargetAudioChannels;
+
             audio_samples = new byte[samples_count];
 
             //SDL.SDL_OpenAudio(ref specs, out specs1);
-            audio_device_index = SDL.SDL_OpenAudioDevice(audio_device, 0, ref specs, out specs1, (int)SDL.SDL_AUDIO_ALLOW_FREQUENCY_CHANGE);
+            audio_device_index = SDL.SDL_OpenAudioDevice(audio_device, 0, ref specs, out specs1, 0);
             if (audio_device_index == 0)
             {
                 Console.WriteLine("ERROR INITAILIZING AUDIO DEVICE");
@@ -137,9 +164,17 @@ namespace APlayer.Renderers
             double target_fps = 0;
             APCore.GetTargetCPS(out target_fps);
 
-            fps_nes_missle = 1.0 / (target_fps + 20);
-            fps_pl_faster = 1.0 / (target_fps - 2);
-            fps_nes_normal = 1.0 / target_fps;
+            /*cps_core_missle = 1.0 / ((target_fps / 4) + (target_fps * 2) + 2);
+            cps_pl_faster = 1.0 / (target_fps - (target_fps / 3));
+            cps_normal = 1.0 / target_fps;*/
+
+            cps_core_missle = 1.0 / (target_fps + 18);
+            cps_pl_faster = 1.0 / (target_fps - 3);
+            cps_normal = 1.0 / target_fps;
+
+            cps_core_extreme = 1.0 / 100;
+
+            APCore.SetClockPerSecondsPeriod(ref cps_core_missle);
         }
         public void Reset()
         {
@@ -188,18 +223,15 @@ namespace APlayer.Renderers
                 sample_r = au_buffer[i][0];
                 sample_l = au_buffer[i][1];
 
-                if (!is_rendering)
-                {
-                    audio_samples[w_pos++ % samples_count] = (byte)(sample_r & 0xFF);
-                    audio_samples[w_pos++ % samples_count] = (byte)((sample_r & 0xFF00) >> 8);
+                audio_samples[w_pos++ % samples_count] = (byte)(sample_r & 0xFF);
+                audio_samples[w_pos++ % samples_count] = (byte)((sample_r & 0xFF00) >> 8);
 
-                    if (stereo_mode)
-                    {
-                        audio_samples[w_pos++ % samples_count] = (byte)(sample_l & 0xFF);
-                        audio_samples[w_pos++ % samples_count] = (byte)((sample_l & 0xFF00) >> 8);
-                    }
-                    samples_added++;
+                if (stereo_mode)
+                {
+                    audio_samples[w_pos++ % samples_count] = (byte)(sample_l & 0xFF);
+                    audio_samples[w_pos++ % samples_count] = (byte)((sample_l & 0xFF00) >> 8);
                 }
+                samples_added++;
             }
         }
 
@@ -250,48 +282,36 @@ namespace APlayer.Renderers
 
             samples_added -= len / (stereo_mode ? 4 : 2);
 
-
-            // SDL.SDL_AudioSpec specs = (SDL.SDL_AudioSpec)Marshal.PtrToStructure(userdata, typeof(SDL.SDL_AudioSpec));
-
             // SPEED CONTROL !!
-            if (APCore.ON)
+            if (samples_added >= buffer_limit)
             {
-                if (samples_added <= buffer_min)
+                if (fps_mode != 1)
                 {
-                    if (fps_mode != 2)
-                    {
-                        fps_mode = 2;
-                        // PL is faster than nes, make nes faster
-                        APCore.SetClockPerSecondsPeriod(ref fps_nes_missle);
-                        // Console.WriteLine("SDL: sound switched to OVERCLOCKED NES speed mode.");
-                    }
+                    fps_mode = 1;
+                    // nes is faster than PL, make PL faster
+                    APCore.SetClockPerSecondsPeriod(ref cps_pl_faster);
+                    //Console.WriteLine("DirectSound: sound switched to PLAYER FASTER speed mode.");
                 }
-                else if (samples_added >= buffer_limit)
+            }
+            else if (samples_added <= buffer_min)
+            {
+                if (fps_mode != 2)
                 {
-                    if (fps_mode != 1)
-                    {
-                        fps_mode = 1;
-                        // nes is faster than PL, make PL faster
-                        APCore.SetClockPerSecondsPeriod(ref fps_pl_faster);
-                        // Console.WriteLine("SDL: sound switched to PLAYER FASTER speed mode.");
-                    }
-                }
-                else
-                {
-                    if (fps_mode != 0)
-                    {
-                        fps_mode = 0;
-                        // between 1000 and 2000, set to normal speed
-                        APCore.SetClockPerSecondsPeriod(ref fps_nes_normal);
-                        //  Console.WriteLine("SDL: sound switched to normal speed mode.");
-                    }
+                    fps_mode = 2;
+                    // nes is very slow, make it missle to at least get some samples.
+                    APCore.SetClockPerSecondsPeriod(ref cps_core_missle);
+                    //Console.WriteLine("DirectSound: RENDERER IS FASTER !! sound switched to NES MISSLE speed mode.");
                 }
             }
             else
             {
-                samples_added = 0;
-                w_pos = 0;
-                r_pos = w_pos + buffer_size;
+                if (fps_mode != 0)
+                {
+                    fps_mode = 0;
+                    // between 1000 and 2000, set to normal speed
+                    APCore.SetClockPerSecondsPeriod(ref cps_normal);
+                    //Console.WriteLine("DirectSound: sound switched to normal speed mode.");
+                }
             }
 
             is_rendering = false;
