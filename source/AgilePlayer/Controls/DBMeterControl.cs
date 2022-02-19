@@ -48,7 +48,7 @@ namespace APlayer
         double channelLeft;
         double channelRight;
 
-        public void SetValues(double channelLeft_sample, double channelRight_sample, int bits_per_sample)
+        public void SetValues( double channelRight_sample, double channelLeft_sample, int bits_per_sample)
         {
             switch (bits_per_sample)
             {

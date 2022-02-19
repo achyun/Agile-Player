@@ -110,7 +110,7 @@ namespace APlayer.Formats
                         break;
                     if (((MP3Stream)input).Frequency > Frequency)
                         Frequency = ((MP3Stream)input).Frequency;
-                    
+
                     if (((MP3Stream)input).ChannelCount > ChannelsNumber)
                         ChannelsNumber = ((MP3Stream)input).ChannelCount;
 
@@ -153,7 +153,7 @@ namespace APlayer.Formats
             ChannelsNumber = stream.ChannelCount;
             BitsPerSample = 16;
             Frequency = stream.Frequency;
-         
+
             // Copy the stream
             CopyStream(stream, read_stream);
 
@@ -258,17 +258,17 @@ namespace APlayer.Formats
         /// <returns>Sample point at specific time, including data pointer</returns>
         long GetSamplePoint(double seconds)
         {
+            // Convert input seconds to milliseconds
             seconds *= 1000;
-            long index = (long)((seconds * read_stream.Length) / (Length * 1000));
+            // Calculate how many sample blocks we have, blocks of BlockAlign (4 bytes for 16 bits stereo for example)
+            long sample_blocks = read_stream.Length / BlockAlign;
+            // Calculate the sample within the blocks 
+            long sample_target = (long)((seconds * sample_blocks) / (Length * 1000));
+            // Return into bytes (each block is BlockAlign bytes)
+            sample_target *= BlockAlign;
 
-            // Make sure it never lands on an odd number
-            if ((index & 0x1) != 0)
-                index--;
-            if (index < 0)
-                index = 0;
             // Finally the point within the file
-
-            return index;
+            return sample_target;
         }
         /// <summary>
         /// Get time at specific point. 

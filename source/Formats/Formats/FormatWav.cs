@@ -128,7 +128,7 @@ namespace APlayer.Formats
             }
             if (read_stream.Length < 50)
             {
-                Trace.WriteLine("ERROR: cannot read wave file, file is too small to be an wave file. "+ filePath, "WAV");
+                Trace.WriteLine("ERROR: cannot read wave file, file is too small to be an wave file. " + filePath, "WAV");
                 Dispose();
                 return;
             }
@@ -334,17 +334,17 @@ namespace APlayer.Formats
         /// <returns>Sample point at specific time, including data pointer</returns>
         long GetSamplePoint(double seconds)
         {
+            // Convert input seconds to milliseconds
             seconds *= 1000;
-            long index = (long)((seconds * DataSize) / (Length * 1000));
+            // Calculate how many sample blocks we have, blocks of BlockAlign (4 bytes for 16 bits stereo for example)
+            long sample_blocks = DataSize / BlockAlign;
+            // Calculate the sample within the blocks 
+            long sample_target = (long)((seconds * sample_blocks) / (Length * 1000));
+            // Return into bytes (each block is BlockAlign bytes)
+            sample_target *= BlockAlign;
 
-            // Make sure it never lands on an odd number
-            if ((index & 0x1) != 0)
-                index--;
-            if (index < 0)
-                index = 0;
             // Finally the point within the file
-
-            return DataPointer + index;
+            return DataPointer + sample_target;
         }
         /// <summary>
         /// Get time at specific point. 
