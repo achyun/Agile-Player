@@ -48,8 +48,88 @@ namespace APlayer
         double channelLeft;
         double channelRight;
 
-        public void SetValues( double channelRight_sample, double channelLeft_sample, int bits_per_sample)
+        public void SetValues(double channelLeft_sample, double channelRight_sample, int bits_per_sample)
         {
+            // comparing from 0 to 90, log of 0 is 1, so: 20 log (max) - 20 log (1) = 20 log (max / 1) = 20 log (max)!!
+            // max is the maximum number we can get from bits, for signed 16 bits is +32767 or -32767, there is no increase for negatives
+            // so we use +32767 and [-32767], it is wrong to use ushort max or 0xFFFF because of in signed 16 bits the sound is going above 0 till +32767 and below 0 till -32767
+            // then the increase is always from 0 to 32767 regardless of positive or negative.
+
+            // We compare the increase of the input sample to the minimum increase it can be which is the increase of 1 bit 
+            // i.e. the value of 20 * log (1) = 0 !!
+            // So: DB value = 20 * log10 (input_sample/1) !!
+            // Compare the increase of current input sample to the increase of the minimum increase possible, which the increase of the minimum bit number which is 1,
+            // (or simply the minimum noise of bits, 1 bit is 1 or log(1))
+            // we cannot use 0 because of there is no energy or increase !!, that's true in math because of log(0) = infinity
+
+            // NOTE: this is how decible works:
+            // we compare the input power to the minimum power that machine can handle. 
+
+            // FOR PC, it uses bits, maximum power it can handle for example is 16 bits and minimum is 1 bit (very accurate)
+            // Then db of a pc always will be 20 log (input_bits_value) - 20 log (1) = 20 log (input_bits_value) !! (range from 0 to max db of bits or 20 log (max_bits_can_handle_value))
+
+            // For 16 bits: 
+            // DB MAX = 20 log(32767 / 1) = 90,30 db
+            // DB MIN = 20 log(1 / 1) = 0 db
+            // the increase of a pc that uses 16 bits signed is from 0 db to 90,30 db
+
+            // DB CURRENT for a sample of value 343 = 20 log(343 / 1) =                          50,70 db (means that it increased from 0 to 50,70 db in the POSITIVE direction)
+            // DB CURRENT for a sample of value -5443 = 20 log([-5443] / 1) = 20 log(5443 / 1) = 74,71 db (means that it increased from 0 to 74,71 db in the NEGATIVE direction)
+
+            // FOR Electric device, that uses millivolt, EXAMPLE: let's say we have a device that the maximum power it can handle is 5 volt, and minimum power it can handle
+            // (minimum volt value it can control or simply the accuracy of that device when it use volts)
+            // is 1 millivolt or 0.001 volt (accuracy of 1 millivolt)
+
+            // Then db of an electric device: 20 log (input_volt_value) - 20 log (0.001) = 20 log (input_volt_value/0.001)
+
+            // SO in our example for 5 volt max : 
+
+            // DB MAX = 20 log(5 / 0.001) = 73,97 db (maximum range)
+            // DB MIN = 20 log(0.001 / 0.001) = 0 db (minimum range)
+            // the increase of that electric device in this case can be from  0 db to 73,97 db
+
+            // DB CURRENT for 0 volt does not exist (20 log(0/0.001)= infinity), then simply there is no increase or the device is OFF !! does make sense lol
+            // DB CURRENT for 0.001 volt = 20 log(0.001 / 0.001) = 0 db it does exist, no increase but the device is ON, does make sense lol
+            // DB CURRENT for 0.0000001 volt = 20 log(0.0000001 / 0.001) = -80 db it does exist, it is decreased below 0 but wait a second, the device accuracy is 0.001, it cannot go below this number, it cannot handle below millitvolt,
+            // this means -80 db is false or impossible !!
+
+            // DB CURRENT for 0.61 volt = 20 log(0.61 / 0.001)= 55,70 db 
+            // DB CURRENT for 1 volt = 20 log(1 / 0.001) = 60 db 
+
+            // DB CURRENT for 2 volt = 20 log(2 / 0.001) =                         66,02 db (means that it increased from 0 to 66,02 db in the POSITIVE direction)
+            // DB CURRENT for -2 volt = 20 log([-2] / 0.001) = 20 log(2 / 0.001) = 66,02 db (means that it increased from 0 to 66,02 db in the NEGATIVE direction)
+
+            // DB CURRENT for 3 volt = 20 log(3 / 0.001)= 69,54 db 
+            // DB CURRENT for 4 volt = 20 log(4 / 0.001)= 72,04 db 
+
+            // Another example, an electric device with 5 volt max and minimum is 0.00001 volt
+            // DB MAX = 20 log(5 / 0.00001) = 113,97 db (maximum range)
+            // DB MIN = 20 log(0.00001 / 0.00001) = 0 db (minimum range) (the device is ON, it does exist !!)
+            // the increase of that electric device in this case can be from  0 db to 113,97 db, very accurate !!
+
+
+            // DB CURRENT for 0 volt does not exist, then simply there is no increase or the device is OFF !! does make sense lol
+            // DB CURRENT for 0.00001 volt = 20 log(0.00001 / 0.00001) = 0 db it does exist, no increase but the device is ON, does make sense lol
+
+            // DB CURRENT for 0.0000001 volt = 20 log(0.0000001 / 0.00001) = -40 db it does exist, it is decreased below 0 but wait a second, the device accuracy is 0.00001, it cannot go below this number, this means -40 db is false or impossible !!
+
+            // DB CURRENT for 0.61 volt = 20 log(0.61 / 0.00001)= 95,70 db 
+            // DB CURRENT for 1 volt = 20 log(1 / 0.00001) = 100 db 
+
+            // DB CURRENT for 2 volt = 20 log(2 / 0.00001) =                           106,02 db (means that it increased from 0 to 106,02 db in the POSITIVE direction)
+            // DB CURRENT for -2 volt = 20 log([-2] / 0.00001) = 20 log(2 / 0.00001) = 106,02 db (means that it increased from 0 to 106,02 db in the NEGATIVE direction)
+
+            // DB CURRENT for 3 volt = 20 log(3 / 0.00001)= 109,54 db 
+            // DB CURRENT for 4 volt = 20 log(4 / 0.00001)= 112,04 db 
+
+            // NOTES:
+            // 1. db of 0 input does not exist, the device is OFF or that thing that we are calculating db for does not exist.
+            // 2. db below 0 does exist but false or does not make sense, because in this case the input value is going beyond the accuracy of the machine or the 'relative' to calculate db !!,
+            //    simply for example: for electricity machine of accuracy of 0.001 volt (minimum volt value it can handle), there is no increase of value 0.00001 volt or 0.0005 volt, simply it cannot handle it !!
+            //    Same for pc, there always 1 bit, we cannot use 0.5 bit or 0.003 bit... simply does not exit or pc cannot handle below 1 bit !! accuracy of 1 bit !
+            //    example: let's have the db of an 0.5 sample input (or digital input into pc) ?! :  20 log (0.5 / 1) = -6,02 db, so the db value of sample of 0.5 or a half-bit does not exist lol
+            //    so db is always range from 0 to positive number.
+
             switch (bits_per_sample)
             {
                 case 8:
@@ -57,48 +137,48 @@ namespace APlayer
                         int left_val = (int)channelLeft_sample - sbyte.MaxValue;
                         int right_val = (int)channelRight_sample - sbyte.MaxValue;
 
-                        MaxDB = -20 * Math.Log10(1.0 / sbyte.MaxValue);
+                        MaxDB = 20 * Math.Log10(sbyte.MaxValue);
                         MaxDB += 8;
 
-                        current_max_db = -20 * Math.Log10(1.0 / sbyte.MaxValue);
+                        current_max_db = 20 * Math.Log10(sbyte.MaxValue);//  20 * Log10( [sbyte.MaxValue] / 1)
 
-                        channelLeft = -20 * Math.Log10(Math.Abs(left_val) / sbyte.MaxValue);
-                        channelRight = -20 * Math.Log10(Math.Abs(right_val) / sbyte.MaxValue);
+                        channelLeft = 20 * Math.Log10(Math.Abs(left_val));//  20 * Log10( [left_val] / 1)
+                        channelRight = 20 * Math.Log10(Math.Abs(right_val));
                         break;
                     }
                 case 16:
                     {
-                        MaxDB = -20 * Math.Log10(1.0 / short.MaxValue);
+                        MaxDB = 20 * Math.Log10(short.MaxValue);
                         MaxDB += 8;
 
-                        current_max_db = -20 * Math.Log10(1.0 / short.MaxValue);
+                        current_max_db = 20 * Math.Log10(short.MaxValue);
 
-                        channelLeft = -20 * Math.Log10(Math.Abs(channelLeft_sample) / short.MaxValue);
-                        channelRight = -20 * Math.Log10(Math.Abs(channelRight_sample) / short.MaxValue);
-
+                        // No need to calculate the case of 0 sample which is infinity , it will be 0 in c# anyway ..
+                        channelLeft = 20 * Math.Log10(Math.Abs(channelLeft_sample));
+                        channelRight = 20 * Math.Log10(Math.Abs(channelRight_sample));
                         break;
                     }
                 case 24:
                     {
-                        MaxDB = -20 * Math.Log10(1.0 / 8388607);
+                        MaxDB = 20 * Math.Log10(8388607);
                         MaxDB += 8;
 
-                        current_max_db = -20 * Math.Log10(1.0 / 8388607);
+                        current_max_db = 20 * Math.Log10(8388607);
 
-                        channelLeft = -20 * Math.Log10(Math.Abs(channelLeft_sample) / 8388607);
-                        channelRight = -20 * Math.Log10(Math.Abs(channelRight_sample) / 8388607);
+                        channelLeft = 20 * Math.Log10(Math.Abs(channelLeft_sample));
+                        channelRight = 20 * Math.Log10(Math.Abs(channelRight_sample));
                         break;
                     }
                 case 32:
                     {
 
-                        MaxDB = -20 * Math.Log10(1.0 / int.MaxValue);
+                        MaxDB = 20 * Math.Log10(int.MaxValue);
                         MaxDB += 8;
 
-                        current_max_db = -20 * Math.Log10(1.0 / int.MaxValue);
+                        current_max_db = 20 * Math.Log10(int.MaxValue);
 
-                        channelLeft = -20 * Math.Log10(Math.Abs(channelLeft_sample) / int.MaxValue);
-                        channelRight = -20 * Math.Log10(Math.Abs(channelRight_sample) / int.MaxValue);
+                        channelLeft = 20 * Math.Log10(Math.Abs(channelLeft_sample));
+                        channelRight = 20 * Math.Log10(Math.Abs(channelRight_sample));
                         break;
                     }
             }
@@ -119,9 +199,9 @@ namespace APlayer
                 int right = dbToPixel(channelRight);
                 int max = dbToPixel(current_max_db);
 
-                for (int i = 0; i < max - left; i++)
+                for (int i = 0; i < left; i++)
                 {
-                    int y = Height  - i;
+                    int y = Height - i;
 
                     if (y < bar_coloring_sp)
                     {
@@ -136,9 +216,9 @@ namespace APlayer
                         pe.Graphics.DrawLine(Pens.MediumSeaGreen, 0, y, Width / 2, y);
                     }
                 }
-                for (int i = 0; i < max - right; i++)
+                for (int i = 0; i < right; i++)
                 {
-                    int y = Height  - i;
+                    int y = Height - i;
 
                     if (y < bar_coloring_sp)
                     {
@@ -157,7 +237,25 @@ namespace APlayer
             else
             {
                 int left = dbToPixel(channelLeft);
-                pe.Graphics.FillRectangle(Brushes.MediumSeaGreen, new Rectangle(0, Height - left, Width, left));
+                //pe.Graphics.FillRectangle(Brushes.MediumSeaGreen, new Rectangle(0, Height - left, Width, left));
+
+                for (int i = 0; i < left; i++)
+                {
+                    int y = Height - i;
+
+                    if (y < bar_coloring_sp)
+                    {
+                        pe.Graphics.DrawLine(Pens.Red, 0, y, Width, y);
+                    }
+                    else if (y > Height - bar_coloring_sp)
+                    {
+                        pe.Graphics.DrawLine(Pens.YellowGreen, 0, y, Width, y);
+                    }
+                    else
+                    {
+                        pe.Graphics.DrawLine(Pens.MediumSeaGreen, 0, y, Width, y);
+                    }
+                }
             }
 
             int space = db_spacing;
@@ -169,7 +267,9 @@ namespace APlayer
                 if (dd - space >= 0)
                 {
                     pe.Graphics.DrawLine(Pens.Black, 0, Height - dd, Width, Height - dd);
-                    pe.Graphics.DrawString("- " + i + " dB", Font, Brushes.Black, 1, Height - dd - 13);
+
+                    if (Height - dd - 13 >= 0)
+                        pe.Graphics.DrawString(i + " dB", Font, Brushes.Black, 1, Height - dd - 13);
 
                     space = dd + db_spacing;
                 }
