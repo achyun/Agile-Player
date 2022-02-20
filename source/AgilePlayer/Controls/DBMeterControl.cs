@@ -142,7 +142,7 @@ namespace APlayer
             //    SO the correct equation: db_val =  20 log( | input | / minimum_input_machine_can_handle);
             //
             //    minimum_input_machine_can_handle must be > 0 and absolute number (1,2,3,4,5,6. ...et);
-            //    | input | will get any input above 0 and absolute (0,1,2,3,4 ..etc) and input must not = 0 (i.e. 0 < minimum_input_machine_can_handle <= input <= maximum_input_machine_can_handle and input is abs (0,1,2,3,4,5,6...etc))
+            //    | input | will get the positive value of the input and absolute (0,1,2,3,4 ..etc) and input must not = 0 (i.e. 0 < minimum_input_machine_can_handle <= input <= maximum_input_machine_can_handle and input is abs (0,1,2,3,4,5,6...etc))
 
             // For the examples above , we simply convert from volt input into millivolt, so for 5 volt we use 5000 millivolt instead of 5, we use 1 millivolt as minimum volt instead of 0.001 volt.
 
