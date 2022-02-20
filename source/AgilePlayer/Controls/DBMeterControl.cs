@@ -50,6 +50,8 @@ namespace APlayer
 
         public void SetValues(double channelLeft_sample, double channelRight_sample, int bits_per_sample)
         {
+            // INFORMATION HERE CAN BE FOUND AT <https://github.com/alaahadid/Docs/blob/main/Audio%20And%20DB.txt>. The information are free under the Creative Commons Zero v1.0 Universal
+
             // comparing from 0 to 90, log of 1 is 0, so: 20 log (max) - 20 log (1) = 20 log (max / 1) = 20 log (max)!!
             // max is the maximum number we can get from bits, for signed 16 bits is +32767 or -32767, there is no increase for negatives
             // so we use +32767 and [-32767], it is wrong to use ushort max or 0xFFFF because of in signed 16 bits the sound is going above 0 till +32767 and below 0 till -32767
