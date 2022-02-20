@@ -249,6 +249,9 @@ namespace APlayer
             radioButton_freq_96000.Checked = APMain.CoreSettings.Audio_TargetFrequency == 96000;
 
             dbmeter.IsStereo = APMain.CoreSettings.Audio_TargetAudioChannels == 2;
+
+            radioButton_db_fix_on.Checked = APMain.CoreSettings.Audio_DB_Fix_Enabled;
+            radioButton1.Checked = !APMain.CoreSettings.Audio_DB_Fix_Enabled;
         }
         private void FillSourceInfo()
         {
@@ -330,6 +333,7 @@ namespace APlayer
             {
                 it.Checked = it.Tag.ToString() == APMain.CoreSettings.Audio_RendererID;
             }
+            dBFixToolStripMenuItem.Checked = APMain.CoreSettings.Audio_DB_Fix_Enabled;
         }
         private void audioRendererToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -356,7 +360,7 @@ namespace APlayer
             FillSourceInfo();
             double tg = 0;
             APCore.GetTargetCPS(out tg);
-            timer_meter.Interval = (int)( tg);
+            timer_meter.Interval = (int)(tg);
         }
         /*TIMERS*/
         // playback timer
@@ -716,6 +720,25 @@ namespace APlayer
         {
             FormAbout ab = new FormAbout();
             ab.ShowDialog();
+        }
+        private void radioButton1_Click(object sender, EventArgs e)
+        {
+            APMain.CoreSettings.Audio_DB_Fix_Enabled = false;
+            UpdateSwitches();
+            ResetAudioRenderer();
+        }
+        private void radioButton_db_fix_on_Click(object sender, EventArgs e)
+        {
+            APMain.CoreSettings.Audio_DB_Fix_Enabled = true;
+            UpdateSwitches();
+            ResetAudioRenderer();
+        }
+
+        private void dBFixToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            APMain.CoreSettings.Audio_DB_Fix_Enabled = !APMain.CoreSettings.Audio_DB_Fix_Enabled;
+            UpdateSwitches();
+            ResetAudioRenderer();
         }
     }
 }

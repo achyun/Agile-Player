@@ -283,7 +283,7 @@ namespace APlayer.Core
         }
         private void AddSample_mono_24(int Sample)
         {
-            STR.WriteByte((byte)((Sample & 0x000000FF) >> 00)); 
+            STR.WriteByte((byte)((Sample & 0x000000FF) >> 00));
             STR.WriteByte((byte)((Sample & 0x0000FF00) >> 08));
             STR.WriteByte((byte)((Sample & 0x00FF0000) >> 16));
         }

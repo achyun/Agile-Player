@@ -165,6 +165,10 @@ namespace APlayer
             this.textBox_cps = new System.Windows.Forms.TextBox();
             this.timer_per_ind = new System.Windows.Forms.Timer(this.components);
             this.timer_meter = new System.Windows.Forms.Timer(this.components);
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton_db_fix_on = new System.Windows.Forms.RadioButton();
+            this.dBFixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_volume)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -176,6 +180,7 @@ namespace APlayer
             this.panel1.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -392,6 +397,7 @@ namespace APlayer
             this.bitsPerSampleToolStripMenuItem,
             this.channelsToolStripMenuItem,
             this.toolStripSeparator4,
+            this.dBFixToolStripMenuItem,
             this.playbackQualityToolStripMenuItem,
             this.toolStripSeparator3,
             this.audioRendererToolStripMenuItem});
@@ -551,7 +557,6 @@ namespace APlayer
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(267, 6);
-            this.toolStripSeparator4.Visible = false;
             // 
             // playbackQualityToolStripMenuItem
             // 
@@ -1214,9 +1219,9 @@ namespace APlayer
             // groupBox_meter
             // 
             this.groupBox_meter.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox_meter.Location = new System.Drawing.Point(846, 61);
+            this.groupBox_meter.Location = new System.Drawing.Point(846, 162);
             this.groupBox_meter.Name = "groupBox_meter";
-            this.groupBox_meter.Size = new System.Drawing.Size(160, 406);
+            this.groupBox_meter.Size = new System.Drawing.Size(160, 305);
             this.groupBox_meter.TabIndex = 9;
             this.groupBox_meter.TabStop = false;
             this.groupBox_meter.Text = "DB Meter";
@@ -1304,11 +1309,57 @@ namespace APlayer
             this.timer_meter.Interval = 44;
             this.timer_meter.Tick += new System.EventHandler(this.timer_meter_Tick);
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.radioButton1);
+            this.groupBox3.Controls.Add(this.radioButton_db_fix_on);
+            this.groupBox3.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(846, 61);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(160, 95);
+            this.groupBox3.TabIndex = 12;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "DB Fix";
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(6, 55);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(65, 22);
+            this.radioButton1.TabIndex = 1;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "OFF";
+            this.toolTip1.SetToolTip(this.radioButton1, "Disable the db fix.");
+            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.Click += new System.EventHandler(this.radioButton1_Click);
+            // 
+            // radioButton_db_fix_on
+            // 
+            this.radioButton_db_fix_on.AutoSize = true;
+            this.radioButton_db_fix_on.Location = new System.Drawing.Point(6, 25);
+            this.radioButton_db_fix_on.Name = "radioButton_db_fix_on";
+            this.radioButton_db_fix_on.Size = new System.Drawing.Size(56, 22);
+            this.radioButton_db_fix_on.TabIndex = 0;
+            this.radioButton_db_fix_on.Text = "ON";
+            this.toolTip1.SetToolTip(this.radioButton_db_fix_on, resources.GetString("radioButton_db_fix_on.ToolTip"));
+            this.radioButton_db_fix_on.UseVisualStyleBackColor = true;
+            this.radioButton_db_fix_on.Click += new System.EventHandler(this.radioButton_db_fix_on_Click);
+            // 
+            // dBFixToolStripMenuItem
+            // 
+            this.dBFixToolStripMenuItem.Name = "dBFixToolStripMenuItem";
+            this.dBFixToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.dBFixToolStripMenuItem.Text = "DB Fix";
+            this.dBFixToolStripMenuItem.Click += new System.EventHandler(this.dBFixToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1018, 723);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox_meter);
@@ -1342,6 +1393,8 @@ namespace APlayer
             this.groupBox7.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1463,6 +1516,10 @@ namespace APlayer
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem donateToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton_db_fix_on;
+        private System.Windows.Forms.ToolStripMenuItem dBFixToolStripMenuItem;
     }
 }
 

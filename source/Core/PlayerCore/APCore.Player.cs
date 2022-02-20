@@ -61,6 +61,7 @@ namespace APlayer.Core
 
         public static int[] audio_last_source_sample;
         public static int[] audio_last_target_sample;
+        private static bool audio_use_db_fix;
 
         public static event EventHandler<EventArgs> EndOfSourceReached;
 
@@ -76,6 +77,7 @@ namespace APlayer.Core
             audio_channels_number = media_format.ChannelsNumber;
             audio_bit_per_sample = media_format.BitsPerSample;
             audio_target_bit_per_sample = APMain.CoreSettings.Audio_TargetBitsPerSample;
+            audio_use_db_fix = APMain.CoreSettings.Audio_DB_Fix_Enabled;
 
             // Ratio 1 is how many samples can get per clock from the source
             // Source file frequency / target cps
@@ -512,7 +514,7 @@ namespace APlayer.Core
                 {
                     // Get data from the source
                     media_format.GetNextSample(ref audio_x, out audio_sample_obtained);
-
+                   
                     // Update the last source sample
                     for (int i = 0; i < audio_channels_number; i++)
                     {
@@ -560,6 +562,15 @@ namespace APlayer.Core
                                     {
                                         audio_samples[audio_w_pos][i] = (int)(audio_x[i] * volume);
                                         // Update the latest target sample
+
+                                        if (audio_use_db_fix)
+                                        {
+                                            for (int j = 0; j < audio_channels_number; j++)
+                                            {
+                                                if (audio_samples[audio_w_pos][j] == 0)
+                                                    audio_samples[audio_w_pos][j] = 1;
+                                            }
+                                        }
 
                                         // audio_last_target_sample_av[i] += (int)(audio_x[i] * volume);
 
@@ -620,6 +631,15 @@ namespace APlayer.Core
                                         {
                                             audio_samples[audio_w_pos][i] = (int)(audio_x[i] * volume);
                                             // audio_last_target_sample_av[i] += (int)(audio_x[i] * volume);
+                                         
+                                            if (audio_use_db_fix)
+                                            {
+                                                for (int j = 0; j < audio_channels_number; j++)
+                                                {
+                                                    if (audio_samples[audio_w_pos][j] == 0)
+                                                        audio_samples[audio_w_pos][j] = 1;
+                                                }
+                                            }
 
                                             if (audio_samples[audio_w_pos][i] > audio_last_target_sample[i])
                                                 audio_last_target_sample[i] = audio_samples[audio_w_pos][i];
@@ -666,6 +686,15 @@ namespace APlayer.Core
                                         {
                                             audio_samples[audio_w_pos][i] = (int)(audio_x[i] * volume);
                                             // audio_last_target_sample_av[i] += (int)(audio_x[i] * volume);
+                                          
+                                            if (audio_use_db_fix)
+                                            {
+                                                for (int j = 0; j < audio_channels_number; j++)
+                                                {
+                                                    if (audio_samples[audio_w_pos][j] == 0)
+                                                        audio_samples[audio_w_pos][j] = 1;
+                                                }
+                                            }
 
                                             if (audio_samples[audio_w_pos][i] > audio_last_target_sample[i])
                                                 audio_last_target_sample[i] = audio_samples[audio_w_pos][i];
