@@ -94,6 +94,7 @@ namespace APlayer
             this.monoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stereoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.dBFixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playbackQualityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.normalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,6 +125,8 @@ namespace APlayer
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton_db_fix_on = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButton_32bits = new System.Windows.Forms.RadioButton();
             this.radioButton_24bits = new System.Windows.Forms.RadioButton();
@@ -166,9 +169,6 @@ namespace APlayer
             this.timer_per_ind = new System.Windows.Forms.Timer(this.components);
             this.timer_meter = new System.Windows.Forms.Timer(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton_db_fix_on = new System.Windows.Forms.RadioButton();
-            this.dBFixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_volume)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -185,7 +185,6 @@ namespace APlayer
             // 
             // menuStrip1
             // 
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
@@ -419,7 +418,7 @@ namespace APlayer
             this.hzToolStripMenuItem9,
             this.hzToolStripMenuItem4});
             this.frequencyToolStripMenuItem.Name = "frequencyToolStripMenuItem";
-            this.frequencyToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.frequencyToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
             this.frequencyToolStripMenuItem.Text = "&Frequency";
             this.frequencyToolStripMenuItem.DropDownOpening += new System.EventHandler(this.frequencyToolStripMenuItem_DropDownOpening);
             this.frequencyToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.frequencyToolStripMenuItem_DropDownItemClicked);
@@ -495,7 +494,7 @@ namespace APlayer
             this.bitsToolStripMenuItem2,
             this.bitsToolStripMenuItem3});
             this.bitsPerSampleToolStripMenuItem.Name = "bitsPerSampleToolStripMenuItem";
-            this.bitsPerSampleToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.bitsPerSampleToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
             this.bitsPerSampleToolStripMenuItem.Text = "&Bits Per Sample";
             this.bitsPerSampleToolStripMenuItem.DropDownOpening += new System.EventHandler(this.bitsPerSampleToolStripMenuItem_DropDownOpening);
             this.bitsPerSampleToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.bitsPerSampleToolStripMenuItem_DropDownItemClicked);
@@ -534,7 +533,7 @@ namespace APlayer
             this.monoToolStripMenuItem,
             this.stereoToolStripMenuItem});
             this.channelsToolStripMenuItem.Name = "channelsToolStripMenuItem";
-            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.channelsToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
             this.channelsToolStripMenuItem.Text = "&Channels";
             this.channelsToolStripMenuItem.DropDownOpening += new System.EventHandler(this.channelsToolStripMenuItem_DropDownOpening);
             this.channelsToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.channelsToolStripMenuItem_DropDownItemClicked);
@@ -556,7 +555,14 @@ namespace APlayer
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(267, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(234, 6);
+            // 
+            // dBFixToolStripMenuItem
+            // 
+            this.dBFixToolStripMenuItem.Name = "dBFixToolStripMenuItem";
+            this.dBFixToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
+            this.dBFixToolStripMenuItem.Text = "DB Fix";
+            this.dBFixToolStripMenuItem.Click += new System.EventHandler(this.dBFixToolStripMenuItem_Click);
             // 
             // playbackQualityToolStripMenuItem
             // 
@@ -565,7 +571,7 @@ namespace APlayer
             this.normalToolStripMenuItem,
             this.highToolStripMenuItem});
             this.playbackQualityToolStripMenuItem.Name = "playbackQualityToolStripMenuItem";
-            this.playbackQualityToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.playbackQualityToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
             this.playbackQualityToolStripMenuItem.Text = "Playback &Load";
             this.playbackQualityToolStripMenuItem.Visible = false;
             this.playbackQualityToolStripMenuItem.DropDownOpening += new System.EventHandler(this.playbackQualityToolStripMenuItem_DropDownOpening);
@@ -594,12 +600,12 @@ namespace APlayer
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(267, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(234, 6);
             // 
             // audioRendererToolStripMenuItem
             // 
             this.audioRendererToolStripMenuItem.Name = "audioRendererToolStripMenuItem";
-            this.audioRendererToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.audioRendererToolStripMenuItem.Size = new System.Drawing.Size(237, 34);
             this.audioRendererToolStripMenuItem.Text = "Audio &Renderer";
             this.audioRendererToolStripMenuItem.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.audioRendererToolStripMenuItem_DropDownItemClicked);
             // 
@@ -820,6 +826,32 @@ namespace APlayer
             this.label3.Text = "SRC:";
             this.toolTip1.SetToolTip(this.label3, "How many KBytes that read from the source in second.\r\n\r\nThis depends and the sour" +
         "ce specifications.");
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(6, 55);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(65, 22);
+            this.radioButton1.TabIndex = 1;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "OFF";
+            this.toolTip1.SetToolTip(this.radioButton1, "Disable the db fix.");
+            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.Click += new System.EventHandler(this.radioButton1_Click);
+            // 
+            // radioButton_db_fix_on
+            // 
+            this.radioButton_db_fix_on.AutoSize = true;
+            this.radioButton_db_fix_on.Location = new System.Drawing.Point(6, 25);
+            this.radioButton_db_fix_on.Name = "radioButton_db_fix_on";
+            this.radioButton_db_fix_on.Size = new System.Drawing.Size(56, 22);
+            this.radioButton_db_fix_on.TabIndex = 0;
+            this.radioButton_db_fix_on.Text = "ON";
+            this.toolTip1.SetToolTip(this.radioButton_db_fix_on, resources.GetString("radioButton_db_fix_on.ToolTip"));
+            this.radioButton_db_fix_on.UseVisualStyleBackColor = true;
+            this.radioButton_db_fix_on.Click += new System.EventHandler(this.radioButton_db_fix_on_Click);
             // 
             // groupBox1
             // 
@@ -1320,39 +1352,6 @@ namespace APlayer
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "DB Fix";
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 55);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(65, 22);
-            this.radioButton1.TabIndex = 1;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "OFF";
-            this.toolTip1.SetToolTip(this.radioButton1, "Disable the db fix.");
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.Click += new System.EventHandler(this.radioButton1_Click);
-            // 
-            // radioButton_db_fix_on
-            // 
-            this.radioButton_db_fix_on.AutoSize = true;
-            this.radioButton_db_fix_on.Location = new System.Drawing.Point(6, 25);
-            this.radioButton_db_fix_on.Name = "radioButton_db_fix_on";
-            this.radioButton_db_fix_on.Size = new System.Drawing.Size(56, 22);
-            this.radioButton_db_fix_on.TabIndex = 0;
-            this.radioButton_db_fix_on.Text = "ON";
-            this.toolTip1.SetToolTip(this.radioButton_db_fix_on, resources.GetString("radioButton_db_fix_on.ToolTip"));
-            this.radioButton_db_fix_on.UseVisualStyleBackColor = true;
-            this.radioButton_db_fix_on.Click += new System.EventHandler(this.radioButton_db_fix_on_Click);
-            // 
-            // dBFixToolStripMenuItem
-            // 
-            this.dBFixToolStripMenuItem.Name = "dBFixToolStripMenuItem";
-            this.dBFixToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.dBFixToolStripMenuItem.Text = "DB Fix";
-            this.dBFixToolStripMenuItem.Click += new System.EventHandler(this.dBFixToolStripMenuItem_Click);
             // 
             // FormMain
             // 

@@ -126,9 +126,6 @@
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>173, 17</value>
   </metadata>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>287, 17</value>
-  </metadata>
   <data name="label4.ToolTip" xml:space="preserve">
     <value>How many KBytes processed into the render in second.
 i.e how many KBytes are written into the target render after processing in second.
@@ -136,12 +133,6 @@ i.e how many KBytes are written into the target render after processing in secon
 This depends and the render (settings that set on the left) specifications.
 </value>
   </data>
-  <metadata name="timer_per_ind.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>416, 17</value>
-  </metadata>
-  <metadata name="timer_meter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>589, 17</value>
-  </metadata>
   <data name="radioButton_db_fix_on.ToolTip" xml:space="preserve">
     <value>In math and physics, 0 input is not possible when db measurement is taken.
 
@@ -150,9 +141,15 @@ each sample with input 0 with input of 1 bit which is 1.
 
 This make the song/track feels alive also correct in math/physics.
 
-This will replace 0 sample into 1 bit sample, so it will be ~ 0,00305 % noise of amptitude
-instead of 0. AND: 0 DB instead of infinity db. This is correct.</value>
+This will replace 0 sample into 1 bit sample, so it will be ~ 0,00305 % level of amplitude
+instead of 0. AND: 0 db instead of infinity db. This is correct.</value>
   </data>
+  <metadata name="timer_per_ind.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>416, 17</value>
+  </metadata>
+  <metadata name="timer_meter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>589, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

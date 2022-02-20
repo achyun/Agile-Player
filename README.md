@@ -59,6 +59,7 @@ This will deliver accuracy with timing, a specific sample plays at the time when
 - Automatic upsampling and downsampling. Can play in any desigred frequency regaldess of the source frequency, the engine take care of downsampling/upsampling if it is needed.
 - Automatic bit per sample converting, can switch desired bit-per-sample regadless of the source bit-per-sample, the engine take care of converting bit-per-sampling if needed. All using correct equations.
 - Ability to record wav, save wav file of current played media with target settings. (i.e. can be used to convert frequency and bit-per-sample into wav file).
+- DB Fix feature, enables a simple fix for songs/tracks 0 samples by replacing each sample with input 0 with input of 1 bit which is 1. It will be 0 db instead of infinity db. This is correct.
 - Currently supported media formats (playback): 
 
 1. Loseless WAV PCM, (8 bit, 16 bit, 24 bit and 32 bit). 
