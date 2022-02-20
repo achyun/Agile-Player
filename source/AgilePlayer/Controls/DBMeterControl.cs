@@ -123,16 +123,28 @@ namespace APlayer
             // DB CURRENT for 4 volt = 20 log(4 / 0.00001)= 112,04 db 
 
             // NOTES:
-            
+
             // 1. db of 0 input does not exist, the device is OFF or that thing that we are calculating db for does not exist.
-            
+
             // 2. db below 0 does exist but false or does not make sense (impossible to happen), because in this case the input value is going beyond the accuracy of the machine or the 'relative' to calculate db !!,
             //    simply for example: for electricity machine of accuracy of 0.001 volt (minimum volt value it can handle), there is no increase of value 0.00001 volt or 0.0005 volt, simply it cannot handle it !!
             //    Same for pc, there always 1 bit, we cannot use 0.5 bit or 0.003 bit... simply does not exit or pc cannot handle below 1 bit !! accuracy of 1 bit !
             //    example: let's have the db of an 0.5 sample input (or digital input into pc) ?! :  20 log (0.5 / 1) = -6,02 db, so the db value of sample of 0.5 or a half-bit does not exist lol
-           
+
             //    SO: db is always range from 0 to a positive number. 0 db means the device is on but no increase of power. below 0 db is impossible, usually something wrong in the input, simply the input that is given is beyond that machine accuracy).
             //    INFINITY db means the device is off, or it does not exist.
+
+            // 3. For inputs we always take the absolute number (0.5 does not accepted, same for 0.3, 2.3 ...etc, what accepted is 1,2,3,4,5,6 .. 40,43,6456, ....etc)
+            //    Then we can say CURRENT DB = 20 log (300/100) = 20 log (3/1) = 20 log (3) = 9,54 db is OK !!
+            //         we can say CURRENT DB = 20 log (4/3) = 20 log (1,3333333333333333333333333333333) = 2,49 db is OK !!
+            //         we CANNOT say CURRENT DB = 20 log (4.5/3) = 3,52 db IT IS NOT OK !!, simply it does not exist ?!
+
+            //    SO the correct equation: db_val =  20 log( | input | / minimum_input_machine_can_handle);
+            //
+            //    minimum_input_machine_can_handle must be > 0 and absolute number (1,2,3,4,5,6. ...et);
+            //    | input | will get any input above 0 and absolute (0,1,2,3,4 ..etc) and input must not = 0 (i.e. 0 < minimum_input_machine_can_handle <= input <= maximum_input_machine_can_handle and input is abs (0,1,2,3,4,5,6...etc))
+
+            // For the examples above , we simply convert from volt input into millivolt, so for 5 volt we use 5000 millivolt instead of 5, we use 1 millivolt as minimum volt instead of 0.001 volt.
 
             switch (bits_per_sample)
             {
