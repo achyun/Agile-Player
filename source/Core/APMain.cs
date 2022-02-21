@@ -126,7 +126,7 @@ namespace APlayer.Core
             Trace.WriteLine("Total of " + MediaFormats.Count + " media format found.", "APMain");
 
             APCore.SetTargetCPS(CoreSettings.CPS_TargetCPS);
-            APCore.SetVolume(100);
+            APCore.SetVolume(CoreSettings.Audio_Volume);
         }
         /// <summary>
         /// This should be called at the application close
@@ -136,6 +136,10 @@ namespace APlayer.Core
             APCore.Shutdown();
 
             Trace.WriteLine("Saving core settings ...", "APMain");
+            double vol = 0;
+            APCore.GetVolume(out vol);
+            CoreSettings.Audio_Volume = (int)vol;
+
             CoreSettings.SaveSettings();
             Trace.WriteLine("Saving core settings success.", "APMain");
         }

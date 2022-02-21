@@ -55,12 +55,13 @@ This will deliver accuracy with timing, a specific sample plays at the time when
 ### Agile Player Core Features
 
 - Multithread player, the play-engine clocks on thread other than the gui (main thread).
+- Support multi-renderer can be switched in settings (settings file in Documents). Currently supported renderers: SDL2 Audio and SlimDX DirectSound.
 - Accurate play timing, a specific sample is played at the time where it supposed to.
 - Automatic upsampling and downsampling. Can play in any desigred frequency regaldess of the source frequency, the engine take care of downsampling/upsampling if it is needed.
 - Automatic bit per sample converting, can switch desired bit-per-sample regadless of the source bit-per-sample, the engine take care of converting bit-per-sampling if needed. All using correct equations.
-- Ability to record wav, save wav file of current played media with target settings (Channels Number, Frequency, Bits-Per-Sample and DB Fix settings). (i.e. can be used to convert frequency and bit-per-sample into wav file).
 - DB Fix feature, enables a simple fix for songs/tracks 0 samples by replacing each sample with input 0 with input of 1 bit which is 1. It will be 0 db instead of infinity db. This is correct.
-- Support multi-renderer can be switched in settings. Currently supported renderers: SDL2 Audio and SlimDX DirectSound.
+- Wave Shift feature, shift audio wave to make sure all samples above 0. Enabling this with DB Fix will make sure that the song/track is 100% correct in physics.
+- Ability to record wav, save wav file of current played media with target settings (Channels, Frequency, Bits Per Sample, DB Fix and Wave Shift).
 - Currently supported media formats (playback): 
 
 1. Loseless WAV PCM, (8 bit, 16 bit, 24 bit and 32 bit). 

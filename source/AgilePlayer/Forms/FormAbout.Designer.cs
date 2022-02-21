@@ -49,10 +49,9 @@ namespace APlayer
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAbout));
             this.button2 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -63,12 +62,13 @@ namespace APlayer
             this.label1 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label_version = new System.Windows.Forms.Label();
+            this.richTextBox_copyright = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // button2
             // 
             this.button2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button2.Location = new System.Drawing.Point(13, 493);
+            this.button2.Location = new System.Drawing.Point(13, 761);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(228, 35);
@@ -90,32 +90,10 @@ namespace APlayer
             this.label7.TabIndex = 25;
             this.label7.Text = "Author, developer and programmer: Alaa Ibrahim Hadid.";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label4.Location = new System.Drawing.Point(16, 410);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(376, 20);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "For more details about credits/copyright, please see ";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label8.Location = new System.Drawing.Point(16, 337);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(442, 20);
-            this.label8.TabIndex = 26;
-            this.label8.Text = "Transleted version(s) of the license can be found here as well:";
-            // 
             // button1
             // 
             this.button1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button1.Location = new System.Drawing.Point(385, 493);
+            this.button1.Location = new System.Drawing.Point(385, 761);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(228, 35);
@@ -152,7 +130,7 @@ namespace APlayer
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.linkLabel1.Location = new System.Drawing.Point(16, 288);
+            this.linkLabel1.Location = new System.Drawing.Point(15, 288);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(438, 20);
@@ -178,7 +156,7 @@ namespace APlayer
             // 
             this.linkLabel2.AutoSize = true;
             this.linkLabel2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.linkLabel2.Location = new System.Drawing.Point(16, 430);
+            this.linkLabel2.Location = new System.Drawing.Point(16, 691);
             this.linkLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(125, 20);
@@ -191,7 +169,7 @@ namespace APlayer
             // 
             this.linkLabel4.AutoSize = true;
             this.linkLabel4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.linkLabel4.Location = new System.Drawing.Point(16, 357);
+            this.linkLabel4.Location = new System.Drawing.Point(408, 691);
             this.linkLabel4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel4.Name = "linkLabel4";
             this.linkLabel4.Size = new System.Drawing.Size(205, 20);
@@ -228,19 +206,29 @@ namespace APlayer
             this.label_version.TabIndex = 31;
             this.label_version.Text = "Version 1.0";
             // 
+            // richTextBox_copyright
+            // 
+            this.richTextBox_copyright.BackColor = System.Drawing.SystemColors.Control;
+            this.richTextBox_copyright.Location = new System.Drawing.Point(20, 311);
+            this.richTextBox_copyright.Name = "richTextBox_copyright";
+            this.richTextBox_copyright.ReadOnly = true;
+            this.richTextBox_copyright.Size = new System.Drawing.Size(593, 377);
+            this.richTextBox_copyright.TabIndex = 33;
+            this.richTextBox_copyright.Text = resources.GetString("richTextBox_copyright.Text");
+            this.richTextBox_copyright.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox1_LinkClicked);
+            // 
             // FormAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 581);
+            this.ClientSize = new System.Drawing.Size(648, 871);
             this.ControlBox = false;
+            this.Controls.Add(this.richTextBox_copyright);
             this.Controls.Add(this.label_version);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label8);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -263,8 +251,6 @@ namespace APlayer
 
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -275,5 +261,6 @@ namespace APlayer
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label_version;
+        private System.Windows.Forms.RichTextBox richTextBox_copyright;
     }
 }

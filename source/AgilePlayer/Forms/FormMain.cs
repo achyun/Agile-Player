@@ -40,9 +40,9 @@ namespace APlayer
             UpdateSwitches();
             LoadRenderers();
             FillSourceInfo();
-            // Force direct sound
-            // TODO: directsound is forced because of the sdl2 audio is not working.
-            //APMain.CoreSettings.Audio_RendererID = "slimdx.directsound";
+            // Force direct sound if nothing is selected
+            if (APMain.CoreSettings.Audio_RendererID == "")
+                APMain.CoreSettings.Audio_RendererID = "slimdx.directsound";
             APMain.SetupAudioRenderer(this.Handle);
 
             if (Program.AppSettings.SaveListOnExit)
@@ -53,7 +53,6 @@ namespace APlayer
                     files_browser.OpenMU3List(list_path, false);
                 }
             }
-            FillPerformanceTexts();
         }
 
         private MediaBar mediaBar1;
@@ -77,7 +76,7 @@ namespace APlayer
             // DB meter
             dbmeter = new DBMeterControl();
             dbmeter.BackColor = Color.LightSlateGray;
-            groupBox_meter.Controls.Add(dbmeter);
+            panel_db_meter.Controls.Add(dbmeter);
             dbmeter.Dock = DockStyle.Fill;
             dbmeter.BringToFront();
             // Info mtc
@@ -130,13 +129,13 @@ namespace APlayer
         }
         private void LoadRenderers()
         {
-            audioRendererToolStripMenuItem.DropDownItems.Clear();
+            //audioRendererToolStripMenuItem.DropDownItems.Clear();
             foreach (IAudioRenderer pro in APMain.AudioRenderers)
             {
                 ToolStripMenuItem it = new ToolStripMenuItem();
                 it.Text = pro.Name;
                 it.Tag = pro.ID;
-                audioRendererToolStripMenuItem.DropDownItems.Add(it);
+                //  audioRendererToolStripMenuItem.DropDownItems.Add(it);
             }
 
             FormatsManager.MediaLoaded += FormatsManager_MediaLoaded;
@@ -195,6 +194,8 @@ namespace APlayer
             mediaBar1.ToolTipColor = Color.FromArgb(Program.AppSettings.MediaToolTipColor);
             mediaBar1.ToolTipTextColor = Color.FromArgb(Program.AppSettings.MediaToolTipTextColor);
 
+            trackBar_volume.Value = APMain.CoreSettings.Audio_Volume;
+
             toolTip1.SetToolTip(trackBar_volume, "Volume = " + trackBar_volume.Value.ToString() + " %");
         }
         private void SaveSettings()
@@ -252,6 +253,11 @@ namespace APlayer
 
             radioButton_db_fix_on.Checked = APMain.CoreSettings.Audio_DB_Fix_Enabled;
             radioButton1.Checked = !APMain.CoreSettings.Audio_DB_Fix_Enabled;
+
+            radioButton_wave_fix_off.Checked = APMain.CoreSettings.Audio_Wave_Fix_Mode == 0;
+            radioButton_wave_fix_shift.Checked = APMain.CoreSettings.Audio_Wave_Fix_Mode == 1;
+
+            button_save_list.Enabled = files_browser.CanSaveList;
         }
         private void FillSourceInfo()
         {
@@ -285,37 +291,6 @@ namespace APlayer
                 }
             }
         }
-        private void FillPerformanceTexts()
-        {
-            // 1 cps
-            double target_cps;
-            double av_in_sec = 0;
-            double av_can_in_sec = 0;
-            APCore.GetTargetCPS(out target_cps);
-            APCore.GetAverageCPSInSecondValues(out av_in_sec, out av_can_in_sec);
-
-            textBox_cps.Text = av_in_sec.ToString("F0") + " C/S";
-            textBox_clocks_max.Text = av_can_in_sec.ToString("F0") + " C/S";
-
-            /*if (APCore.ON && !APCore.PAUSED)
-            {
-                textBox_cps.BackColor = (av_in_sec > (target_cps - 1)) ? SystemColors.Control : Color.Red;
-                textBox_clocks_max.BackColor = (av_in_sec > (target_cps - 1)) ? SystemColors.Control : Color.Red;
-            }
-            else
-            {
-                textBox_cps.BackColor = SystemColors.Control;
-                textBox_clocks_max.BackColor = SystemColors.Control;
-            }*/
-
-            double src_bytes_rate = 0;
-            double trg_bytes_rate = 0;
-
-            APCore.GetAverageBytesProceesedInSecond(out src_bytes_rate, out trg_bytes_rate);
-
-            textBox_src_rate.Text = (src_bytes_rate / 1024).ToString("F2") + " KB/S";
-            textBox_rendered_rate.Text = (trg_bytes_rate / 1024).ToString("F2") + " KB/S";
-        }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -326,15 +301,15 @@ namespace APlayer
             this.WindowState = FormWindowState.Normal;
             SaveSettings();
         }
-        private void settingsToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            // Check renderer
-            foreach (ToolStripMenuItem it in audioRendererToolStripMenuItem.DropDownItems)
-            {
-                it.Checked = it.Tag.ToString() == APMain.CoreSettings.Audio_RendererID;
-            }
-            dBFixToolStripMenuItem.Checked = APMain.CoreSettings.Audio_DB_Fix_Enabled;
-        }
+        /* private void settingsToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+         {
+             // Check renderer
+             foreach (ToolStripMenuItem it in audioRendererToolStripMenuItem.DropDownItems)
+             {
+                 it.Checked = it.Tag.ToString() == APMain.CoreSettings.Audio_RendererID;
+             }
+             dBFixToolStripMenuItem.Checked = APMain.CoreSettings.Audio_DB_Fix_Enabled;
+         }*/
         private void audioRendererToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             APMain.CoreSettings.Audio_RendererID = e.ClickedItem.Tag.ToString();
@@ -374,7 +349,6 @@ namespace APlayer
         private void timer_per_ind_Tick(object sender, EventArgs e)
         {
             UpdateIndicaters();
-            FillPerformanceTexts();
         }
         // Meter timer
         private void timer_meter_Tick(object sender, EventArgs e)
@@ -400,72 +374,6 @@ namespace APlayer
 
             toolTip1.SetToolTip(trackBar_volume, "Volume = " + trackBar_volume.Value.ToString() + " %");
             CheckMute();
-        }
-        private void frequencyToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            foreach (ToolStripMenuItem it in frequencyToolStripMenuItem.DropDownItems)
-            {
-                it.Checked = it.Tag.ToString() == APMain.CoreSettings.Audio_TargetFrequency.ToString();
-            }
-        }
-        private void frequencyToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            APMain.CoreSettings.Audio_TargetFrequency = int.Parse(e.ClickedItem.Tag.ToString());
-            ResetAudioRenderer();
-            UpdateSwitches();
-        }
-        private void bitsPerSampleToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            foreach (ToolStripMenuItem it in bitsPerSampleToolStripMenuItem.DropDownItems)
-            {
-                it.Checked = it.Tag.ToString() == APMain.CoreSettings.Audio_TargetBitsPerSample.ToString();
-            }
-        }
-        private void bitsPerSampleToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            APMain.CoreSettings.Audio_TargetBitsPerSample = int.Parse(e.ClickedItem.Tag.ToString());
-            UpdateSwitches();
-            ResetAudioRenderer();
-        }
-        private void channelsToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            foreach (ToolStripMenuItem it in channelsToolStripMenuItem.DropDownItems)
-            {
-                it.Checked = it.Tag.ToString() == APMain.CoreSettings.Audio_TargetAudioChannels.ToString();
-            }
-        }
-        private void channelsToolStripMenuItem_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            APMain.CoreSettings.Audio_TargetAudioChannels = int.Parse(e.ClickedItem.Tag.ToString());
-            UpdateSwitches();
-            ResetAudioRenderer();
-        }
-        private void playbackQualityToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            lowToolStripMenuItem.Checked = (APMain.CoreSettings.Audio_RenderBufferInKB == 6 && APMain.CoreSettings.CPS_TargetCPS == 25);
-            normalToolStripMenuItem.Checked = (APMain.CoreSettings.Audio_RenderBufferInKB == 9 && APMain.CoreSettings.CPS_TargetCPS == 44);
-            highToolStripMenuItem.Checked = (APMain.CoreSettings.Audio_RenderBufferInKB == 21 && APMain.CoreSettings.CPS_TargetCPS == 58);
-        }
-        private void lowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            APMain.CoreSettings.Audio_RenderBufferInKB = 6;
-            APMain.CoreSettings.CPS_TargetCPS = 25;
-            APCore.SetTargetCPS(APMain.CoreSettings.CPS_TargetCPS);
-            ResetAudioRenderer();
-        }
-        private void normalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            APMain.CoreSettings.Audio_RenderBufferInKB = 9;
-            APMain.CoreSettings.CPS_TargetCPS = 44;
-            APCore.SetTargetCPS(APMain.CoreSettings.CPS_TargetCPS);
-            ResetAudioRenderer();
-        }
-        private void highToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            APMain.CoreSettings.Audio_RenderBufferInKB = 21;
-            APMain.CoreSettings.CPS_TargetCPS = 58;
-            APCore.SetTargetCPS(APMain.CoreSettings.CPS_TargetCPS);
-            ResetAudioRenderer();
         }
         private void MediaBar1_TimeChangeRequest(object sender, TimeChangeArgs e)
         {
@@ -560,17 +468,9 @@ namespace APlayer
             if (sav.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
                 files_browser.SaveMU3List(sav.FileName);
         }
-        private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            saveListToolStripMenuItem.Enabled = files_browser.CanSaveList;
-        }
         private void saveRecentPlaylistOnExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Program.AppSettings.SaveListOnExit = !Program.AppSettings.SaveListOnExit;
-        }
-        private void settingsToolStripMenuItem_DropDownOpening_1(object sender, EventArgs e)
-        {
-            saveRecentPlaylistOnExitToolStripMenuItem.Checked = Program.AppSettings.SaveListOnExit;
         }
         private void button_toggle_mute_Click(object sender, EventArgs e)
         {
@@ -733,10 +633,33 @@ namespace APlayer
             UpdateSwitches();
             ResetAudioRenderer();
         }
-
         private void dBFixToolStripMenuItem_Click(object sender, EventArgs e)
         {
             APMain.CoreSettings.Audio_DB_Fix_Enabled = !APMain.CoreSettings.Audio_DB_Fix_Enabled;
+            UpdateSwitches();
+            ResetAudioRenderer();
+        }
+        private void offToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            APMain.CoreSettings.Audio_Wave_Fix_Mode = 0;
+            UpdateSwitches();
+            ResetAudioRenderer();
+        }
+        private void shiftModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            APMain.CoreSettings.Audio_Wave_Fix_Mode = 1;
+            UpdateSwitches();
+            ResetAudioRenderer();
+        }
+        private void radioButton_wave_fix_off_Click(object sender, EventArgs e)
+        {
+            APMain.CoreSettings.Audio_Wave_Fix_Mode = 0;
+            UpdateSwitches();
+            ResetAudioRenderer();
+        }
+        private void radioButton_wave_fix_shift_Click(object sender, EventArgs e)
+        {
+            APMain.CoreSettings.Audio_Wave_Fix_Mode = 1;
             UpdateSwitches();
             ResetAudioRenderer();
         }

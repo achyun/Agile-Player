@@ -37,6 +37,11 @@ namespace APlayer
             // Set version info
             string ver_m = Assembly.LoadFile(Path.Combine(APMain.ApplicationFolder, "AgilePlayer.exe")).GetName().Version.ToString();
             label_version.Text = "Version " + ver_m;
+
+            if (File.Exists(Path.Combine(APMain.ApplicationFolder, "Copyright Notice.txt")))
+            {
+                richTextBox_copyright.Lines = File.ReadAllLines(Path.Combine(APMain.ApplicationFolder, "Copyright Notice.txt"));
+            }
         }
         // Donate
         private void button2_Click(object sender, EventArgs e)
@@ -69,6 +74,15 @@ namespace APlayer
             try
             {
                 Process.Start(Path.Combine(APMain.ApplicationFolder, "Copyright Notice.txt"));
+            }
+            catch { }
+        }
+
+        private void richTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            try
+            {
+                Process.Start(e.LinkText);
             }
             catch { }
         }

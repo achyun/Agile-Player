@@ -117,22 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>287, 17</value>
   </metadata>
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>173, 17</value>
   </metadata>
-  <data name="label4.ToolTip" xml:space="preserve">
-    <value>How many KBytes processed into the render in second.
-i.e how many KBytes are written into the target render after processing in second.
-
-This depends and the render (settings that set on the left) specifications.
-</value>
-  </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>287, 17</value>
+  </metadata>
   <data name="radioButton_db_fix_on.ToolTip" xml:space="preserve">
     <value>In math and physics, 0 input is not possible when db measurement is taken.
 
@@ -143,6 +136,15 @@ This make the song/track feels alive also correct in math/physics.
 
 This will replace 0 sample into 1 bit sample, so it will be ~ 0,00305 % level of amplitude
 instead of 0. AND: 0 db instead of infinity db. This is correct.</value>
+  </data>
+  <data name="radioButton_wave_fix_shift.ToolTip" xml:space="preserve">
+    <value>Shift wave form to make sure all samples are above 0.
+
+This will make audio correct physically if it is enabled with
+DB fix, all samples will be above 0.
+If it is not, 0 would exist in the wave form (in the middle) and this 
+would be impossible physically (infinity db) so it will destroy the 
+sound when listnening in real live. This option attempts to fix that.</value>
   </data>
   <metadata name="timer_per_ind.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>416, 17</value>

@@ -33,6 +33,7 @@ namespace APlayer.Core
         private static int audio_samples_added;
         internal static int audio_samples_count;
         private static bool target_clock_finished;
+        private static int audio_wav_fix_mode;
         private static IMediaFormat media_format;
         public static SamplingMode audio_sampling_mode;
 
@@ -57,6 +58,7 @@ namespace APlayer.Core
         private static int audio_channels_number;
         private static int[] audio_t;
         private static int[] audio_x;
+        private static int[] audio_y;
         private static double volume;
 
         public static int[] audio_last_source_sample;
@@ -72,6 +74,7 @@ namespace APlayer.Core
 
         public static void InitiailizePlayer()
         {
+            audio_wav_fix_mode = APMain.CoreSettings.Audio_Wave_Fix_Mode;
             audio_src_bytes_per_sample = media_format.ChannelsNumber * (media_format.BitsPerSample / 8);
             audio_trg_bytes_per_sample = media_format.ChannelsNumber * (APMain.CoreSettings.Audio_TargetBitsPerSample / 8);
             audio_channels_number = media_format.ChannelsNumber;
@@ -108,10 +111,92 @@ namespace APlayer.Core
 
             audio_t = new int[audio_channels_number];
             audio_x = new int[audio_channels_number];
+            audio_y = new int[audio_channels_number];
             audio_last_source_sample = new int[audio_channels_number];
             audio_last_target_sample = new int[audio_channels_number];
             audio_w_pos = 0;
             audio_samples_added = 0;
+        }
+        private static void ApplyWaveFixAndVolume(ref int[] sample_in, out int[] sample_out)
+        {
+            sample_out = new int[audio_channels_number];
+            switch (audio_wav_fix_mode)
+            {
+                case 0:// None
+                    {
+                        // No fix, just copy the samples
+                        for (int i = 0; i < audio_channels_number; i++)
+                        {
+                            sample_out[i] = sample_in[i];
+                        }
+                        break;
+                    }
+                case 1:// Shift
+                    {
+                        switch (audio_bit_per_sample)// of the source
+                        {
+                            case 8:
+                                {
+                                    // The audio form is already shifted. (all above zero)
+                                    for (int i = 0; i < audio_channels_number; i++)
+                                    {
+                                        sample_out[i] = (int)(sample_in[i] * volume);
+                                    }
+                                    break;
+                                }
+                            case 16:
+                                {
+                                    for (int channel = 0; channel < audio_channels_number; channel++)
+                                    {
+                                        long val_long = (int)(sample_in[channel] * volume) + short.MaxValue;// this will shift all values above 0, now it ranges between 0 and 65535
+
+                                        val_long = ((val_long * short.MaxValue) / ushort.MaxValue);
+
+                                        byte byte_1 = (byte)(val_long & 0xFF);
+                                        byte byte_2 = (byte)((val_long & 0xFF00) >> 8);
+
+                                        sample_out[channel] = (byte_2 << 8) | byte_1;
+
+                                    }
+                                    break;
+                                }
+                            case 24:
+                                {
+                                    for (int channel = 0; channel < audio_channels_number; channel++)
+                                    {
+                                        long val_long = (int)(sample_in[channel] * volume) + 8388608;// this will shift all values above 0, now it ranges between 0 and 16777216
+
+                                        val_long = ((val_long * 8388608) / 16777216);
+
+                                        byte byte_1 = (byte)(val_long & 0xFF);
+                                        byte byte_2 = (byte)((val_long & 0xFF00) >> 8);
+                                        byte byte_3 = (byte)((val_long & 0xFF0000) >> 16);
+
+                                        sample_out[channel] = (byte_3 << 16) | (byte_2 << 8) | byte_1;
+                                    }
+                                    break;
+                                }
+                            case 32:
+                                {
+                                    for (int channel = 0; channel < audio_channels_number; channel++)
+                                    {
+                                        long val_long = (int)(sample_in[channel] * volume) + int.MaxValue;// this will shift all values above 0, now it ranges between 0 and 4294967296
+
+                                        val_long = ((val_long * int.MaxValue) / 4294967296);
+
+                                        byte byte_1 = (byte)(val_long & 0xFF);
+                                        byte byte_2 = (byte)((val_long & 0xFF00) >> 8);
+                                        byte byte_3 = (byte)((val_long & 0xFF0000) >> 16);
+                                        byte byte_4 = (byte)((val_long & 0xFF000000) >> 24);
+
+                                        sample_out[channel] = (byte_4 << 24) | (byte_3 << 16) | (byte_2 << 8) | byte_1;
+                                    }
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+            }
         }
         private static void ConvertBits(ref int[] sample_in, out int[] sample_out)
         {
@@ -496,30 +581,29 @@ namespace APlayer.Core
                 // For a media with 44100 Hz frequency, it needs to collect 44,1 sample each millisecond. That means, this clock happen 20 times each cps clock, collects 44,1 samples on each.
                 audio_bp_ratio1_timer -= audio_bp_ratio1;
 
+                // Get data from the source
+                media_format.GetNextSample(ref audio_t, out audio_sample_obtained);
+
+                // Apply wave fix if enabled (directly from the source)
+                ApplyWaveFixAndVolume(ref audio_t, out audio_x);
+
                 if (audio_bp_bits_per_sample_converting_needed)
                 {
-                    // Get data from the source
-                    media_format.GetNextSample(ref audio_t, out audio_sample_obtained);
-
-                    // Update the last source sample
-                    for (int i = 0; i < audio_channels_number; i++)
-                    {
-                        audio_last_source_sample[i] = audio_t[i];
-                    }
-
-                    /*BITS converting*/
-                    ConvertBits(ref audio_t, out audio_x);
+                    ConvertBits(ref audio_x, out audio_y);
                 }
                 else
                 {
-                    // Get data from the source
-                    media_format.GetNextSample(ref audio_x, out audio_sample_obtained);
-                   
-                    // Update the last source sample
+                    // Copy into y
                     for (int i = 0; i < audio_channels_number; i++)
                     {
-                        audio_last_source_sample[i] = audio_x[i];
+                        audio_y[i] = audio_x[i];
                     }
+                }
+
+                // Update the last source sample
+                for (int i = 0; i < audio_channels_number; i++)
+                {
+                    audio_last_source_sample[i] = audio_y[i];
                 }
 
                 audio_bytes_processed_from_source += audio_src_bytes_per_sample;
@@ -560,7 +644,7 @@ namespace APlayer.Core
                                 {
                                     for (int i = 0; i < audio_channels_number; i++)
                                     {
-                                        audio_samples[audio_w_pos][i] = (int)(audio_x[i] * volume);
+                                        audio_samples[audio_w_pos][i] = audio_y[i];
                                         // Update the latest target sample
 
                                         if (audio_use_db_fix)
@@ -594,7 +678,7 @@ namespace APlayer.Core
                             {
                                 for (int i = 0; i < audio_channels_number; i++)
                                 {
-                                    audio_last_target_sample[i] = (int)(audio_x[i] * volume);
+                                    audio_last_target_sample[i] = audio_y[i];
                                 }
                                 audio_recorder.AddSample(audio_last_target_sample[0], audio_last_target_sample[1 % audio_channels_number]);
                             }
@@ -629,9 +713,9 @@ namespace APlayer.Core
                                     {
                                         for (int i = 0; i < audio_channels_number; i++)
                                         {
-                                            audio_samples[audio_w_pos][i] = (int)(audio_x[i] * volume);
+                                            audio_samples[audio_w_pos][i] = audio_y[i];
                                             // audio_last_target_sample_av[i] += (int)(audio_x[i] * volume);
-                                         
+
                                             if (audio_use_db_fix)
                                             {
                                                 for (int j = 0; j < audio_channels_number; j++)
@@ -661,7 +745,7 @@ namespace APlayer.Core
                                 {
                                     for (int i = 0; i < audio_channels_number; i++)
                                     {
-                                        audio_last_target_sample[i] = (int)(audio_x[i] * volume);
+                                        audio_last_target_sample[i] = audio_y[i];
                                     }
                                     audio_recorder.AddSample(audio_last_target_sample[0], audio_last_target_sample[1 % audio_channels_number]);
                                 }
@@ -684,9 +768,9 @@ namespace APlayer.Core
                                     {
                                         for (int i = 0; i < audio_channels_number; i++)
                                         {
-                                            audio_samples[audio_w_pos][i] = (int)(audio_x[i] * volume);
+                                            audio_samples[audio_w_pos][i] = audio_y[i];
                                             // audio_last_target_sample_av[i] += (int)(audio_x[i] * volume);
-                                          
+
                                             if (audio_use_db_fix)
                                             {
                                                 for (int j = 0; j < audio_channels_number; j++)
@@ -717,7 +801,7 @@ namespace APlayer.Core
                                 {
                                     for (int i = 0; i < audio_channels_number; i++)
                                     {
-                                        audio_last_target_sample[i] = (int)(audio_x[i] * volume);
+                                        audio_last_target_sample[i] = audio_y[i];
                                     }
                                     audio_recorder.AddSample(audio_last_target_sample[0], audio_last_target_sample[1 % audio_channels_number]);
                                 }

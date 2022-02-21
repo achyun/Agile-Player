@@ -217,5 +217,20 @@
   <ItemGroup>
     <None Include="Resources\bullet_red.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Screenshot 2022-02-21 030033.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\money.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\world.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paypal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paypal %281%29.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

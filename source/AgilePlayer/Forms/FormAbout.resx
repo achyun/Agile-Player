@@ -117,4 +117,143 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="richTextBox_copyright.Text" xml:space="preserve">
+    <value>AGILE PLAYER
+------
+An Audio player with downsampler, upsampler and bit-converter written in C#.
+
+Copyright © Alaa Ibrahim Hadid 2022
+
+Written by Alaa Ibrahim Hadid
+Email: mailto:alaahadidfreewares@gmail.com
+
+This program is free software: you can redistribute it and/or modify it under the terms
+of the GNU General Public License as published by the Free Software Foundation, either
+version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. 
+If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+MP3Sharp
+--------
+Agile Player uses MP3Sharp to decode mp3, here is a copy-pase text from readme file at &lt;https://github.com/ZaneDubya/MP3Sharp&gt;
+
+# MP3Sharp
+Decode MP3 files to PCM bitstreams entirely in .NET managed code:
+&lt;img align="center" src ="https://raw.githubusercontent.com/ZaneDubya/MP3Sharp/master/Images/MP3SharpHeader.png" /&gt;
+
+# SETUP
+To use MP3Sharp, you will need: an audio device that accepts PCM data, an array of bytes to act as the PCM data buffer (default size is 4096 bytes), and a MP3 file. That's it!
+
+The default interface to MP3Sharp is the MP3Stream class. An instance of MP3Stream takes a filepath to a MP3 file as a parameter and outputs PCM data:
+```CSharp
+// open the mp3 file.
+MP3Stream stream = new MP3Stream(@"sample.mp3");
+// Create the buffer.
+byte[] buffer = new byte[4096];
+// read the entire mp3 file.
+int bytesReturned = 1;
+int totalBytesRead = 0;
+while (bytesReturned &gt; 0)
+{
+    bytesReturned = stream.Read(buffer, 0, buffer.Length);
+    totalBytesRead += bytesReturned;
+}
+// close the stream after we're done with it.
+stream.Close();
+```
+So simple!
+
+## LICENSE
+MP3Sharp is licensed under the [LGPL Version 3](https://github.com/ZaneDubya/MP3Sharp/blob/master/license.txt).
+
+## CREDITS
+MP3Sharp is a port of JavaLayer, a MP3 decoder written by [JavaZoom](http://www.javazoom.net) and released under the LGPL. JavaLayer was initially ported to C# by [Robert Burke](http://www.robburke.net/), in what he modestly describes as a 'half day project'. [tekHedd](http://www.byteheaven.com/) added some significant speed optimizations. This repository includes bug fixes (fixes for correctly outputting VBR, mono, and ability to loop without crashing; nice!). The sample MP3 file used in this project is by [BenSound](http://www.bensound.com), and is included under the terms of the Creative Commons - Attribution - No Derivative Works license.
+
+Icons:
+------
+Silk icon set 1.3
+Mark James
+http://www.famfamfam.com/lab/icons/silk/
+
+This work is licensed under a
+Creative Commons Attribution 2.5 License.
+[ http://creativecommons.org/licenses/by/2.5/ ]
+
+
+SlimDX
+--------
+Copyright (c) 2007-2010 SlimDX Group
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+SlimDX Media
+---------------
+All of the SlimDX media is covered by the Creative Commons Attribution-Share Alike 3.0 License:
+http://creativecommons.org/licenses/by-sa/3.0/us/
+
+You are free:
+* To Share - to copy, distribute, display, and perform the work
+* To Remix - to make derivative works
+
+Under the following conditions:
+* Attribution - You must attribute the work in the manner specified by the author or
+licensor (but not in any way that suggests that they endorse you or your use of the work).
+* Share Alike - If you alter, transform, or build upon this work, you may distribute
+the resulting work only under the same, similar or a compatible license.
+
+For any reuse or distribution, you must make clear to others the license terms of this work.
+The best way to do this is with a link to the above web page.
+
+Any of the above conditions can be waived if you get permission from the copyright holder.
+
+Apart from the remix rights granted under this license, nothing in this license impairs or
+restricts the author's moral rights.
+
+SDL2#
+-----
+A C# wrapper for SDL2.
+
+
+Project Website: https://github.com/flibitijibibo/SDL2-CS
+
+
+License:
+
+SDL2 and SDL2# are released under the zlib license. See README-SDL.txt and README-SDL2_ttf.txt
+for more details.
+
+MLV
+----
+Managed ListView is an advanced .Net C# UserControl ListView
+Copyright © Alaa Ibrahim Hadid 2021 - 2022
+
+Written by Alaa Ibrahim Hadid
+Email: alaahadidfreewares@gmail.com
+
+Website: &lt;https://github.com/alaahadid/Managed-ListView&gt;
+
+License:
+GNU General Public License 3 , see &lt;http://www.gnu.org/licenses/&gt;.</value>
+  </data>
 </root>

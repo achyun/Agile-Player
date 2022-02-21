@@ -31,6 +31,8 @@ namespace APlayer.Core
         public int Audio_TargetBitsPerSample = 16;
         public int Audio_RenderBufferInKB = 8;// 8 KB is normal ... 
         public int CPS_TargetCPS = 44;// How many clocks each seconds. Good is 20, 44, 46, 53, 60.
-        public bool Audio_DB_Fix_Enabled = true;
+        public bool Audio_DB_Fix_Enabled = false;// Disabled by default
+        public int Audio_Wave_Fix_Mode = 0;// 0 disabled, 1 wave fix shift mode
+        public int Audio_Volume = 70;// 0 to 100 %
     }
 }
