@@ -1,6 +1,7 @@
 # AGILE PLAYER
 An Audio player with downsampler, upsampler and bit-converter written in C#.
 
+![snap1](/snap.png?raw=true "Snapshot1")
 
 **Please note that this is the official repository of the program, that means official updates on source and releases will be commited/published here.**
 
