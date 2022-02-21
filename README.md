@@ -68,6 +68,8 @@ This will deliver accuracy with timing, a specific sample plays at the time when
 1. Loseless WAV PCM, (8 bit, 16 bit, 24 bit and 32 bit). 
 2. MP3 (16 bits only, still issues with it but works).
 
+Note: Both DB Fix and Wave Shift features are developed based on information can be found here: <https://github.com/alaahadid/Docs/blob/main/Audio%20And%20DB.txt>
+
 ## System Requirements
 Usually Agile Player comes in portable package, which can be installed simply by extracting the content of that package 
 anywhere in your machine.
