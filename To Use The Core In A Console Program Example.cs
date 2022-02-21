@@ -53,7 +53,10 @@ namespace APlayer
             // Initialize the core, first thing to call
             APMain.Initialize(app_folder, work_folder);
 
-            // Handle can be set to zero, need to set handle of gui if there is any, in this case we don't have one. DirectSound needs the handle of the main form.
+            // Force SDl2 Audio renderer if nothing is selected
+            if (APMain.CoreSettings.Audio_RendererID == "")
+                APMain.CoreSettings.Audio_RendererID = "sdl2.audio";
+            // Handle can be set to zero, need to set handle of gui if there is any, in this case we don't have one. DirectSound needs the handle of the main form, SDl2 Audio does not.
             APMain.SetupAudioRenderer(IntPtr.Zero);
 
             // Open a test file if exist
