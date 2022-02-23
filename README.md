@@ -70,6 +70,8 @@ This will deliver accuracy with timing, a specific sample plays at the time when
 
 Note: Both DB Fix and Wave Shift features are developed based on information can be found here: <https://github.com/alaahadid/Docs/blob/main/Audio%20And%20DB.txt>
 
+They are turned off by default.
+
 ## System Requirements
 Usually Agile Player comes in portable package, which can be installed simply by extracting the content of that package 
 anywhere in your machine.
@@ -86,8 +88,7 @@ In order to run Agile Player correctly in your machine, please make sure that yo
 
 NOTES:
 ------------------
-- Agile Player can only record when downsampling/upsampling and/or bit-converting. i.e. when the input frequency does not
-match output frequency (frequency settings), and/or bits-per-sample of input does not match the output settings.
+- Agile Player records to wave file with these settings: Channels Number, Frequency, Bits Per Sample, DB Fix and Wave Shift.
 - When record, the application stops and freeze, it can take minutes before it done the recording, it may take a long time,
 that depends on the input size, also on target settings. After the records finishes, the application will open the folder where
 the recorded file is saved.
