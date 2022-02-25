@@ -48,6 +48,8 @@ This will deliver accuracy with timing, a specific sample plays at the time when
 
 **Agile Player does not use any kind of media codec, it uses built in audio processing.**
 
+**Agile Player plays files with READ-ONLY, it does not effect nor make and change in the source file. In order to save playback settings, Record feature needs to be used.**
+
 ## Features An Specification
 - Very simple GUI, just open audio files/folders and ready to go.
 - Can save/load lists files
