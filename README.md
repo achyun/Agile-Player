@@ -50,6 +50,8 @@ This will deliver accuracy with timing, a specific sample plays at the time when
 
 **Agile Player plays files with READ-ONLY, it does not effect nor make and change in the source file. In order to save playback settings, Record feature needs to be used.**
 
+**For best playback performance, please make sure that the CPS=44 and Buffer=9 Kb, see [Settings File (i.e. Switching Renderer, Modify Performance Settings)](https://github.com/alaahadid/Agile-Player/wiki/Settings-File-(i.e.-Switching-Renderer,-Modify-Performance-Settings))**
+
 ## Features An Specification
 - Very simple GUI, just open audio files/folders and ready to go.
 - Can save/load lists files
