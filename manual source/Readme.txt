@@ -1,0 +1,1 @@
+Manual.odt is made using Liberoffice, <https://www.libreoffice.org/>, it can be edited using Microsoft Office Word as well.
