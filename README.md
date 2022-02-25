@@ -21,12 +21,6 @@ An Audio player with downsampler, upsampler and bit-converter written in C#.
 
 *Thanks in advance :)*
 
-## Testing
-
-For testing the quality of the player, free songs/tracks can be download from here: <https://soundcloud.com/alaa-hadid-810442910>
-
-This my Artist page on SoundCloud, all songs/tracks wave-pcm 44100 Hz 16 bit Audio CD quality, recorded using studio software(s). Licensed under the Creative Commons license (free to download).
-
 ## Introduction
 Agile Player is An Audio player with downsampler, upsampler and bit-converter written in C#.
 An open source freeware, licensed under the GNU GENERAL PUBLIC LICENSE; Version 3, 29 June 2007.
