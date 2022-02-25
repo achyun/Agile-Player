@@ -72,7 +72,7 @@ namespace APlayer.Renderers
             ready = false;
             enabled = true;
             // TODO: setup buffer size
-           // buffer_size = 3 * 1024;
+            // buffer_size = 3 * 1024;
             buffer_size = 4096;
             /*if (APMain.CoreSettings.Audio_TargetFrequency < 88200)
             {
@@ -143,7 +143,7 @@ namespace APlayer.Renderers
 
             blocks_align = channel_numbers * (bits_per_sample / 8);
             //samples_count = buffer_size * 20;
-            if (APMain.CoreSettings.Audio_TargetFrequency < 88200)
+            /*if (APMain.CoreSettings.Audio_TargetFrequency < 88200)
             {
                 samples_count = APMain.CoreSettings.Audio_RenderBufferInKB * (APMain.CoreSettings.Audio_TargetBitsPerSample / 8) * 1024;
             }
@@ -152,12 +152,13 @@ namespace APlayer.Renderers
                 // We need more buffering in this case !!
                 samples_count = APMain.CoreSettings.Audio_RenderBufferInKB * APMain.CoreSettings.Audio_TargetBitsPerSample * 1024;
             }
-            samples_count *= (APMain.CoreSettings.Audio_TargetBitsPerSample / 8) * APMain.CoreSettings.Audio_TargetAudioChannels;
+            samples_count *= (APMain.CoreSettings.Audio_TargetBitsPerSample / 8) * APMain.CoreSettings.Audio_TargetAudioChannels;*/
 
+            samples_count = 44 * 1024;
             // buffer_min = 1024 * 2;
             // buffer_limit = samples_count + (1024 * 2);
-            buffer_min = (1024 * 2);
-            buffer_limit = buffer_min * 12;
+            buffer_min = 512;
+            buffer_limit = buffer_size + 512;
 
             temp_sample = new int[APMain.CoreSettings.Audio_TargetAudioChannels];
             audio_samples = new byte[samples_count];
@@ -170,7 +171,7 @@ namespace APlayer.Renderers
                 // MyNesMain.VideoProvider.WriteErrorNotification("ERROR INITAILIZING AUDIO DEVICE, please configure SDL2 audio settings.", false);
             }
             w_pos = 0;
-            r_pos = w_pos + buffer_size;
+            r_pos = 0;
 
             IsPlaying = false;
 

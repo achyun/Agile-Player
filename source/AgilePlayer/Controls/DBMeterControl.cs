@@ -36,7 +36,7 @@ namespace APlayer
 
             MaxDB = -20 * Math.Log10(1.0 / int.MaxValue);// Max of 32 bit ?
             db_spacing = 15;
-            bar_coloring_sp = 60;
+            bar_coloring_sp = 30;
             SetValues(0, 0, 16);
         }
 

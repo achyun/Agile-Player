@@ -88,7 +88,7 @@ namespace APlayer
             List<string> files = new List<string>();
             for (int i = 1; i < lines.Length; i++)
             {
-                if (!lines[i].StartsWith("#") && !lines[i].StartsWith("<") && !lines[i].Contains("?"))
+                if (!lines[i].StartsWith("#") && !lines[i].StartsWith("<") && !lines[i].Contains("?") && lines[i] != "")
                 {
                     files.Add(lines[i]);
                 }
