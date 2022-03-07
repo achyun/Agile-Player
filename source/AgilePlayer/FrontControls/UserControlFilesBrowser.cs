@@ -44,16 +44,21 @@ namespace APlayer
 
             list_view.Dock = DockStyle.Fill;
 
+            list_view.AllowDrop = true;
+            list_view.DragDrop += List_view_DragDrop;
+            list_view.DragEnter += List_view_DragEnter;
+            list_view.DragOver += List_view_DragOver;
+            list_view.ColumnClicked += List_view_ColumnClicked;
             list_view.AllowColumnsReorder = false;
-            list_view.AllowItemsDragAndDrop = false;
+            list_view.AllowItemsDragAndDrop = true;
             list_view.AutoSetWheelScrollSpeed = true;
-            list_view.ChangeColumnSortModeWhenClick = true;
+            list_view.ChangeColumnSortModeWhenClick = false;
             list_view.ColumnClickColor = System.Drawing.Color.PaleVioletRed;
             list_view.ColumnColor = System.Drawing.Color.White;
-            list_view.ColumnHighlightColor =  Color.White;
+            list_view.ColumnHighlightColor = Color.White;
             list_view.Dock = System.Windows.Forms.DockStyle.Fill;
             list_view.DrawHighlight = true;
-            list_view.ItemHighlightColor =  Color.LightSteelBlue;
+            list_view.ItemHighlightColor = Color.LightSteelBlue;
             list_view.ItemMouseOverColor = System.Drawing.Color.WhiteSmoke;
             list_view.ItemSpecialColor = System.Drawing.Color.YellowGreen;
             list_view.Location = new System.Drawing.Point(0, 33);
@@ -66,17 +71,20 @@ namespace APlayer
             list_view.ThunmbnailsWidth = 36;
             list_view.ViewMode = MLV.ManagedListViewViewMode.Details;
             list_view.WheelScrollSpeed = 20;
+            list_view.ItemMultiSelect = true;
 
             RefreshColumns();
         }
 
         private int current_song_index = 0;
+        private string current_file_in_play = "";
         private APEntryPlaylist current_pl;
         private ManagedListView list_view;
 
-        public void OpenFiles(string[] media_files, bool auto_play)
+        public void OpenFiles(string[] media_files, bool auto_play, bool add_to_list = false)
         {
-            list_view.Items.Clear();
+            if (!add_to_list)
+                list_view.Items.Clear();
 
             foreach (string file in media_files)
             {
@@ -114,9 +122,48 @@ namespace APlayer
             }
             list_view.RefreshScrollBarsView();
             current_song_index = -1;
-
             if (auto_play)
                 PlayNext();
+        }
+        private bool OpenDragedArgs(string[] args, bool add_to_list)
+        {
+            // Open from args
+            bool args_opened = false;
+            if (args != null)
+            {
+                if (args.Length > 0)
+                {
+                    List<string> args_files = new List<string>();
+                    string m3u_list = "";
+
+                    for (int i = 0; i < args.Length; i++)
+                    {
+                        if (args[i] != "")
+                        {
+                            if (FormatsManager.IsFileSupportedFormat(args[i]))
+                            {
+                                args_files.Add(args[i]);
+                            }
+                            else if (Path.GetExtension(args[i]).ToLower() == ".m3u")
+                            {
+                                m3u_list = args[i];
+                            }
+                        }
+                    }
+
+                    if (args_files.Count > 0)
+                    {
+                        OpenFiles(args_files.ToArray(), !add_to_list, add_to_list);
+                        args_opened = true;
+                    }
+                    else if (m3u_list != "")
+                    {
+                        OpenMU3List(m3u_list, true);
+                        args_opened = true;
+                    }
+                }
+            }
+            return args_opened;
         }
         private void RefreshColumns()
         {
@@ -142,6 +189,24 @@ namespace APlayer
         private void RefreshFiles()
         {
 
+        }
+
+        public void SelectAll()
+        {
+            foreach (ManagedListViewItem item in list_view.Items)
+                item.Selected = true;
+            list_view.Invalidate();
+        }
+        public void DeleteSelected()
+        {
+            if (MessageBox.Show("Are you sure you want to delete selected files from the list ?", "Delete files from the list", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                foreach (ManagedListViewItem item in list_view.SelectedItems)
+                {
+                    list_view.Items.Remove(item);
+                }
+                list_view.Invalidate();
+            }
         }
 
         public bool CanSaveList
@@ -178,9 +243,9 @@ namespace APlayer
 
             current_song_index++;
 
-            string file = list_view.Items[current_song_index].Tag.ToString();
+            current_file_in_play = list_view.Items[current_song_index].Tag.ToString();
 
-            if (!FormatsManager.LoadMediaFile(file, true))
+            if (!FormatsManager.LoadMediaFile(current_file_in_play, true))
             {
                 // failure playing the song, play next
                 PlayNext();
@@ -205,9 +270,9 @@ namespace APlayer
                 return;
 
             current_song_index--;
-            string file = list_view.Items[current_song_index].Tag.ToString();
+            current_file_in_play = list_view.Items[current_song_index].Tag.ToString();
 
-            if (!FormatsManager.LoadMediaFile(file, true))
+            if (!FormatsManager.LoadMediaFile(current_file_in_play, true))
             {
                 // failure playing the song, play next
                 PlayNext();
@@ -250,7 +315,9 @@ namespace APlayer
             if (e.ColumnID == "name")
             {
                 e.TextToDraw = e.ParentItem.SubItems[0].Text;
-                if (current_song_index == e.ItemIndex)
+
+                string file = e.ParentItem.Tag.ToString();
+                if (file == current_file_in_play)
                 {
                     e.ImageToDraw = Properties.Resources.control_play_blue;
                 }
@@ -262,9 +329,9 @@ namespace APlayer
         {
             if (e.ClickedItemIndex >= 0 && e.ClickedItemIndex < list_view.Items.Count)
             {
-                string file = list_view.Items[current_song_index = e.ClickedItemIndex].Tag.ToString();
+                current_file_in_play = list_view.Items[current_song_index = e.ClickedItemIndex].Tag.ToString();
 
-                if (!FormatsManager.LoadMediaFile(file, true))
+                if (!FormatsManager.LoadMediaFile(current_file_in_play, true))
                 {
                     // failure playing the song, play next
                     PlayNext();
@@ -283,6 +350,61 @@ namespace APlayer
                 PlayNext();
             else
                 Invoke(new Action(PlayNext));
+        }
+
+        private void CheckDrop(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                if (ModifierKeys == Keys.Shift)
+                    e.Effect = DragDropEffects.Move;
+                else
+                    e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void List_view_DragOver(object sender, DragEventArgs e)
+        {
+            CheckDrop(e);
+        }
+        private void List_view_DragEnter(object sender, DragEventArgs e)
+        {
+            CheckDrop(e);
+        }
+        private void List_view_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] droppedfiles = (string[])e.Data.GetData(DataFormats.FileDrop);
+                OpenDragedArgs(droppedfiles, e.Effect == DragDropEffects.Move);
+            }
+        }
+        private void List_view_ColumnClicked(object sender, ManagedListViewColumnClickArgs e)
+        {
+            //get column and detect sort information
+            ManagedListViewColumn column = list_view.Columns.GetColumnByID(e.ColumnID);
+            if (column == null) return;
+            bool az = false;
+            switch (column.SortMode)
+            {
+                case ManagedListViewSortMode.AtoZ: az = false; break;
+                case ManagedListViewSortMode.None:
+                case ManagedListViewSortMode.ZtoA: az = true; break;
+            }
+            foreach (ManagedListViewColumn cl in list_view.Columns)
+                cl.SortMode = ManagedListViewSortMode.None;
+
+            if (az)
+                column.SortMode = ManagedListViewSortMode.AtoZ;
+            else
+                column.SortMode = ManagedListViewSortMode.ZtoA;
+            // Do sort
+            list_view.Items.Sort(new ListComparer(az, e.ColumnID));
+
         }
     }
 }

@@ -245,6 +245,7 @@ namespace APlayer.Renderers
             }
             else
             {
+                ShutDown();
                 TogglePause(true);
             }
         }

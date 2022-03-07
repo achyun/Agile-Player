@@ -127,7 +127,7 @@ namespace APlayer.Core
                         // No fix, just copy the samples
                         for (int i = 0; i < audio_channels_number; i++)
                         {
-                            sample_out[i] = sample_in[i];
+                            sample_out[i] = (int)(sample_in[i] * volume);
                         }
                         break;
                     }

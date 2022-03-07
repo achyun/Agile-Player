@@ -51,6 +51,9 @@
     <ApplicationIcon>Resources\aplayer-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
+      <HintPath>..\packages\SlimDX.4.0.13.44\lib\NET40\SlimDX.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -78,6 +81,7 @@
     <Compile Include="Forms\FormAbout.Designer.cs">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </Compile>
+    <Compile Include="Others\ListComparer.cs" />
     <Compile Include="Others\M3UList.cs" />
     <Compile Include="Others\ApplicationSettings.cs" />
     <Compile Include="Others\ColumnItem.cs" />
@@ -104,6 +108,8 @@
     <Compile Include="FrontControls\UserControlFilesBrowser.Designer.cs">
       <DependentUpon>UserControlFilesBrowser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Shortcuts\ShortcutItem.cs" />
+    <Compile Include="Shortcuts\ShortcutsManager.cs" />
     <EmbeddedResource Include="Forms\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
@@ -123,6 +129,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

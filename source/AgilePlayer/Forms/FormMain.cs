@@ -31,7 +31,7 @@ namespace APlayer
 {
     public partial class FormMain : Form
     {
-        public FormMain()
+        public FormMain(string[] args)
         {
             InitializeComponent();
             InitializeControls();
@@ -40,12 +40,18 @@ namespace APlayer
             UpdateSwitches();
             LoadRenderers();
             FillSourceInfo();
+            LoadShortcuts();
+
             // Force direct sound if nothing is selected
             if (APMain.CoreSettings.Audio_RendererID == "")
                 APMain.CoreSettings.Audio_RendererID = "slimdx.directsound";
             APMain.SetupAudioRenderer(this.Handle);
 
-            if (Program.AppSettings.SaveListOnExit)
+            // Open from args
+            bool args_opened = OpenDragedArgs(args);
+
+            // Open latest list if no args 
+            if (Program.AppSettings.SaveListOnExit & !args_opened)
             {
                 string list_path = Path.Combine(APMain.WorkingFolder, "recent.m3u");
                 if (File.Exists(list_path))
@@ -60,6 +66,7 @@ namespace APlayer
         private UserControlFilesBrowser files_browser;
         private double old_vol = 0;
         private Color indicater_active = Color.LightSteelBlue;
+        private ShortcutsManager shortcuts_manager;
 
         private void InitializeControls()
         {
@@ -178,6 +185,46 @@ namespace APlayer
                 dbmeter.SetValues(0, 0, 16);
             }
         }
+        private bool OpenDragedArgs(string[] args)
+        {
+            // Open from args
+            bool args_opened = false;
+            if (args != null)
+            {
+                if (args.Length > 0)
+                {
+                    List<string> args_files = new List<string>();
+                    string m3u_list = "";
+
+                    for (int i = 0; i < args.Length; i++)
+                    {
+                        if (args[i] != "")
+                        {
+                            if (FormatsManager.IsFileSupportedFormat(args[i]))
+                            {
+                                args_files.Add(args[i]);
+                            }
+                            else if (Path.GetExtension(args[i]).ToLower() == ".m3u")
+                            {
+                                m3u_list = args[i];
+                            }
+                        }
+                    }
+
+                    if (args_files.Count > 0)
+                    {
+                        files_browser.OpenFiles(args_files.ToArray(), true);
+                        args_opened = true;
+                    }
+                    else if (m3u_list != "")
+                    {
+                        files_browser.OpenMU3List(m3u_list, true);
+                        args_opened = true;
+                    }
+                }
+            }
+            return args_opened;
+        }
 
         private void LoadSettings()
         {
@@ -211,6 +258,48 @@ namespace APlayer
 
                 files_browser.SaveMU3List(list_path);
             }
+        }
+        private void LoadShortcuts()
+        {
+            shortcuts_manager = new ShortcutsManager();
+
+            // WE MUST FILL SHORTCUTS BEFORE INITIALIZE
+            // Main
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("F1", SC_Help));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("F2", SC_Website));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("F3", SC_About));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("F4", SC_Donate));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftAlt+F4", SC_Exit));
+
+            // Player Controls
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+Space", SC_Stop));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("Space", SC_PlayPause));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("F5", SC_Prev));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("F6", SC_Next));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("F8", SC_Record));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("F9", SC_ToggleMute));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("F10", SC_VolumeDown));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("F11", SC_VolumeUp));
+
+            // Open - Save
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+O", SC_OpenFile));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+F", SC_OpenFolder));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+LeftShift+F", SC_OpenFolderWithSub));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+L", SC_OpenList));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+S", SC_SaveList));
+
+            // Settings
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+D", SC_ToggleDBFix));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+W", SC_ToggleWaveShift));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+C", SC_ToggleChannels));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+B", SC_ToggleBits));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+Q", SC_ToggleFreq));
+
+            // Edit
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("LeftControl+A", SC_SelectAll));
+            shortcuts_manager.Shortcuts.Add(new ShortcutItem("Delete", SC_Delete));
+
+            shortcuts_manager.Initialize(this.Handle);
         }
 
         private void CheckMute()
@@ -354,6 +443,9 @@ namespace APlayer
         private void timer_meter_Tick(object sender, EventArgs e)
         {
             UpdateDBMeter();
+
+            if (shortcuts_manager != null)
+                shortcuts_manager.CheckShortcuts();
         }
 
         private void button_stop_Click(object sender, EventArgs e)
@@ -377,7 +469,8 @@ namespace APlayer
         }
         private void MediaBar1_TimeChangeRequest(object sender, TimeChangeArgs e)
         {
-            APCore.CurrentMediaFormat.Position = e.NewTime;
+            if (APCore.CurrentMediaFormat != null)
+                APCore.CurrentMediaFormat.Position = e.NewTime;
         }
         // Play next
         private void button_next_Click(object sender, EventArgs e)
@@ -663,5 +756,188 @@ namespace APlayer
             UpdateSwitches();
             ResetAudioRenderer();
         }
+        private void CheckDrop(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+        private void FormMain_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] droppedfiles = (string[])e.Data.GetData(DataFormats.FileDrop);
+                OpenDragedArgs(droppedfiles);
+            }
+        }
+        private void FormMain_DragEnter(object sender, DragEventArgs e)
+        {
+            CheckDrop(e);
+        }
+        private void FormMain_DragLeave(object sender, EventArgs e)
+        {
+        }
+        private void FormMain_DragOver(object sender, DragEventArgs e)
+        {
+            CheckDrop(e);
+        }
+
+        #region Shortcuts Method
+        private void SC_PlayPause()
+        {
+            if (APCore.PAUSED)
+                APCore.Play();
+            else
+                APCore.Pause();
+        }
+        private void SC_Stop()
+        {
+            APCore.Stop();
+        }
+        private void SC_Prev()
+        {
+            files_browser.PlayPrevious();
+        }
+        private void SC_Next()
+        {
+            files_browser.PlayNext();
+        }
+        private void SC_Record()
+        {
+            button_record_Click(this, null);
+        }
+        private void SC_ToggleMute()
+        {
+            button_toggle_mute_Click(this, null);
+        }
+        private void SC_VolumeUp()
+        {
+            if (trackBar_volume.Value + 10 <= 100)
+                trackBar_volume.Value += 10;
+            else
+                trackBar_volume.Value = 100;
+            trackBar_volume_Scroll(this, null);
+        }
+        private void SC_VolumeDown()
+        {
+            if (trackBar_volume.Value - 10 >= 0)
+                trackBar_volume.Value -= 10;
+            else
+                trackBar_volume.Value = 0;
+            trackBar_volume_Scroll(this, null);
+        }
+        private void SC_OpenFile()
+        {
+            openToolStripMenuItem_Click(this, null);
+        }
+        private void SC_OpenFolder()
+        {
+            openFolderToolStripMenuItem_Click(this, null);
+        }
+        private void SC_OpenFolderWithSub()
+        {
+            openFolderIncludeSubFoldersToolStripMenuItem_Click(this, null);
+        }
+        private void SC_OpenList()
+        {
+            openListToolStripMenuItem_Click(this, null);
+        }
+        private void SC_SaveList()
+        {
+            saveListToolStripMenuItem_Click(this, null);
+        }
+        private void SC_Help()
+        {
+            helpToolStripMenuItem1_Click(this, null);
+        }
+        private void SC_Website()
+        {
+            websiteOnlineRepositoryToolStripMenuItem_Click(this, null);
+        }
+        private void SC_About()
+        {
+            aboutToolStripMenuItem_Click(this, null);
+        }
+        private void SC_Donate()
+        {
+            donateToolStripMenuItem_Click(this, null);
+        }
+        private void SC_Exit()
+        {
+            exitToolStripMenuItem_Click(this, null);
+        }
+        private void SC_ToggleDBFix()
+        {
+            dBFixToolStripMenuItem_Click(this, null);
+        }
+        private void SC_ToggleWaveShift()
+        {
+            if (APMain.CoreSettings.Audio_Wave_Fix_Mode == 1)
+                APMain.CoreSettings.Audio_Wave_Fix_Mode = 0;
+            else
+                APMain.CoreSettings.Audio_Wave_Fix_Mode = 1;
+            UpdateSwitches();
+            ResetAudioRenderer();
+        }
+        private void SC_ToggleChannels()
+        {
+            if (APMain.CoreSettings.Audio_TargetAudioChannels == 2)
+                APMain.CoreSettings.Audio_TargetAudioChannels = 1;
+            else
+                APMain.CoreSettings.Audio_TargetAudioChannels = 2;
+            UpdateSwitches();
+            ResetAudioRenderer();
+        }
+        private void SC_ToggleBits()
+        {
+            if (APMain.CoreSettings.Audio_TargetBitsPerSample == 32)
+                APMain.CoreSettings.Audio_TargetBitsPerSample = 8;
+            else if (APMain.CoreSettings.Audio_TargetBitsPerSample == 8)
+                APMain.CoreSettings.Audio_TargetBitsPerSample = 16;
+            else if (APMain.CoreSettings.Audio_TargetBitsPerSample == 16)
+                APMain.CoreSettings.Audio_TargetBitsPerSample = 24;
+            else if (APMain.CoreSettings.Audio_TargetBitsPerSample == 24)
+                APMain.CoreSettings.Audio_TargetBitsPerSample = 32;
+
+            UpdateSwitches();
+            ResetAudioRenderer();
+        }
+        private void SC_ToggleFreq()
+        {
+            if (APMain.CoreSettings.Audio_TargetFrequency == 96000)
+                APMain.CoreSettings.Audio_TargetFrequency = 8000;
+            else if (APMain.CoreSettings.Audio_TargetFrequency == 8000)
+                APMain.CoreSettings.Audio_TargetFrequency = 11025;
+            else if (APMain.CoreSettings.Audio_TargetFrequency == 11025)
+                APMain.CoreSettings.Audio_TargetFrequency = 16000;
+            else if (APMain.CoreSettings.Audio_TargetFrequency == 16000)
+                APMain.CoreSettings.Audio_TargetFrequency = 22050;
+            else if (APMain.CoreSettings.Audio_TargetFrequency == 22050)
+                APMain.CoreSettings.Audio_TargetFrequency = 32000;
+            else if (APMain.CoreSettings.Audio_TargetFrequency == 32000)
+                APMain.CoreSettings.Audio_TargetFrequency = 44100;
+            else if (APMain.CoreSettings.Audio_TargetFrequency == 44100)
+                APMain.CoreSettings.Audio_TargetFrequency = 48000;
+            else if (APMain.CoreSettings.Audio_TargetFrequency == 48000)
+                APMain.CoreSettings.Audio_TargetFrequency = 88200;
+            else if (APMain.CoreSettings.Audio_TargetFrequency == 88200)
+                APMain.CoreSettings.Audio_TargetFrequency = 96000;
+            UpdateSwitches();
+            ResetAudioRenderer();
+        }
+        private void SC_SelectAll()
+        {
+            files_browser.SelectAll();
+        }
+        private void SC_Delete()
+        {
+            files_browser.DeleteSelected();
+        }
+        #endregion
     }
 }

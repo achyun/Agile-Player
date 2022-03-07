@@ -229,6 +229,11 @@ namespace APlayer.Renderers
             }
             else
             {
+                samples_added = 0;
+                w_pos = 0;
+                r_pos = 0;
+                for (int i = 0; i < audio_samples.Length; i++)
+                    audio_samples[i] = 0;
                 TogglePause(true);
             }
         }

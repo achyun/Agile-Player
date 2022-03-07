@@ -56,7 +56,7 @@ namespace APlayer
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "UserControlFilesBrowser";
-            this.Size = new System.Drawing.Size(743, 735);
+            this.Size = new System.Drawing.Size(804, 790);
             this.ResumeLayout(false);
 
         }

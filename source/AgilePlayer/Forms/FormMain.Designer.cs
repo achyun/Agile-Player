@@ -76,6 +76,7 @@ namespace APlayer
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.groupBox_meter = new System.Windows.Forms.GroupBox();
+            this.panel_db_meter = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButton_32bits = new System.Windows.Forms.RadioButton();
             this.radioButton_24bits = new System.Windows.Forms.RadioButton();
@@ -116,7 +117,6 @@ namespace APlayer
             this.timer_meter = new System.Windows.Forms.Timer(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.panel_db_meter = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_volume)).BeginInit();
             this.groupBox_meter.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -403,6 +403,15 @@ namespace APlayer
             this.groupBox_meter.TabStop = false;
             this.groupBox_meter.Text = "DB Meter";
             this.toolTip1.SetToolTip(this.groupBox_meter, "db meter works only with 16 bits. ");
+            // 
+            // panel_db_meter
+            // 
+            this.panel_db_meter.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel_db_meter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_db_meter.Location = new System.Drawing.Point(3, 22);
+            this.panel_db_meter.Name = "panel_db_meter";
+            this.panel_db_meter.Size = new System.Drawing.Size(154, 280);
+            this.panel_db_meter.TabIndex = 0;
             // 
             // groupBox1
             // 
@@ -892,17 +901,9 @@ namespace APlayer
             this.groupBox5.TabIndex = 13;
             this.groupBox5.TabStop = false;
             // 
-            // panel_db_meter
-            // 
-            this.panel_db_meter.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel_db_meter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_db_meter.Location = new System.Drawing.Point(3, 22);
-            this.panel_db_meter.Name = "panel_db_meter";
-            this.panel_db_meter.Size = new System.Drawing.Size(154, 280);
-            this.panel_db_meter.TabIndex = 0;
-            // 
             // FormMain
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1018, 759);
@@ -923,6 +924,10 @@ namespace APlayer
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Agile Player";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
+            this.DragOver += new System.Windows.Forms.DragEventHandler(this.FormMain_DragOver);
+            this.DragLeave += new System.EventHandler(this.FormMain_DragLeave);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_volume)).EndInit();
             this.groupBox_meter.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

@@ -164,7 +164,6 @@ namespace APlayer.Core
             // Stop the thread
             Trace.WriteLine("Shutting down the player core...", "APCore");
             ON = false;
-
             // Wait ..
             if (mainThread != null)
             {

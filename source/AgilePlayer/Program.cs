@@ -34,7 +34,7 @@ namespace APlayer
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string [] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -58,7 +58,7 @@ namespace APlayer
             AppSettings.LoadSettings();
             Trace.WriteLine("Loading application settings success.");
 
-            Application.Run(new FormMain());
+            Application.Run(new FormMain(args));
 
             // Reached here means over
             // Save app settings

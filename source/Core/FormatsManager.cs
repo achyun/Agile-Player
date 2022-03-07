@@ -68,6 +68,25 @@ namespace APlayer.Core
             return false;
         }
         /// <summary>
+        /// Check if a file is belong to a supported format from file extension, regaldess if header match or not. 
+        /// </summary>
+        /// <param name="file">The full file path to check</param>
+        /// <returns>True if there is at least one format match the file extension, otherwise false.</returns>
+        public static bool IsFileSupportedFormat(string file)
+        {
+            foreach (IMediaFormat formm in APMain.MediaFormats)
+            {
+                foreach (string ex in formm.Extensions)
+                {
+                    if (Path.GetExtension(file).ToLower() == ex.ToLower())
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        /// <summary>
         /// Check the file to see what format it is
         /// </summary>
         /// <param name="FilePath">The media format file</param>
