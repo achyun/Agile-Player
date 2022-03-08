@@ -48,6 +48,10 @@ namespace APlayer
         public string MediaBarTimingFormat = "hh:mm:ss.i";
         public string TimeTextTimingFormat = "hh:mm:ss";
 
+        public bool DBMeterShowTexts = false;
+        public bool DBMeterShowLines = false;
+        public bool DBMeterShowSurrounding = false;
+
         public override void LoadSettings()
         {
             base.LoadSettings();

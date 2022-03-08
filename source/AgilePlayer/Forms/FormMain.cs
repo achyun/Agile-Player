@@ -86,6 +86,8 @@ namespace APlayer
             panel_db_meter.Controls.Add(dbmeter);
             dbmeter.Dock = DockStyle.Fill;
             dbmeter.BringToFront();
+
+            toolTip1.SetToolTip(dbmeter, "Left-Mouse-Click: Toggle surrounding \n\nRight-Mouse-Click: Toggle texts\n\nMiddle-Mouse-Click: Toggle lines");
             // Info mtc
             /*mtc_info = new ManagedTabControl();
            mtc_info.DrawStyle = MTCDrawStyle.Flat;
@@ -134,8 +136,6 @@ namespace APlayer
             files_browser.BringToFront();
             groupBox_main.Text = "List";
         }
-
-
 
         private void LoadRenderers()
         {
@@ -231,6 +231,7 @@ namespace APlayer
 
         private void LoadSettings()
         {
+            dbmeter.LoadSettings();
             this.Location = new Point(Program.AppSettings.Win_Location_X, Program.AppSettings.Win_Location_Y);
             // this.Size = new Size(Program.AppSettings.Win_Size_W, Program.AppSettings.Win_Size_H);
 
@@ -250,6 +251,7 @@ namespace APlayer
         }
         private void SaveSettings()
         {
+            dbmeter.SaveSettings();
             Program.AppSettings.Win_Location_X = this.Location.X;
             Program.AppSettings.Win_Location_Y = this.Location.Y;
             Program.AppSettings.Win_Size_W = this.Size.Width;

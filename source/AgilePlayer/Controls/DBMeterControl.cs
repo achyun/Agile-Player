@@ -35,19 +35,38 @@ namespace APlayer
             this.SetStyle(flag, true);
 
             MaxDB = -20 * Math.Log10(1.0 / int.MaxValue);// Max of 32 bit ?
-            db_spacing = 15;
-            bar_coloring_sp = 30;
+            db_spacing = 13;
+            surr_thick = 7;
+            draw_surr = true;
+            draw_texts = true;
+            draw_lines = true;
+            bar_coloring_sp = 26;
             SetValues(0, 0, 16);
         }
-
+        private bool draw_surr;
+        private bool draw_texts;
+        private bool draw_lines;
         public bool IsStereo { get; set; }
         public double MaxDB { get; set; }
         private double current_max_db;
         private int db_spacing = 40;
+        private int surr_thick;
         private int bar_coloring_sp;
         double channelLeft;
         double channelRight;
 
+        public void LoadSettings()
+        {
+            draw_texts = Program.AppSettings.DBMeterShowTexts;
+            draw_lines = Program.AppSettings.DBMeterShowLines;
+            draw_surr = Program.AppSettings.DBMeterShowSurrounding;
+        }
+        public void SaveSettings()
+        {
+            Program.AppSettings.DBMeterShowTexts = draw_texts;
+            Program.AppSettings.DBMeterShowLines = draw_lines;
+            Program.AppSettings.DBMeterShowSurrounding = draw_surr;
+        }
         public void SetValues(double channelLeft_sample, double channelRight_sample, int bits_per_sample)
         {
             // INFORMATION HERE CAN BE FOUND AT <https://github.com/alaahadid/Docs/blob/main/Audio%20And%20DB.txt>. The information are free under the Creative Commons Zero v1.0 Universal
@@ -221,11 +240,11 @@ namespace APlayer
                 {
                     int y = Height - i;
 
-                    if (y < bar_coloring_sp - 3)
+                    if (y < bar_coloring_sp - 6)
                     {
                         pe.Graphics.DrawLine(Pens.Red, 0, y, Width / 2, y);
                     }
-                    else if (y > Height - bar_coloring_sp )
+                    else if (y > Height - bar_coloring_sp)
                     {
                         pe.Graphics.DrawLine(Pens.YellowGreen, 0, y, Width / 2, y);
                     }
@@ -238,7 +257,7 @@ namespace APlayer
                 {
                     int y = Height - i;
 
-                    if (y < bar_coloring_sp - 3)
+                    if (y < bar_coloring_sp - 6)
                     {
                         pe.Graphics.DrawLine(Pens.Red, Width / 2, y, Width, y);
                     }
@@ -261,7 +280,7 @@ namespace APlayer
                 {
                     int y = Height - i;
 
-                    if (y < bar_coloring_sp - 3)
+                    if (y < bar_coloring_sp - 6)
                     {
                         pe.Graphics.DrawLine(Pens.Red, 0, y, Width, y);
                     }
@@ -277,17 +296,33 @@ namespace APlayer
             }
 
             int space = db_spacing;
-           //pe.Graphics.DrawString(current_max_db.ToString("F0") + " dB", Font, Brushes.Black, 1, 0);
+            int dd = (int)((current_max_db * Height) / MaxDB);
+
+            if (draw_surr)
+            {
+                pe.Graphics.FillRectangle(Brushes.LightGray, 0, 0, surr_thick, Height);
+                pe.Graphics.DrawLine(Pens.Black, surr_thick, 0, surr_thick, Height);
+
+                pe.Graphics.FillRectangle(Brushes.LightGray, Width - surr_thick - 1, 0, surr_thick, Height);
+                pe.Graphics.DrawLine(Pens.Black, Width - surr_thick - 1, 0, Width - surr_thick - 1, Height);
+
+                pe.Graphics.DrawLine(Pens.Black, 0, Height - dd, Width, Height - dd);
+                pe.Graphics.FillRectangle(Brushes.LightGray, 0, 0, Width, Height - dd);
+            }
+
+            //pe.Graphics.DrawString(current_max_db.ToString("F0") + " dB", Font, Brushes.Black, 1, 0);
+
             for (double i = 0; i <= MaxDB; i++)
             {
-                int dd = (int)((i * Height) / MaxDB);
+                dd = (int)((i * Height) / MaxDB);
 
                 if (dd - space >= 0)
                 {
-                    pe.Graphics.DrawLine(Pens.Black, 0, Height - dd, Width, Height - dd);
+                    if (draw_lines)
+                        pe.Graphics.DrawLine(Pens.Black, 0, Height - dd, Width, Height - dd);
 
-                    if (Height - dd - 13 >= 0)
-                        pe.Graphics.DrawString(i + " dB", Font, Brushes.Black, 1, Height - dd - 13);
+                    if (Height - dd - 13 >= 0 && draw_texts)
+                        pe.Graphics.DrawString(((int)i).ToString("D2") + " dB", Font, Brushes.Black, draw_surr ? surr_thick : 1, Height - dd - 13);
 
                     space = dd + db_spacing;
                 }
@@ -297,12 +332,34 @@ namespace APlayer
             if (IsStereo)
             {
                 pe.Graphics.DrawLine(Pens.Black, Width / 2, 0, Width / 2, Height);
-                pe.Graphics.DrawString("Left", Font, Brushes.Black, 1, Height - 15);
-                pe.Graphics.DrawString("Right", Font, Brushes.Black, (Width / 2) + 1, Height - 15);
+                if (draw_texts)
+                {
+                    pe.Graphics.DrawString("Left", Font, Brushes.Black, draw_surr ? surr_thick : 1, Height - 14);
+                    pe.Graphics.DrawString("Right", Font, Brushes.Black, (Width / 2) + 1, Height - 14);
+                }
             }
 
             pe.Graphics.DrawRectangle(Pens.Black, 0, 0, Width - 1, Height - 1);
 
+
+
+        }
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            base.OnMouseClick(e);
+
+            if (e.Button == MouseButtons.Left)
+            {
+                draw_surr = !draw_surr;
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                draw_texts = !draw_texts;
+            }
+            if (e.Button == MouseButtons.Middle)
+            {
+                draw_lines = !draw_lines;
+            }
         }
     }
 }

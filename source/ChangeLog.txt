@@ -1,0 +1,3 @@
+
+
+- Added ability to customize db meter with mouse-click.

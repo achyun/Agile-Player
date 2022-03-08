@@ -13,6 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Renderers", "Renderers\Rend
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5BDE073D-8281-43C1-8EB8-9BF6667AB6B5}"
 	ProjectSection(SolutionItems) = preProject
+		ChangeLog.txt = ChangeLog.txt
 		Readme.txt = Readme.txt
 	EndProjectSection
 EndProject
