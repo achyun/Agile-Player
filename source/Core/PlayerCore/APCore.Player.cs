@@ -694,8 +694,6 @@ namespace APlayer.Core
                             // This is a sample-skipping downsampling method, but it is the correct accurate way. Since the target frequency is lower
                             // Than the source frequency, then the result will be a playback with lower quality but correct.
 
-                            // Results also some *HISSING* effect, to fix this problem, prober filters needs to be added
-
                             // Clocks on the ratio of source frequency / target frequency
                             audio_bp_ratio2_timer++;
 
