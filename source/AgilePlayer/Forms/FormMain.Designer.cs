@@ -95,6 +95,10 @@ namespace APlayer
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.radioButton_stereo = new System.Windows.Forms.RadioButton();
             this.radioButton_mono = new System.Windows.Forms.RadioButton();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.radioButton_wave_fix_off = new System.Windows.Forms.RadioButton();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox_main = new System.Windows.Forms.GroupBox();
             this.panel_media_bar = new System.Windows.Forms.Panel();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -110,26 +114,22 @@ namespace APlayer
             this.label_freq = new System.Windows.Forms.Label();
             this.label_bits = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.radioButton_wave_fix_off = new System.Windows.Forms.RadioButton();
             this.timer_per_ind = new System.Windows.Forms.Timer(this.components);
             this.timer_meter = new System.Windows.Forms.Timer(this.components);
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_volume)).BeginInit();
             this.groupBox_meter.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.groupBox_main.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,7 +140,7 @@ namespace APlayer
             this.button_record.Name = "button_record";
             this.button_record.Size = new System.Drawing.Size(56, 46);
             this.button_record.TabIndex = 10;
-            this.toolTip1.SetToolTip(this.button_record, "Record\r\n (i.e. convert into target settings)");
+            this.toolTip1.SetToolTip(this.button_record, "Record\r\n (i.e. convert into target settings)\r\n(F8)");
             this.button_record.UseVisualStyleBackColor = true;
             this.button_record.Click += new System.EventHandler(this.button_record_Click);
             // 
@@ -151,7 +151,7 @@ namespace APlayer
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(79, 46);
             this.button1.TabIndex = 9;
-            this.toolTip1.SetToolTip(this.button1, "Open File(s) (CTRL + O)");
+            this.toolTip1.SetToolTip(this.button1, "Open File(s)\r\n(CTRL + O)");
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -162,7 +162,7 @@ namespace APlayer
             this.button_prev.Name = "button_prev";
             this.button_prev.Size = new System.Drawing.Size(56, 46);
             this.button_prev.TabIndex = 8;
-            this.toolTip1.SetToolTip(this.button_prev, "Previous (F2)");
+            this.toolTip1.SetToolTip(this.button_prev, "Previous \r\n(F5)");
             this.button_prev.UseVisualStyleBackColor = true;
             this.button_prev.Click += new System.EventHandler(this.button_prev_Click);
             // 
@@ -173,7 +173,7 @@ namespace APlayer
             this.button_next.Name = "button_next";
             this.button_next.Size = new System.Drawing.Size(56, 46);
             this.button_next.TabIndex = 7;
-            this.toolTip1.SetToolTip(this.button_next, "Next (F3)");
+            this.toolTip1.SetToolTip(this.button_next, "Next \r\n(F6)");
             this.button_next.UseVisualStyleBackColor = true;
             this.button_next.Click += new System.EventHandler(this.button_next_Click);
             // 
@@ -197,6 +197,7 @@ namespace APlayer
             this.button_toggle_mute.Name = "button_toggle_mute";
             this.button_toggle_mute.Size = new System.Drawing.Size(56, 46);
             this.button_toggle_mute.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.button_toggle_mute, "Toggle Mute\r\n(F9)");
             this.button_toggle_mute.UseVisualStyleBackColor = true;
             this.button_toggle_mute.Click += new System.EventHandler(this.button_toggle_mute_Click);
             // 
@@ -207,7 +208,7 @@ namespace APlayer
             this.button_pause.Name = "button_pause";
             this.button_pause.Size = new System.Drawing.Size(56, 46);
             this.button_pause.TabIndex = 3;
-            this.toolTip1.SetToolTip(this.button_pause, "Pause (F6)");
+            this.toolTip1.SetToolTip(this.button_pause, "Pause\r\n(Space)");
             this.button_pause.UseVisualStyleBackColor = true;
             this.button_pause.Click += new System.EventHandler(this.button_pause_Click);
             // 
@@ -218,7 +219,7 @@ namespace APlayer
             this.button_play_pause.Name = "button_play_pause";
             this.button_play_pause.Size = new System.Drawing.Size(135, 46);
             this.button_play_pause.TabIndex = 1;
-            this.toolTip1.SetToolTip(this.button_play_pause, "Play (F5)");
+            this.toolTip1.SetToolTip(this.button_play_pause, "Play \r\n(Space)");
             this.button_play_pause.UseVisualStyleBackColor = true;
             this.button_play_pause.Click += new System.EventHandler(this.button_play_pause_Click);
             // 
@@ -229,7 +230,7 @@ namespace APlayer
             this.button_stop.Name = "button_stop";
             this.button_stop.Size = new System.Drawing.Size(56, 46);
             this.button_stop.TabIndex = 0;
-            this.toolTip1.SetToolTip(this.button_stop, "Stop (F7)");
+            this.toolTip1.SetToolTip(this.button_stop, "Stop \r\n(CTRL + Space)");
             this.button_stop.UseVisualStyleBackColor = true;
             this.button_stop.Click += new System.EventHandler(this.button_stop_Click);
             // 
@@ -246,6 +247,7 @@ namespace APlayer
             this.label_time.TabIndex = 4;
             this.label_time.Text = "00:00:00 - 00:00:00";
             this.label_time.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label_time.Click += new System.EventHandler(this.label_time_Click);
             // 
             // timer1
             // 
@@ -298,7 +300,7 @@ namespace APlayer
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(79, 46);
             this.button2.TabIndex = 1;
-            this.toolTip1.SetToolTip(this.button2, "Open folder \r\n(scan a folder for audio files with supported formats)");
+            this.toolTip1.SetToolTip(this.button2, "Open folder \r\n(scan a folder for audio files with supported formats)\r\n(CTRL + F)");
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.openFolderToolStripMenuItem_Click);
             // 
@@ -310,7 +312,7 @@ namespace APlayer
             this.button3.Size = new System.Drawing.Size(56, 46);
             this.button3.TabIndex = 2;
             this.toolTip1.SetToolTip(this.button3, "Open folder including sub folders\r\n(scan folder(s) for audio files with supported" +
-        " formats)\r\n");
+        " formats)\r\n(CTRL + SHIFT + F)");
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.openFolderIncludeSubFoldersToolStripMenuItem_Click);
             // 
@@ -321,7 +323,7 @@ namespace APlayer
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(135, 46);
             this.button4.TabIndex = 3;
-            this.toolTip1.SetToolTip(this.button4, "Open Playlist");
+            this.toolTip1.SetToolTip(this.button4, "Open Playlist\r\n(CTRL + L)");
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.openListToolStripMenuItem_Click);
             // 
@@ -332,7 +334,7 @@ namespace APlayer
             this.button_save_list.Name = "button_save_list";
             this.button_save_list.Size = new System.Drawing.Size(56, 46);
             this.button_save_list.TabIndex = 4;
-            this.toolTip1.SetToolTip(this.button_save_list, "Save Playlist");
+            this.toolTip1.SetToolTip(this.button_save_list, "Save Playlist\r\n(CTRL + S)");
             this.button_save_list.UseVisualStyleBackColor = true;
             this.button_save_list.Click += new System.EventHandler(this.saveListToolStripMenuItem_Click);
             // 
@@ -343,7 +345,7 @@ namespace APlayer
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(56, 46);
             this.button6.TabIndex = 7;
-            this.toolTip1.SetToolTip(this.button6, "Exit");
+            this.toolTip1.SetToolTip(this.button6, "Exit\r\n(ALT + F4)");
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -354,7 +356,7 @@ namespace APlayer
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(56, 46);
             this.button7.TabIndex = 8;
-            this.toolTip1.SetToolTip(this.button7, "Help (Online Wiki)");
+            this.toolTip1.SetToolTip(this.button7, "Help (Online Wiki)\r\n(F1)");
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
@@ -366,7 +368,7 @@ namespace APlayer
             this.button8.Size = new System.Drawing.Size(56, 46);
             this.button8.TabIndex = 9;
             this.button8.Text = "A";
-            this.toolTip1.SetToolTip(this.button8, "About Agile Player");
+            this.toolTip1.SetToolTip(this.button8, "About Agile Player\r\n(F3)");
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -377,7 +379,7 @@ namespace APlayer
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(56, 46);
             this.button9.TabIndex = 10;
-            this.toolTip1.SetToolTip(this.button9, "Donate\r\n( Thanks in advance :) )");
+            this.toolTip1.SetToolTip(this.button9, "Donate ( Thanks in advance :) )\r\n(F4)");
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.donateToolStripMenuItem_Click);
             // 
@@ -388,7 +390,7 @@ namespace APlayer
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(56, 46);
             this.button10.TabIndex = 11;
-            this.toolTip1.SetToolTip(this.button10, "Website (Online Repository)");
+            this.toolTip1.SetToolTip(this.button10, "Website (Online Repository)\r\n(F2)");
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.websiteOnlineRepositoryToolStripMenuItem_Click);
             // 
@@ -426,6 +428,7 @@ namespace APlayer
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bits Per Sample";
+            this.toolTip1.SetToolTip(this.groupBox1, "Bits Per Sample\r\n(CTRL + B)\r\n");
             // 
             // radioButton_32bits
             // 
@@ -491,6 +494,7 @@ namespace APlayer
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Frequency";
+            this.toolTip1.SetToolTip(this.groupBox2, "Frequency\r\n(CTRL + Q)\r\n");
             // 
             // radioButton_32000hz
             // 
@@ -604,6 +608,7 @@ namespace APlayer
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Channels";
+            this.toolTip1.SetToolTip(this.groupBox4, "Channels\r\n(CTRL + C)\r\n");
             // 
             // radioButton_stereo
             // 
@@ -628,6 +633,55 @@ namespace APlayer
             this.radioButton_mono.Text = "1 Mono";
             this.radioButton_mono.UseVisualStyleBackColor = true;
             this.radioButton_mono.Click += new System.EventHandler(this.radioButton_mono_Click);
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.pictureBox1);
+            this.groupBox8.Controls.Add(this.radioButton_wave_fix_shift);
+            this.groupBox8.Controls.Add(this.radioButton_wave_fix_off);
+            this.groupBox8.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox8.Location = new System.Drawing.Point(846, 507);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(160, 155);
+            this.groupBox8.TabIndex = 11;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Wave Shift";
+            this.toolTip1.SetToolTip(this.groupBox8, "Wave Shift\r\n(CTRL + W)\r\n");
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox1.Image = global::APlayer.Properties.Resources.Screenshot_2022_02_21_030033;
+            this.pictureBox1.Location = new System.Drawing.Point(6, 81);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(148, 68);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            // 
+            // radioButton_wave_fix_off
+            // 
+            this.radioButton_wave_fix_off.AutoSize = true;
+            this.radioButton_wave_fix_off.Location = new System.Drawing.Point(6, 25);
+            this.radioButton_wave_fix_off.Name = "radioButton_wave_fix_off";
+            this.radioButton_wave_fix_off.Size = new System.Drawing.Size(65, 22);
+            this.radioButton_wave_fix_off.TabIndex = 2;
+            this.radioButton_wave_fix_off.Text = "OFF";
+            this.radioButton_wave_fix_off.UseVisualStyleBackColor = true;
+            this.radioButton_wave_fix_off.Click += new System.EventHandler(this.radioButton_wave_fix_off_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.radioButton1);
+            this.groupBox3.Controls.Add(this.radioButton_db_fix_on);
+            this.groupBox3.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(846, 95);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(160, 95);
+            this.groupBox3.TabIndex = 12;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "DB Fix";
+            this.toolTip1.SetToolTip(this.groupBox3, "DB Fix\r\n(CTRL + D)");
             // 
             // groupBox_main
             // 
@@ -825,41 +879,6 @@ namespace APlayer
             this.groupBox7.TabIndex = 10;
             this.groupBox7.TabStop = false;
             // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.pictureBox1);
-            this.groupBox8.Controls.Add(this.radioButton_wave_fix_shift);
-            this.groupBox8.Controls.Add(this.radioButton_wave_fix_off);
-            this.groupBox8.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox8.Location = new System.Drawing.Point(846, 507);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(160, 155);
-            this.groupBox8.TabIndex = 11;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Wave Shift";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Image = global::APlayer.Properties.Resources.Screenshot_2022_02_21_030033;
-            this.pictureBox1.Location = new System.Drawing.Point(6, 81);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(148, 68);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
-            // 
-            // radioButton_wave_fix_off
-            // 
-            this.radioButton_wave_fix_off.AutoSize = true;
-            this.radioButton_wave_fix_off.Location = new System.Drawing.Point(6, 25);
-            this.radioButton_wave_fix_off.Name = "radioButton_wave_fix_off";
-            this.radioButton_wave_fix_off.Size = new System.Drawing.Size(65, 22);
-            this.radioButton_wave_fix_off.TabIndex = 2;
-            this.radioButton_wave_fix_off.Text = "OFF";
-            this.radioButton_wave_fix_off.UseVisualStyleBackColor = true;
-            this.radioButton_wave_fix_off.Click += new System.EventHandler(this.radioButton_wave_fix_off_Click);
-            // 
             // timer_per_ind
             // 
             this.timer_per_ind.Enabled = true;
@@ -871,18 +890,6 @@ namespace APlayer
             this.timer_meter.Enabled = true;
             this.timer_meter.Interval = 44;
             this.timer_meter.Tick += new System.EventHandler(this.timer_meter_Tick);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.radioButton1);
-            this.groupBox3.Controls.Add(this.radioButton_db_fix_on);
-            this.groupBox3.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(846, 95);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(160, 95);
-            this.groupBox3.TabIndex = 12;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "DB Fix";
             // 
             // groupBox5
             // 
@@ -936,16 +943,16 @@ namespace APlayer
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox_main.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox_main.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -49,6 +49,8 @@ This will deliver accuracy with timing, a specific sample plays at the time when
 ## Features An Specification
 - Very simple GUI, just open audio files/folders and ready to go.
 - Can save/load lists files
+- Can edit list by dragging-dropping files, also able to delete and sort.
+- Can disply time in different formats in media bar and display.
 - Full audio controls (play, pause, stop...etc)
 
 ### Agile Player Core Features
@@ -90,16 +92,40 @@ NOTES:
 - When record, the application stops and freeze, it can take minutes before it done the recording, it may take a long time,
 that depends on the input size, also on target settings. After the records finishes, the application will open the folder where
 the recorded file is saved.
+- To change time-format in the display, simply left-mouse-click. In the media bar, right-mouse-click.
+- When dragging-droping files into the list, the list will be cleard first. 
+  To add files into the list without clearing it, simply hold Left-Shift while dragging-droping files.
+- To delete selected files from the list, simply press Delete from keyboard.
+- How to switch renderer ?
+
+1. Please go to documents folder `C:\Users\<user>\OneDrive\Documents\AgilePlayer`, `<user>` is the user name.
+2. Open file `coresettings.ini` (or make new file with that name if it does not exist)
+3. Find line `Audio_RendererID=` (or add it) then 
+
+Set to `Audio_RendererID=slimdx.directsound` for **SlimDX DirectSound** renderer.
+
+Set to `Audio_RendererID=sdl2.audio` for **SDL2 Audio** renderer.
+
+**SlimDX DirectSound** renderer is stable.
+
+See also [Settings File (i.e. Switching Renderer, Modify Performance Settings)](https://github.com/alaahadid/Agile-Player/wiki/Settings-File-(i.e.-Switching-Renderer,-Modify-Performance-Settings))
 
 TROUBLES SHOOTING:
 ------------------
-- Agile Player doesn't work:
+### Agile Player doesn't work:
 
 Please make sure that these packages are installed in pc:
 - .Net framework 4.8
-- C++ Runtime (Try latest, if it doensn't work, installing older version of this package may work.)
+- C++ Runtime (Try latest, if doensn't work, installing older version of this package may work.)
 
 If the problem isn't solved, please try to install SlimDX latest runtime, one can be found here: <https://code.google.com/archive/p/slimdx/downloads> (SlimDX Runtime .NET 4.0 x86 (January 2012).msi).
+
+
+### Performance problems, errors in sound and/or synchronization
+1. Please go to documents folder `C:\Users\<user>\OneDrive\Documents\AgilePlayer`, `<user>` is the user name.
+2. Open file `coresettings.ini` (or make new file with that name if it does not exist)
+3. Find line `Audio_RenderBufferInKB=` (or add it) then set it to `Audio_RenderBufferInKB=9`. Find line `CPS_TargetCPS=` and set it to `CPS_TargetCPS=44`. If problem remains after saving the file and trying the application, set `Audio_RenderBufferInKB=16` and `CPS_TargetCPS=50` then try again. Increasing RenderBufferSize and trying different values might help if the problem remain.
+
 
 Credits
 -----------------------
@@ -117,3 +143,4 @@ MP3Sharp is licensed under the [LGPL Version 3](https://github.com/ZaneDubya/MP3
 
 MP3Sharp is a port of JavaLayer, a MP3 decoder written by [JavaZoom](http://www.javazoom.net) and released under the LGPL. JavaLayer was initially ported to C# by [Robert Burke](http://www.robburke.net/), in what he modestly describes as a 'half day project'. [tekHedd](http://www.byteheaven.com/) added some significant speed optimizations. This repository includes bug fixes (fixes for correctly outputting VBR, mono, and ability to loop without crashing; nice!). The sample MP3 file used in this project is by [BenSound](http://www.bensound.com), and is included under the terms of the Creative Commons - Attribution - No Derivative Works license.
 
+**Please read the file "Copyright Notice.txt" in the latest release package for more details about copyright.**

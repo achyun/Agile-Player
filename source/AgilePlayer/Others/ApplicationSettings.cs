@@ -45,7 +45,7 @@ namespace APlayer
         public int MediaMediaLineColor = Color.White.ToArgb();
         public int MediaToolTipColor = Color.RoyalBlue.ToArgb();
         public int MediaToolTipTextColor = Color.White.ToArgb();
-        public string MediaBarTimingFormat = "hh:mm:ss.iii";
+        public string MediaBarTimingFormat = "hh:mm:ss.i";
         public string TimeTextTimingFormat = "hh:mm:ss";
 
         public override void LoadSettings()
@@ -54,7 +54,17 @@ namespace APlayer
 
             if (App_Version != System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
             {
-                // TODO: do something on new version ...
+                // On new version, reset buffer size and cps
+                APMain.CoreSettings.CPS_TargetCPS = 44;
+                APMain.CoreSettings.Audio_RenderBufferInKB = 9;
+                
+                // Do fixes
+                if (MediaBarTimingFormat == "hh:mm:ss.iii")
+                    MediaBarTimingFormat = "hh:mm:ss.i";
+
+                if (TimeTextTimingFormat == "hh:mm:ss.iii")
+                    TimeTextTimingFormat = "hh:mm:ss";
+
                 App_Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             }
         }

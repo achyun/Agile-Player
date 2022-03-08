@@ -156,7 +156,7 @@ namespace APlayer
                         int right_val = (int)channelRight_sample - sbyte.MaxValue;
 
                         MaxDB = 20 * Math.Log10(sbyte.MaxValue);
-                        MaxDB += 8;
+                        MaxDB += 4;
 
                         current_max_db = 20 * Math.Log10(sbyte.MaxValue);//  20 * Log10( [sbyte.MaxValue] / 1)
 
@@ -167,7 +167,7 @@ namespace APlayer
                 case 16:
                     {
                         MaxDB = 20 * Math.Log10(short.MaxValue);
-                        MaxDB += 8;
+                        MaxDB += 4;
 
                         current_max_db = 20 * Math.Log10(short.MaxValue);
 
@@ -179,7 +179,7 @@ namespace APlayer
                 case 24:
                     {
                         MaxDB = 20 * Math.Log10(8388607);
-                        MaxDB += 8;
+                        MaxDB += 4;
 
                         current_max_db = 20 * Math.Log10(8388607);
 
@@ -191,7 +191,7 @@ namespace APlayer
                     {
 
                         MaxDB = 20 * Math.Log10(int.MaxValue);
-                        MaxDB += 8;
+                        MaxDB += 4;
 
                         current_max_db = 20 * Math.Log10(int.MaxValue);
 
@@ -221,11 +221,11 @@ namespace APlayer
                 {
                     int y = Height - i;
 
-                    if (y < bar_coloring_sp)
+                    if (y < bar_coloring_sp - 3)
                     {
                         pe.Graphics.DrawLine(Pens.Red, 0, y, Width / 2, y);
                     }
-                    else if (y > Height - bar_coloring_sp)
+                    else if (y > Height - bar_coloring_sp )
                     {
                         pe.Graphics.DrawLine(Pens.YellowGreen, 0, y, Width / 2, y);
                     }
@@ -238,7 +238,7 @@ namespace APlayer
                 {
                     int y = Height - i;
 
-                    if (y < bar_coloring_sp)
+                    if (y < bar_coloring_sp - 3)
                     {
                         pe.Graphics.DrawLine(Pens.Red, Width / 2, y, Width, y);
                     }
@@ -261,7 +261,7 @@ namespace APlayer
                 {
                     int y = Height - i;
 
-                    if (y < bar_coloring_sp)
+                    if (y < bar_coloring_sp - 3)
                     {
                         pe.Graphics.DrawLine(Pens.Red, 0, y, Width, y);
                     }
@@ -277,7 +277,7 @@ namespace APlayer
             }
 
             int space = db_spacing;
-
+           //pe.Graphics.DrawString(current_max_db.ToString("F0") + " dB", Font, Brushes.Black, 1, 0);
             for (double i = 0; i <= MaxDB; i++)
             {
                 int dd = (int)((i * Height) / MaxDB);

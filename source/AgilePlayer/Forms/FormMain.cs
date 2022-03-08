@@ -74,7 +74,7 @@ namespace APlayer
             mediaBar1 = new MediaBar();
             mediaBar1.Size = new Size(10, 23);
             mediaBar1.BackColor = Color.LightSteelBlue;
-
+            mediaBar1.MouseClick += MediaBar1_MouseClick;
             panel_media_bar.Controls.Add(mediaBar1);
 
             mediaBar1.Dock = DockStyle.Top;
@@ -134,6 +134,9 @@ namespace APlayer
             files_browser.BringToFront();
             groupBox_main.Text = "List";
         }
+
+
+
         private void LoadRenderers()
         {
             //audioRendererToolStripMenuItem.DropDownItems.Clear();
@@ -243,7 +246,7 @@ namespace APlayer
 
             trackBar_volume.Value = APMain.CoreSettings.Audio_Volume;
 
-            toolTip1.SetToolTip(trackBar_volume, "Volume = " + trackBar_volume.Value.ToString() + " %");
+            toolTip1.SetToolTip(trackBar_volume, "Volume = " + trackBar_volume.Value.ToString() + " %" + "\n(F11 Volume Up, F10 Volume Down)");
         }
         private void SaveSettings()
         {
@@ -464,7 +467,7 @@ namespace APlayer
         {
             APCore.SetVolume(trackBar_volume.Value);
 
-            toolTip1.SetToolTip(trackBar_volume, "Volume = " + trackBar_volume.Value.ToString() + " %");
+            toolTip1.SetToolTip(trackBar_volume, "Volume = " + trackBar_volume.Value.ToString() + " %" + "\n(F11 Volume Up, F10 Volume Down)");
             CheckMute();
         }
         private void MediaBar1_TimeChangeRequest(object sender, TimeChangeArgs e)
@@ -786,7 +789,49 @@ namespace APlayer
         {
             CheckDrop(e);
         }
-
+        private void label_time_Click(object sender, EventArgs e)
+        {
+            if (Program.AppSettings.TimeTextTimingFormat == "hh:mm:ss")
+            {
+                Program.AppSettings.TimeTextTimingFormat = "hh:mm:ss.i";
+            }
+            else if (Program.AppSettings.TimeTextTimingFormat == "hh:mm:ss.i")
+            {
+                Program.AppSettings.TimeTextTimingFormat = "nn";
+            }
+            else if (Program.AppSettings.TimeTextTimingFormat == "nn")
+            {
+                Program.AppSettings.TimeTextTimingFormat = "hh:mm:ss";
+            }
+            else
+            {
+                Program.AppSettings.TimeTextTimingFormat = "hh:mm:ss.i";
+            }
+        }
+        private void MediaBar1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (Program.AppSettings.MediaBarTimingFormat == "hh:mm:ss")
+                {
+                    Program.AppSettings.MediaBarTimingFormat = "hh:mm:ss.i";
+                }
+                else if (Program.AppSettings.MediaBarTimingFormat == "hh:mm:ss.i")
+                {
+                    Program.AppSettings.MediaBarTimingFormat = "nn";
+                }
+                else if (Program.AppSettings.MediaBarTimingFormat == "nn")
+                {
+                    Program.AppSettings.MediaBarTimingFormat = "hh:mm:ss";
+                }
+                else
+                {
+                    Program.AppSettings.MediaBarTimingFormat = "hh:mm:ss.i";
+                }
+                mediaBar1.TimingFormat = Program.AppSettings.MediaBarTimingFormat;
+                mediaBar1.CalculateTicksBuffer();
+            }
+        }
         #region Shortcuts Method
         private void SC_PlayPause()
         {

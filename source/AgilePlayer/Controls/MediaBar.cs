@@ -41,6 +41,8 @@ namespace APlayer
             ToolTipTextColor = Color.White;
             MediaLineColor = Color.White;
 
+            ticks_spacing = 5;
+
             mediaRectHeight = 5;
             mediaDuration = 0;
             timeSpace = 1000;
@@ -59,6 +61,7 @@ namespace APlayer
             CaclulateMillipixels();
             toolTipTimer.Tick += toolTipTimer_Tick;
         }
+        private int ticks_spacing;
         private double mediaDuration;
         public int timeSpace;
         private double currentTime;
@@ -269,8 +272,8 @@ namespace APlayer
             if (MilliPixel > 0)
             {
                 int ticPixels = (int)(1000 / MilliPixel);
-                ticPixels = ((ticPixels % 10) + 10);
-                int secPixels = ticPixels * 10;
+                ticPixels = ((ticPixels % ticks_spacing) + ticks_spacing);
+                int secPixels = ticPixels * 13;
                 // Draw ticks
                 for (int x = 0; x < this.Width; x++)
                 {
@@ -297,7 +300,7 @@ namespace APlayer
                         }
                         else if (Width - pos < TimesSizes[TimesSizes.Count - 1].Width)
                         {
-                            pos = Width - TimesSizes[TimesSizes.Count - 1].Width + 1;
+                            pos = Width - TimesSizes[TimesSizes.Count - 1].Width  + 4;
                         }
 
                         TimesPositionsBuffer.Add(pos);
