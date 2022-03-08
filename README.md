@@ -3,6 +3,8 @@ An Audio player with downsampler, upsampler and bit-converter written in C#.
 
 ![snap1](/snap.png?raw=true "Snapshot1")
 
+**Songs are played using Agile-Player in this snap are licensed under the Common Creative Free License. To listen/download albums, [please visit here](https://soundcloud.com/alaa-hadid-810442910/albums).**
+
 **Please note that this is the official repository of the program, that means official updates on source and releases will be commited/published here.**
 
 ### [DOWNLOAD LATEST RELEASE (VERSION)](https://github.com/alaahadid/Agile-Player/releases)
