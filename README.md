@@ -52,7 +52,7 @@ This will deliver accuracy with timing, a specific sample plays at the time when
 - Very simple GUI, just open audio files/folders and ready to go.
 - Can save/load lists files
 - Can edit list by dragging-dropping files, also able to delete and sort.
-- Can disply time in different formats in media bar and display.
+- Can display time in different formats in media bar and display.
 - Full audio controls (play, pause, stop...etc)
 
 ### Agile Player Core Features
